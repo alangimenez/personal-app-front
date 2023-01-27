@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/personal-app-front/static/css/main.073c9b0a.css",
+    "main.js": "/personal-app-front/static/js/main.de92a4a3.js",
+    "static/js/787.c4e7f8f9.chunk.js": "/personal-app-front/static/js/787.c4e7f8f9.chunk.js",
+    "static/media/logo.svg": "/personal-app-front/static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg",
+    "index.html": "/personal-app-front/index.html",
+    "main.073c9b0a.css.map": "/personal-app-front/static/css/main.073c9b0a.css.map",
+    "main.de92a4a3.js.map": "/personal-app-front/static/js/main.de92a4a3.js.map",
+    "787.c4e7f8f9.chunk.js.map": "/personal-app-front/static/js/787.c4e7f8f9.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.073c9b0a.css",
+    "static/js/main.de92a4a3.js"
+  ]
+}
