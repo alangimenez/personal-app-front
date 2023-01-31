@@ -8,7 +8,7 @@ import Cashflow from './Components/Cashflow';
 
 function App() {
 
-  const path = 'https://7lgu80.deta.dev'
+  const path = 'http://localhost:3001'  // 'https://7lgu80.deta.dev'
 
   return (
     <>
