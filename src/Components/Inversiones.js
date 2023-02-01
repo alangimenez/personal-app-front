@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react'
+import QuotesTable from './Investments/quotesTable'
+import ModalNewInvestment from './Investments/modalNewInvestment'
 
-function Inversiones({path}) {
+function Inversiones({ path }) {
     // cargar cotizaciones
 
     const [mensajeInput, setMensajeInput] = useState("")
@@ -10,7 +12,8 @@ function Inversiones({path}) {
     }
     const requestOptionsGet = {
         method: 'GET',
-        headers: { 'Content-Type': 'application/json', 'password-security': mensajeInput}        }
+        headers: { 'Content-Type': 'application/json', 'password-security': mensajeInput }
+    }
 
     const guardarCotizaciones = async () => {
         const requestOptions = {
@@ -21,27 +24,27 @@ function Inversiones({path}) {
 
         const requestOptionsTir = {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'password-security': mensajeInput},
-            body: JSON.stringify({password: mensajeInput})
+            headers: { 'Content-Type': 'application/json', 'password-security': mensajeInput },
+            body: JSON.stringify({ password: mensajeInput })
         }
 
         const throwError = () => {
             throw Error("I'm an error");
-            };
+        };
 
         try {
 
             await fetch(`${path}/quotes`, requestOptions)
-            .then((res) => res.json())
-            .then((data) => {
-                if(data.error_message) {
-                    console.log(data.error_message);
-                    throwError()
-                } else {
-                    console.log(data)
-                }
-            })
-        
+                .then((res) => res.json())
+                .then((data) => {
+                    if (data.error_message) {
+                        console.log(data.error_message);
+                        throwError()
+                    } else {
+                        console.log(data)
+                    }
+                })
+
 
             await fetch(`${path}/lastvalue`, requestOptions)
                 .then((res) => res.json())
@@ -54,13 +57,13 @@ function Inversiones({path}) {
 
 
 
-        await fetch(`${path}/lastvalue/tir`, requestOptionsGet)
-            .then((res) => res.json())
-            .then((data) => {
-                setCotizacion(data)
-                console.log(data)
-            })
-            
+            await fetch(`${path}/lastvalue/tir`, requestOptionsGet)
+                .then((res) => res.json())
+                .then((data) => {
+                    setCotizacion(data)
+                    console.log(data)
+                })
+
 
         } catch (e) {
             console.log("hoal" + e)
@@ -90,7 +93,7 @@ function Inversiones({path}) {
             });
     }
 
-    useEffect(() => {}, [cotizacion]);
+    useEffect(() => { }, [cotizacion]);
 
     return (
         <div className="container">
@@ -101,33 +104,11 @@ function Inversiones({path}) {
             <button onClick={verCotizaciones} className="btn btn-dark">Ver cotizaciones</button>
             <div >
                 <label htmlFor='password'>Password</label>
-                <input id="password" className='form-control' onChange={handleChangeInput} style={{width: 200 + 'px'}} type='password'></input>
+                <input id="password" className='form-control' onChange={handleChangeInput} style={{ width: 200 + 'px' }} type='password'></input>
             </div>
 
-            <table className='table table-striped'>
-                <thead>
-                    <tr>
-                        <th scope='col'>Ticket</th>
-                        <th scope='col'>Fecha</th>
-                        <th scope='col'>Ùltimo precio</th>
-                        <th scope='col'>Precio de cierre</th>
-                        <th scope='col'>Volumen</th>
-                        <th scope='col'>TIR</th>
-                    </tr>
-                </thead>
-                <tbody>
-                {
-                    cotizacion.map(e => <tr>
-                        <td>{e.bondName}</td>
-                        <td>{e.date}</td>
-                        <td>{e.lastPrice}</td>
-                        <td>{e.closePrice}</td>
-                        <td>{e.volume}</td>
-                        <td>{e.tir}</td>
-                    </tr>)
-                }
-                </tbody>
-            </table>
+            <ModalNewInvestment password={mensajeInput} />
+            <QuotesTable cotizacion={cotizacion}/>
         </div>
     )
 }
