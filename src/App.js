@@ -5,6 +5,7 @@ import Ingresos from './Components/Ingresos';
 import Gastos from './Components/Gastos';
 import Inversiones from './Components/Inversiones'
 import Cashflow from './Components/Cashflow';
+import Navbar from './Components/Navbar';
 
 function App() {
 
@@ -12,6 +13,10 @@ function App() {
 
   return (
     <>
+      <div className='container'>
+        <Navbar />
+      </div>
+
       <Routes>
         <Route path="/" element={<Demo path={path} />}></Route>
         <Route path="/ingresos" element={<Ingresos path={path} />}></Route>
