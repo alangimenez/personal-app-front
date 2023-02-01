@@ -8,7 +8,7 @@ import Cashflow from './Components/Cashflow';
 
 function App() {
 
-  const path = 'http://localhost:3001'  // 'https://7lgu80.deta.dev'
+  const path = process.env.REACT_APP_BASEPATH  // 'https://7lgu80.deta.dev' 'http://localhost:3001'
 
   return (
     <>
