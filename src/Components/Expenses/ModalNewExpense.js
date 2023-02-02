@@ -1,6 +1,10 @@
-function ModalNewExpense({path}) {
+function ModalNewExpense({ path }) {
 
     const saveExpense = () => {
+        document.getElementById('button-close').disabled = true
+        document.getElementById('button-save').disabled = true
+        document.getElementById('msg-processing').style.display = "unset"
+
         const requestOptions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -18,7 +22,23 @@ function ModalNewExpense({path}) {
 
         fetch(`${path}/expenses`, requestOptions)
             .then((res) => res.json())
-            .then((data) => console.log(data))
+            .then((data) => {
+                console.log(data)
+                document.getElementById('msg-processing').style.display = "none"
+                document.getElementById('msg-successfull').style.display = "unset"
+                setTimeout(() => {
+                    document.getElementById('msg-successfull').style.display = "none"
+                    document.getElementById('button-close').disabled = false
+                    document.getElementById('button-save').disabled = false
+                    document.getElementById("comments").value = ""
+                    document.getElementById("debtAccount").value = ""
+                    document.getElementById("debtCurrency").value = ""
+                    document.getElementById("date").value = ""
+                    document.getElementById("debtAmount").value = ""
+                    document.getElementById("creditAccount").value = ""
+
+                }, 2000)
+            })
     }
 
     return (
@@ -62,9 +82,18 @@ function ModalNewExpense({path}) {
                         </form>
 
                         <div className="modal-footer">
-                            <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="button" className="btn btn-primary" onClick={saveExpense}>Save changes</button>
+                            <button type="button" className="btn btn-secondary" data-dismiss="modal" id="button-close">Close</button>
+                            <button type="button" className="btn btn-primary" onClick={saveExpense} id="button-save">Save changes</button>
                         </div>
+
+                        <div class="alert alert-info" role="alert" style={{ display: "none" }} id="msg-processing">
+                            Estamos guardando el gasto
+                        </div>
+                        <div class="alert alert-success" role="alert" style={{ display: "none" }} id="msg-successfull">
+                            El gasto fue guardado con éxito
+                        </div>
+
+
                     </div>
                 </div>
             </div>
