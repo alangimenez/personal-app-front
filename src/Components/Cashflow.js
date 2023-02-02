@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 
-function Cashflow({path}) {
+function Cashflow({ path }) {
 
     const [cashflow, setCashflow] = useState([])
 
@@ -18,7 +18,7 @@ function Cashflow({path}) {
             })
     }
 
-    useEffect(() => getCashFlows, [])
+    useEffect(() => { getCashFlows() }, [])
 
     return (
         <div className='container'>
@@ -32,14 +32,14 @@ function Cashflow({path}) {
                     </tr>
                 </thead>
                 <tbody>
-                {
-                    cashflow.map(e => <tr>
-                        <td>{e.bondName}</td>
-                        <td>{e.dateInterest}</td>
-                        <td>{e.amountInterest}</td>
-                        <td>{e.remainingsDays}</td>
-                    </tr>)
-                }
+                    {
+                        cashflow.map(e => <tr>
+                            <td>{e.bondName}</td>
+                            <td>{e.dateInterest}</td>
+                            <td>{e.amountInterest}</td>
+                            <td>{e.remainingsDays}</td>
+                        </tr>)
+                    }
                 </tbody>
             </table>
         </div>
