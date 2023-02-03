@@ -1,3 +1,11 @@
+import InfoMessage from "../Utils/InfoMessage"
+import LabelInput from "../Utils/LabelInput"
+import LabelTextArea from "../Utils/LabelTextArea"
+import ModalButton from "../Utils/ModalButton"
+import Select from "../Utils/Select"
+import SuccessMessage from "../Utils/SuccessMessage"
+import ModalBody from "../Utils/ModalBody"
+
 function ModalNewExpense({ path }) {
 
     const saveExpense = () => {
@@ -43,42 +51,18 @@ function ModalNewExpense({ path }) {
 
     return (
         <div>
-            <button type="button" className="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                Ingresar nuevo gasto
-            </button>
-
-            <div className="modal fade" id="exampleModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div className="modal-dialog" role="document">
-                    <div className="modal-content container">
-
+            <ModalButton text={'Ingresar nuevo gasto'} target={'#exampleModal'} />
+            <ModalBody
+                id={'exampleModal'}
+                body={
+                    <>
                         <form>
-                            <div className="form-group">
-                                <label htmlFor="date">Fecha</label>
-                                <input type="date" className="form-control" id="date"></input>
-                            </div>
-                            <div className="form-group">
-                                <label htmlFor="debtAccount">Cuenta de gasto</label>
-                                <input type="string" className="form-control" id="debtAccount"></input>
-                            </div>
-                            <div className="form-group">
-                                <label htmlFor="debtAmount">Importe</label>
-                                <input type="number" className="form-control" id="debtAmount"></input>
-                            </div>
-                            <div className="form-group">
-                                <label htmlFor="debtCurrency">Moneda</label>
-                                <select className="form-control" id="debtCurrency">
-                                    <option>ARS</option>
-                                    <option>USD</option>
-                                </select>
-                            </div>
-                            <div className="form-group">
-                                <label htmlFor="creditAccount">Modo de pago</label>
-                                <input type="string" className="form-control" id="creditAccount"></input>
-                            </div>
-                            <div className="form-group">
-                                <label htmlFor="comments">Example textarea</label>
-                                <textarea className="form-control" id="comments" rows="3"></textarea>
-                            </div>
+                            <LabelInput text={'Fecha'} id={'date'} type={'date'} />
+                            <LabelInput text={'Cuenta de gasto'} id={'debtAccount'} type={'string'} />
+                            <LabelInput text={'Importe'} id={'debtAmount'} type={'number'} />
+                            <Select text={'Moneda'} id={'debtCurrency'} options={['ARS', 'USD']} />
+                            <LabelInput text={'Modo de pago'} id={'creditAccount'} type={'string'} />
+                            <LabelTextArea text={'Comentarios'} id={'comments'} />
                         </form>
 
                         <div className="modal-footer">
@@ -86,17 +70,11 @@ function ModalNewExpense({ path }) {
                             <button type="button" className="btn btn-primary" onClick={saveExpense} id="button-save">Save changes</button>
                         </div>
 
-                        <div class="alert alert-info" role="alert" style={{ display: "none" }} id="msg-processing">
-                            Estamos guardando el gasto
-                        </div>
-                        <div class="alert alert-success" role="alert" style={{ display: "none" }} id="msg-successfull">
-                            El gasto fue guardado con éxito
-                        </div>
+                        <InfoMessage text={'Estamos guardando el gasto'} id={'msg-processing'} />
+                        <SuccessMessage text={'El gasto fue guardado con éxito'} id={'msg-successfull'} />
 
-
-                    </div>
-                </div>
-            </div>
+                    </>
+                } />
         </div>
     )
 }
