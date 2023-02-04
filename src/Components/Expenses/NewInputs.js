@@ -9,7 +9,6 @@ function NewInputs({ path }) {
     const [accountsOptions, setAccountsOptions] = useState([])
     const getAccountOptions = () => {
         let array = []
-        console.log("accountoptions");
         fetch(`${path}/account/expenses`)
             .then((res) => res.json())
             .then((data) => {
@@ -21,8 +20,6 @@ function NewInputs({ path }) {
     }
 
     const addOtherInput = () => {
-        console.log(accountsOptions)
-        console.log("other input");
         const div = document.createElement('div')
         div.setAttribute('class', 'row')
         const divLeft = document.createElement('div')
