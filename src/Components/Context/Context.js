@@ -9,8 +9,12 @@ export const DataContextProvider = ({children}) => {
         setItems(items + 1)
     }
 
+    const resetItems = () => {
+        setItems(0)
+    }
+
     return (
-        <Context.Provider value={{addItems, items}}>
+        <Context.Provider value={{addItems, items, resetItems}}>
             {children}
         </Context.Provider>
     )

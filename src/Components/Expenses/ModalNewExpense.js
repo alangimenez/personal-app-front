@@ -11,7 +11,7 @@ import NewInputs from "./NewInputs"
 
 function ModalNewExpense({ path }) {
 
-    const { items } = useContext(DataContext)
+    const { items, resetItems } = useContext(DataContext)
 
     const saveExpense = () => {
         document.getElementById('button-close').disabled = true
@@ -40,9 +40,7 @@ function ModalNewExpense({ path }) {
             })
         }
 
-        console.log(requestOptions)
-
-        /* fetch(`${path}/expenses`, requestOptions)
+        fetch(`${path}/expenses/batch`, requestOptions)
             .then((res) => res.json())
             .then((data) => {
                 console.log(data)
@@ -53,14 +51,16 @@ function ModalNewExpense({ path }) {
                     document.getElementById('button-close').disabled = false
                     document.getElementById('button-save').disabled = false
                     document.getElementById("comments").value = ""
-                    document.getElementById("debtAccount").value = ""
                     document.getElementById("debtCurrency").value = ""
                     document.getElementById("date").value = ""
-                    document.getElementById("debtAmount").value = ""
                     document.getElementById("creditAccount").value = ""
-
+                    const parent = document.getElementById('newInputsRoot')
+                    while (parent.firstChild) {
+                        parent.firstChild.remove()
+                    }
+                    resetItems()
                 }, 2000)
-            }) */
+            })
     }
 
     return (
