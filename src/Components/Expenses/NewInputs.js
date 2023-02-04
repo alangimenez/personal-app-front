@@ -1,11 +1,28 @@
+import DataContext from "../Context/Context"
 import Select from "../Utils/Select"
 import LabelInput from "../Utils/LabelInput"
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useContext } from 'react'
 
-function NewInputs({ accountOptions }) {
-    const [items, setItems] = useState(0)
+function NewInputs({ path }) {
+    const { addItems, items } = useContext(DataContext)
+
+    const [accountsOptions, setAccountsOptions] = useState([])
+    const getAccountOptions = () => {
+        let array = []
+        console.log("accountoptions");
+        fetch(`${path}/account/expenses`)
+            .then((res) => res.json())
+            .then((data) => {
+                data.map((account) => array.push(account.name))
+                console.log('array' + array)
+                setAccountsOptions(array)
+            })
+
+    }
 
     const addOtherInput = () => {
+        console.log(accountsOptions)
+        console.log("other input");
         const div = document.createElement('div')
         div.setAttribute('class', 'row')
         const divLeft = document.createElement('div')
@@ -16,22 +33,18 @@ function NewInputs({ accountOptions }) {
         const selectAccount = document.createElement('select');
         selectAccount.setAttribute('class', 'form-control')
         selectAccount.setAttribute('id', `account${items}`)
-        accountOptions.map(account => {
+        accountsOptions.map(account => {
             const option = document.createElement('option');
             option.innerHTML = account
             selectAccount.appendChild(option)
         })
         divLeft.appendChild(selectAccount)
 
-        const inputAccount = document.createElement('input');
-        inputAccount.setAttribute('id', `account${items}`)
-        inputAccount.setAttribute('placeholder', 'Cuenta')
-
-        const inputImport = document.createElement('input');
-        inputImport.setAttribute('id', `import${items}`)
-        inputImport.setAttribute('placeholder', 'Importe')
-        inputImport.setAttribute(`class`, 'form-control')
-        divRight.appendChild(inputImport)
+        const inputAmount = document.createElement('input');
+        inputAmount.setAttribute('id', `amount${items}`)
+        inputAmount.setAttribute('placeholder', 'Importe')
+        inputAmount.setAttribute(`class`, 'form-control')
+        divRight.appendChild(inputAmount)
 
         const br = document.createElement('br')
 
@@ -42,15 +55,19 @@ function NewInputs({ accountOptions }) {
         const root = document.getElementById('newInputsRoot');
         root.appendChild(br)
         root.appendChild(div);
-        setItems(items + 1)
+        addItems()
     }
 
-    useEffect(() => { addOtherInput() }, [])
+
+    useEffect(async () =>  getAccountOptions(), [])
 
     return (
         <div>
             <div id='newInputsRoot'></div>
+            <br></br>
             <button type="button" className="btn btn-dark" onClick={addOtherInput}>+</button>
+            <br></br>
+            <br></br>
         </div>
 
     )

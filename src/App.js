@@ -8,6 +8,7 @@ import Cashflow from './Components/Cashflow';
 import Navbar from './Components/Navbar';
 import HistoricalInvestment from './Components/HistoricalInvestment'
 import Portfolio from './Components/Portfolio';
+import { DataContextProvider } from './Components/Context/Context';
 
 function App() {
 
@@ -15,19 +16,20 @@ function App() {
 
   return (
     <>
-      <div className='container'>
-        <Navbar />
-      </div>
-
-      <Routes>
-        <Route path="/" element={<Demo path={path} />}></Route>
-        <Route path="/ingresos" element={<Ingresos path={path} />}></Route>
-        <Route path="/gastos" element={<Gastos path={path} />}></Route>
-        <Route path="/inversiones" element={<Inversiones path={path} />} />
-        <Route path="/cashflow" element={<Cashflow path={path} />}></Route>
-        <Route path="/inversiones/historico" element={<HistoricalInvestment path={path} />} />
-        <Route path="/portfolio" element={<Portfolio path={path} />} />
-      </Routes>
+      <DataContextProvider>
+        <div className='container'>
+          <Navbar />
+        </div>
+        <Routes>
+          <Route path="/" element={<Demo path={path} />}></Route>
+          <Route path="/ingresos" element={<Ingresos path={path} />}></Route>
+          <Route path="/gastos" element={<Gastos path={path} />}></Route>
+          <Route path="/inversiones" element={<Inversiones path={path} />} />
+          <Route path="/cashflow" element={<Cashflow path={path} />}></Route>
+          <Route path="/inversiones/historico" element={<HistoricalInvestment path={path} />} />
+          <Route path="/portfolio" element={<Portfolio path={path} />} />
+        </Routes>
+      </DataContextProvider>
     </>
   )
 }

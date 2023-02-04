@@ -1,3 +1,4 @@
+import DataContext from "../Context/Context"
 import InfoMessage from "../Utils/InfoMessage"
 import LabelInput from "../Utils/LabelInput"
 import LabelTextArea from "../Utils/LabelTextArea"
@@ -5,28 +6,36 @@ import ModalButton from "../Utils/ModalButton"
 import Select from "../Utils/Select"
 import SuccessMessage from "../Utils/SuccessMessage"
 import ModalBody from "../Utils/ModalBody"
-import { useState } from "react"
-import { useEffect } from "react"
+import { useState, useEffect, useContext } from "react"
 import NewInputs from "./NewInputs"
 
 function ModalNewExpense({ path }) {
+
+    const { items } = useContext(DataContext)
 
     const saveExpense = () => {
         document.getElementById('button-close').disabled = true
         document.getElementById('button-save').disabled = true
         document.getElementById('msg-processing').style.display = "unset"
 
+        
+        const accountsAmounts = []
+        for (let i = 0; i < items; i++) {
+            const eachExpense = {
+                "debtAccount": document.getElementById(`account${i}`).value,
+                "debtAmount": document.getElementById(`amount${i}`).value
+            }
+            accountsAmounts.push(eachExpense)
+        }
+
         const requestOptions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 "date": document.getElementById("date").value,
-                "debit": document.getElementById("debtAccount").value,
-                "debitCurrency": document.getElementById("debtCurrency").value,
-                "debitAmount": document.getElementById("debtAmount").value,
+                "expenses": accountsAmounts,
                 "credit": document.getElementById("creditAccount").value,
-                "creditCurrency": document.getElementById("debtCurrency").value,
-                "creditAmount": document.getElementById("debtAmount").value,
+                "currency": document.getElementById("debtCurrency").value,
                 "comments": document.getElementById("comments").value
             })
         }
@@ -54,19 +63,6 @@ function ModalNewExpense({ path }) {
             }) */
     }
 
-    const [accountsOptions, setAccountsOptions] = useState([])
-    const getAccountOptions = () => {
-        fetch(`${path}/account/expenses`)
-            .then((res) => res.json())
-            .then((data) => {
-                let array = []
-                data.map((account) => array.push(account.name))
-                setAccountsOptions(array)
-            })
-    }
-
-    useEffect(() => { getAccountOptions() }, [])
-
     return (
         <div>
             <ModalButton text={'Ingresar nuevo gasto'} target={'#exampleModal'} />
@@ -83,7 +79,7 @@ function ModalNewExpense({ path }) {
                             <LabelInput text={'Modo de pago'} id={'creditAccount'} type={'string'} />
                             <Select text={'Moneda'} id={'debtCurrency'} options={['ARS', 'USD']} />
                             <LabelTextArea text={'Comentarios'} id={'comments'} />
-                            <NewInputs accountOptions={accountsOptions} />
+                            <NewInputs path={path} />
                         </form>
 
                         <div className="modal-footer">
