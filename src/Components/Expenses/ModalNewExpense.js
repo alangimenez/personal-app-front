@@ -5,6 +5,9 @@ import ModalButton from "../Utils/ModalButton"
 import Select from "../Utils/Select"
 import SuccessMessage from "../Utils/SuccessMessage"
 import ModalBody from "../Utils/ModalBody"
+import { useState } from "react"
+import { useEffect } from "react"
+import NewInputs from "./NewInputs"
 
 function ModalNewExpense({ path }) {
 
@@ -28,7 +31,9 @@ function ModalNewExpense({ path }) {
             })
         }
 
-        fetch(`${path}/expenses`, requestOptions)
+        console.log(requestOptions)
+
+        /* fetch(`${path}/expenses`, requestOptions)
             .then((res) => res.json())
             .then((data) => {
                 console.log(data)
@@ -46,8 +51,21 @@ function ModalNewExpense({ path }) {
                     document.getElementById("creditAccount").value = ""
 
                 }, 2000)
+            }) */
+    }
+
+    const [accountsOptions, setAccountsOptions] = useState([])
+    const getAccountOptions = () => {
+        fetch(`${path}/account/expenses`)
+            .then((res) => res.json())
+            .then((data) => {
+                let array = []
+                data.map((account) => array.push(account.name))
+                setAccountsOptions(array)
             })
     }
+
+    useEffect(() => { getAccountOptions() }, [])
 
     return (
         <div>
@@ -58,11 +76,14 @@ function ModalNewExpense({ path }) {
                     <>
                         <form>
                             <LabelInput text={'Fecha'} id={'date'} type={'date'} />
-                            <LabelInput text={'Cuenta de gasto'} id={'debtAccount'} type={'string'} />
+                            {/*                             <LabelInput text={'Cuenta de gasto'} id={'debtAccount'} type={'string'} />
+                            <Select text={'Cuenta de ejemplo'} id={'test'} options={accountsOptions} />
                             <LabelInput text={'Importe'} id={'debtAmount'} type={'number'} />
-                            <Select text={'Moneda'} id={'debtCurrency'} options={['ARS', 'USD']} />
+ */}
                             <LabelInput text={'Modo de pago'} id={'creditAccount'} type={'string'} />
+                            <Select text={'Moneda'} id={'debtCurrency'} options={['ARS', 'USD']} />
                             <LabelTextArea text={'Comentarios'} id={'comments'} />
+                            <NewInputs accountOptions={accountsOptions} />
                         </form>
 
                         <div className="modal-footer">
