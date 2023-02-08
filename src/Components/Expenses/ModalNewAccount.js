@@ -17,7 +17,11 @@ function ModalNewAccount({path}) {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 "name": document.getElementById("name-account").value,
-                "type": document.getElementById('type-account').value
+                "type": document.getElementById('type-account').value,
+                "assetType": document.getElementById('asset-type').value,
+                "ticket": document.getElementById('asset-ticket').value,
+                "balance": document.getElementById('asset-balance').value,
+                "currency": document.getElementById('asset-currency').value
             })
         }
 
@@ -33,6 +37,10 @@ function ModalNewAccount({path}) {
                     document.getElementById('new-account-save').disabled = false
                     document.getElementById("name-account").value = ""
                     document.getElementById("type-account").value = ""
+                    document.getElementById("asset-type").value = ""
+                    document.getElementById("asset-ticket").value = ""
+                    document.getElementById("asset-balance").value = ""
+                    document.getElementById("asset-currency").value = ""
                 }, 2000)
             })
 
@@ -47,6 +55,10 @@ function ModalNewAccount({path}) {
                 <form>
                     <LabelInput text={'Nombre de cuenta'} id={'name-account'} type={'string'} />
                     <Select text={'Tipo de cuenta'} id={'type-account'} options={['A', 'R-', 'R+']} />
+                    <Select text={'Tipo de activo'} id={'asset-type'} options={['FCI', 'CEDEAR', 'ADR', 'Liquidez', 'Titulo público', 'ON', 'Cripto', 'Otros']} />
+                    <LabelInput text={'Ticket'} id={'asset-ticket'} type={'string'} />
+                    <LabelInput text={'Saldo'} id={'asset-balance'} type={'number'} />
+                    <Select text={'Moneda'} id={'asset-currency'} options={['ARS', 'USD']} />
                 </form>
                 <div className="modal-footer">
                     <button type="button" className="btn btn-secondary" data-dismiss="modal" id="new-account-close">Cerrar</button>

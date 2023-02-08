@@ -63,6 +63,19 @@ function ModalNewExpense({ path }) {
             })
     }
 
+    const [accounts, setAccounts] = useState([])
+    const getAccounts = () => {
+        fetch(`${path}/account/liquid`)
+            .then((res) => res.json())
+            .then((data) => {
+                console.log("hola")
+                console.log(data)
+                setAccounts(data)
+            })
+    }
+
+    useEffect(() => { getAccounts() }, [])
+
     return (
         <div>
             <ModalButton target={'#exampleModal'}>
@@ -72,7 +85,8 @@ function ModalNewExpense({ path }) {
                 <>
                     <form>
                         <LabelInput text={'Fecha'} id={'date'} type={'date'} />
-                        <LabelInput text={'Modo de pago'} id={'creditAccount'} type={'string'} />
+                        <Select text={'Modo de pago'} id={'creditAccount'} options={accounts} />
+                        {/* <LabelInput text={'Modo de pago'} id={'creditAccount'} type={'string'} /> */}
                         <Select text={'Moneda'} id={'debtCurrency'} options={['ARS', 'USD']} />
                         <LabelTextArea text={'Comentarios'} id={'comments'} />
                         <NewInputs path={path} />
