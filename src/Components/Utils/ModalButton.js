@@ -1,7 +1,7 @@
-function ModalButton({ text, target }) {
+function ModalButton({ target, children }) {
     return (
         <button type="button" className="btn btn-primary" data-toggle="modal" data-target={`${target}`}>
-            {text}
+            {children}
         </button>
     )
 }

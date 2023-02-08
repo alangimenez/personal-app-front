@@ -18,7 +18,7 @@ function ModalNewExpense({ path }) {
         document.getElementById('button-save').disabled = true
         document.getElementById('msg-processing').style.display = "unset"
 
-        
+
         const accountsAmounts = []
         for (let i = 0; i < items; i++) {
             const eachExpense = {
@@ -63,35 +63,44 @@ function ModalNewExpense({ path }) {
             })
     }
 
+    const [accounts, setAccounts] = useState([])
+    const getAccounts = () => {
+        fetch(`${path}/account/liquid`)
+            .then((res) => res.json())
+            .then((data) => {
+                console.log("hola")
+                console.log(data)
+                setAccounts(data)
+            })
+    }
+
+    useEffect(() => { getAccounts() }, [])
+
     return (
         <div>
-            <ModalButton text={'Ingresar nuevo gasto'} target={'#exampleModal'} />
-            <ModalBody
-                id={'exampleModal'}
-                body={
-                    <>
-                        <form>
-                            <LabelInput text={'Fecha'} id={'date'} type={'date'} />
-                            {/*                             <LabelInput text={'Cuenta de gasto'} id={'debtAccount'} type={'string'} />
-                            <Select text={'Cuenta de ejemplo'} id={'test'} options={accountsOptions} />
-                            <LabelInput text={'Importe'} id={'debtAmount'} type={'number'} />
- */}
-                            <LabelInput text={'Modo de pago'} id={'creditAccount'} type={'string'} />
-                            <Select text={'Moneda'} id={'debtCurrency'} options={['ARS', 'USD']} />
-                            <LabelTextArea text={'Comentarios'} id={'comments'} />
-                            <NewInputs path={path} />
-                        </form>
+            <ModalButton target={'#exampleModal'}>
+                Ingresar nuevo gasto
+            </ModalButton>
+            <ModalBody id={'exampleModal'}>
+                <>
+                    <form>
+                        <LabelInput text={'Fecha'} id={'date'} type={'date'} />
+                        <Select text={'Modo de pago'} id={'creditAccount'} options={accounts} />
+                        {/* <LabelInput text={'Modo de pago'} id={'creditAccount'} type={'string'} /> */}
+                        <Select text={'Moneda'} id={'debtCurrency'} options={['ARS', 'USD']} />
+                        <LabelTextArea text={'Comentarios'} id={'comments'} />
+                        <NewInputs path={path} />
+                    </form>
 
-                        <div className="modal-footer">
-                            <button type="button" className="btn btn-secondary" data-dismiss="modal" id="button-close">Close</button>
-                            <button type="button" className="btn btn-primary" onClick={saveExpense} id="button-save">Save changes</button>
-                        </div>
+                    <div className="modal-footer">
+                        <button type="button" className="btn btn-secondary" data-dismiss="modal" id="button-close">Close</button>
+                        <button type="button" className="btn btn-primary" onClick={saveExpense} id="button-save">Save changes</button>
+                    </div>
 
-                        <InfoMessage text={'Estamos guardando el gasto'} id={'msg-processing'} />
-                        <SuccessMessage text={'El gasto fue guardado con éxito'} id={'msg-successfull'} />
-
-                    </>
-                } />
+                    <InfoMessage text={'Estamos guardando el gasto'} id={'msg-processing'} />
+                    <SuccessMessage text={'El gasto fue guardado con éxito'} id={'msg-successfull'} />
+                </>
+            </ModalBody>
         </div>
     )
 }
