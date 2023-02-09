@@ -8,6 +8,7 @@ import Cashflow from './Components/Cashflow';
 import Navbar from './Components/Navbar';
 import HistoricalInvestment from './Components/HistoricalInvestment'
 import Portfolio from './Components/Portfolio';
+import Balance from './Components/Balance';
 import { DataContextProvider } from './Components/Context/Context';
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
       <DataContextProvider>
         <div className='container'>
           <Navbar />
+          <Balance path={path} />
         </div>
         <Routes>
           <Route path="/" element={<Demo path={path} />}></Route>
