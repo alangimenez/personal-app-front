@@ -1,0 +1,35 @@
+import { useEffect, useState } from "react"
+
+function Balance ({path}) {
+
+    const [balance, setBalance] = useState([])
+
+    const getLiquidAndFciBalance = () => {
+        fetch(`${path}/account/liquid-fci`)
+            .then(res => res.json())
+            .then(data => {
+                setBalance(data)
+                console.log(data)
+            })
+    }
+
+    useEffect(() => { getLiquidAndFciBalance() }, [])
+
+    return (
+        <nav className="navbar navbar-expand-lg navbar-light bg-light">
+            <a className="navbar-brand" href="/"></a>
+            <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span className="navbar-toggler-icon"></span>
+            </button>
+            <div className="collapse navbar-collapse" id="navbarNav">
+                <ul className="navbar-nav">
+                    {balance.map(it => 
+                        <li className="nav-item" style={{marginLeft: 5, marginRight: 5}}>{it.name}: ${it.balance}</li>
+                    )}
+                </ul>
+            </div>
+        </nav>
+    )
+}
+
+export default Balance
