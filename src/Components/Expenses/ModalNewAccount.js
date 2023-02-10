@@ -55,7 +55,7 @@ function ModalNewAccount({path}) {
                 <form>
                     <LabelInput text={'Nombre de cuenta'} id={'name-account'} type={'string'} />
                     <Select text={'Tipo de cuenta'} id={'type-account'} options={['A', 'R-', 'R+']} />
-                    <Select text={'Tipo de activo'} id={'asset-type'} options={['FCI', 'CEDEAR', 'ADR', 'Liquidez', 'Titulo público', 'ON', 'Cripto', 'Otros']} />
+                    <Select text={'Tipo de activo'} id={'asset-type'} options={['', 'FCI', 'CEDEAR', 'ADR', 'Liquidez', 'Titulo público', 'ON', 'Cripto', 'Otros']} />
                     <LabelInput text={'Ticket'} id={'asset-ticket'} type={'string'} />
                     <LabelInput text={'Saldo'} id={'asset-balance'} type={'number'} />
                     <Select text={'Moneda'} id={'asset-currency'} options={['ARS', 'USD']} />
