@@ -30,11 +30,6 @@ function HistoricalInvestment({path}) {
     return (
         <div className="container">
 
-            <div >
-                <label htmlFor='password'>Password</label>
-                <input id="password" className='form-control' onChange={handleChangeInput} style={{ width: 200 + 'px' }} type='password'></input>
-            </div>
-
             <table className='table table-striped'>
                 <thead>
                     <tr>
