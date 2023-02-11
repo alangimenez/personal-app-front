@@ -1,4 +1,9 @@
-function NewInvestment({password}) {
+import LabelInput from "../Utils/LabelInput"
+import ModalButton from "../Utils/ModalButton"
+import Select from "../Utils/Select"
+import ModalBody from "../Utils/ModalBody"
+
+function NewInvestment({ password }) {
 
     // save investment register
     const saveInvestment = () => {
@@ -27,79 +32,35 @@ function NewInvestment({password}) {
 
     return (
         <div>
-            <button type="button" className="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+            <ModalButton target={'#exampleModal'}>
                 Ingresar nueva inversión
-            </button>
+            </ModalButton>
 
-            <div className="modal fade" id="exampleModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div className="modal-dialog" role="document">
-                    <div className="modal-content">
-                        <div className="modal-header">
-                            <h5 className="modal-title" id="exampleModalLabel">Modal title</h5>
-                            <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div className="modal-body">
-                            <form>
-                                <div className="form-group">
-                                    <label htmlFor="nameOfAsset">Name of asset</label>
-                                    <input className="form-control" id="nameOfAsset" aria-describedby="emailHelp"></input>
-                                </div>
-                                <div className="form-group">
-                                    <label htmlFor="ticket">Ticket</label>
-                                    <input className="form-control" id="ticket"></input>
-                                </div>
-                                <div className="form-group">
-                                    <label htmlFor="purchaseDate">Purchase date</label>
-                                    <input type="date" className="form-control" id="purchaseDate"></input>
-                                </div>
-                                <div className="form-group">
-                                    <label htmlFor="quantity">Quantity</label>
-                                    <input type="number" className="form-control" id="quantity"></input>
-                                </div>
-                                <div className="form-group">
-                                    <label htmlFor="purchasePrice">Purchase price</label>
-                                    <input type="number" className="form-control" id="purchasePrice"></input>
-                                </div>
-                                <div className="form-group">
-                                    <label htmlFor="commission">Commissions</label>
-                                    <input type="number" className="form-control" id="commission"></input>
-                                </div>
-                                <div className="form-group">
-                                    <label htmlFor="currency">Currency</label>
-                                    <select id="currency" className="form-control">
-                                        <option selected>USD</option>
-                                        <option>ARS</option>
-                                    </select>
-                                </div>
-                                <div className="form-group">
-                                    <label htmlFor="assetType">Asset Type</label>
-                                    <select id="assetType" className="form-control">
-                                        <option selected>ADR</option>
-                                        <option>CEDEAR</option>
-                                        <option>Obligación negociable</option>
-                                        <option>Título público</option>
-                                        <option>Cripto</option>
-                                        <option>FCI</option>
-                                    </select>
-                                </div>
-                                <div className="form-group">
-                                    <label htmlFor="operation">Operation</label>
-                                    <select id="operation" className="form-control">
-                                        <option selected>Buy</option>
-                                        <option>Sell</option>
-                                    </select>
-                                </div>
-                            </form>
-                        </div>
-                        <div className="modal-footer">
-                            <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="button" className="btn btn-primary" onClick={saveInvestment}>Save changes</button>
-                        </div>
-                    </div>
+            <ModalBody id={'exampleModal'}>
+                <div className="modal-header">
+                    <h5 className="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
-            </div>
+                <div className="modal-body">
+                    <form>
+                        <LabelInput text={'Ticket'} id={'ticket'} type={'string'} />
+                        <LabelInput text={'Purchase date'} id={'purchaseDate'} type={'date'} />
+                        <LabelInput text={'Quantity'} id={'quantity'} type={'number'} />
+                        <LabelInput text={'Purchase price'} id={'purchasePrice'} type={'number'} />
+                        <LabelInput text={'Commissions'} id={'commission'} type={'number'} />
+                        <Select text={'Currency'} id={'currency'} options={['USD', 'ARS']} />
+                        <Select text={'Asset type'} id={'assetType'} options={['ADR', 'CEDEAR', 'Obligacion negociable', 'Titulo publico', 'Cripto', 'FCI']} />
+                        <Select text={'Operation'} id={'operation'} options={['Buy', 'Sell']} />
+
+                    </form>
+                </div>
+                <div className="modal-footer">
+                    <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" className="btn btn-primary" onClick={saveInvestment}>Save changes</button>
+                </div>
+            </ModalBody>
         </div>
     )
 }

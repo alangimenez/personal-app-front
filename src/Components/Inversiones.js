@@ -102,10 +102,6 @@ function Inversiones({ path }) {
             <textarea rows={10} cols={50} className="form-control" onChange={handleChangeTextarea}></textarea>
             <button onClick={guardarCotizaciones} className="btn btn-dark">Actualizar cotizaciones</button>
             <button onClick={verCotizaciones} className="btn btn-dark">Ver cotizaciones</button>
-            <div >
-                <label htmlFor='password'>Password</label>
-                <input id="password" className='form-control' onChange={handleChangeInput} style={{ width: 200 + 'px' }} type='password'></input>
-            </div>
 
             <ModalNewInvestment password={mensajeInput} />
             <QuotesTable cotizacion={cotizacion}/>
