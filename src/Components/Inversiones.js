@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import QuotesTable from './Investments/quotesTable'
 import ModalNewInvestment from './Investments/modalNewInvestment'
+import ModalNewAssetType from './Investments/ModalNewAssetType'
 
 function Inversiones({ path }) {
     // cargar cotizaciones
@@ -103,8 +104,9 @@ function Inversiones({ path }) {
             <button onClick={guardarCotizaciones} className="btn btn-dark">Actualizar cotizaciones</button>
             <button onClick={verCotizaciones} className="btn btn-dark">Ver cotizaciones</button>
 
-            <ModalNewInvestment password={mensajeInput} />
-            <QuotesTable cotizacion={cotizacion}/>
+            <ModalNewAssetType path={path}/>
+            <ModalNewInvestment path={path} />
+            <QuotesTable cotizacion={cotizacion} />
         </div>
     )
 }

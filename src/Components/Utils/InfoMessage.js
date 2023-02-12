@@ -1,7 +1,7 @@
-function InfoMessage({text, id}) {
+function InfoMessage({id, type, children}) {
     return (
-        <div className="alert alert-info" role="alert" style={{ display: "none" }} id={`${id}`}>
-            {text}
+        <div className={`${type}`} role="alert" style={{ display: "none" }} id={`${id}`}>
+            {children}
         </div>
     )
 }
