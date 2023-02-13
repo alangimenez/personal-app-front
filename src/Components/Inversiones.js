@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import QuotesTable from './Investments/quotesTable'
 import ModalNewInvestment from './Investments/modalNewInvestment'
 import ModalNewAssetType from './Investments/ModalNewAssetType'
+import ModalUpdateQuoteManually from './Investments/ModalUpdateQuoteManually'
 
 function Inversiones({ path }) {
     // cargar cotizaciones
@@ -106,6 +107,7 @@ function Inversiones({ path }) {
 
             <ModalNewAssetType path={path}/>
             <ModalNewInvestment path={path} />
+            <ModalUpdateQuoteManually path={path} />
             <QuotesTable cotizacion={cotizacion} />
         </div>
     )
