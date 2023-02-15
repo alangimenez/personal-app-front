@@ -32,9 +32,9 @@ function Portfolio({ path }) {
             {
                 detail.map(atd =>
                     <>
-                        <h2>Subtotal de {atd.value}</h2>
+                        <h3>Subtotal de {atd.value}</h3>
                         <TableSubDetail
-                            columns={['Ticket', 'Cantidad', 'Precio', 'Subtotal', '% sobre total']}
+                            columns={['Ticket', 'Precio', 'Cantidad', 'Subtotal', '% sobre total']}
                             rows={atd.subdetail}
                         />
                     </>
