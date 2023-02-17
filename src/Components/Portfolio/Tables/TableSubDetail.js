@@ -28,10 +28,12 @@ function TableSubDetail({ columns = [], rows = [] }) {
                 {
                     rows.map(e => <tr>
                         <td>{e.ticket}</td>
-                        <td>{e.price}</td>
-                        <td>{e.quantity}</td>
-                        <td>{e.subtotal}</td>
-                        <td>{e.percentageOverTotal}</td>
+                        <td>{e.currency}</td>
+                        <td>{e.priceArsBna.toLocaleString('es')}</td>
+                        <td>{e.priceUsdBna.toLocaleString('es')}</td>
+                        <td>{e.priceArsMep.toLocaleString('es')}</td>
+                        <td>{e.priceUsdMep.toLocaleString('es')}</td>
+                        <td>%{(e.percentageOverTotal*100).toFixed(2)}</td>
                     </tr>)
                 }
                 <tr>

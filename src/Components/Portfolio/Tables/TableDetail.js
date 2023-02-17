@@ -15,8 +15,11 @@ function TableDetail({ columns = [], rows = [], path }) {
                 {
                     rows.map(e => <tr>
                         <td>{e.assetType}</td>
-                        <td>{e.subtotal}</td>
-                        <td>{e.percentage}</td>
+                        <td>{e.arsBna.toLocaleString('es')}</td>
+                        <td>{e.usdBna.toLocaleString('es')}</td>
+                        <td>{e.arsMep.toLocaleString('es')}</td>
+                        <td>{e.usdMep.toLocaleString('es')}</td>
+                        <td>%{(e.percentage*100).toFixed(2)}</td>
                     </tr>)
                 }
             </tbody>

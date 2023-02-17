@@ -2,6 +2,7 @@ import DataContext from "../Context/Context"
 import { useEffect, useState, useContext } from "react"
 import TableDetail from "./Tables/TableDetail"
 import TableSubDetail from "./Tables/TableSubDetail"
+import OtherQuotes from "./OtherQuotes"
 
 function Portfolio({ path }) {
 
@@ -23,9 +24,10 @@ function Portfolio({ path }) {
 
     return (
         <div className="container">
+            <OtherQuotes path={path }/>
             <h2>Total por tipo de activo</h2>
             <TableDetail
-                columns={['Tipo de activo', 'Subtotal', '% sobre total']}
+                columns={['Tipo de activo', 'BNA ARS', 'BNA USD', 'MEP ARS', 'MEP USD', '% sobre total']}
                 rows={portfolio.totalDetail}
                 path={path}
             />
@@ -34,7 +36,7 @@ function Portfolio({ path }) {
                     <>
                         <h3>Subtotal de {atd.value}</h3>
                         <TableSubDetail
-                            columns={['Ticket', 'Precio', 'Cantidad', 'Subtotal', '% sobre total']}
+                            columns={['Ticket', 'Moneda', 'BNA ARS', 'BNA USD', 'MEP ARS', 'MEP USD', '% sobre total']}
                             rows={atd.subdetail}
                         />
                     </>
