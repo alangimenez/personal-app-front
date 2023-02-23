@@ -24,6 +24,8 @@ function NewInputs({ path }) {
         div.setAttribute('class', 'row')
         const divLeft = document.createElement('div')
         divLeft.setAttribute('class', 'col')
+        const divMiddle = document.createElement('div')
+        divMiddle.setAttribute('class', 'col')
         const divRight = document.createElement('div')
         divRight.setAttribute('class', 'col')
 
@@ -41,13 +43,20 @@ function NewInputs({ path }) {
         inputAmount.setAttribute('id', `amount${items}`)
         inputAmount.setAttribute('placeholder', 'Importe')
         inputAmount.setAttribute(`class`, 'form-control')
-        divRight.appendChild(inputAmount)
+        divMiddle.appendChild(inputAmount)
+
+        const discountAmount = document.createElement('input');
+        discountAmount.setAttribute('id', `discount${items}`)
+        discountAmount.setAttribute('placeholder', 'Descuento')
+        discountAmount.setAttribute(`class`, 'form-control')
+        divRight.appendChild(discountAmount)
 
         const br = document.createElement('br')
 
         div.appendChild(br)
         div.appendChild(divLeft);
-        div.appendChild(divRight);
+        div.appendChild(divMiddle);
+        div.appendChild(divRight)
 
         const root = document.getElementById('newInputsRoot');
         root.appendChild(br)

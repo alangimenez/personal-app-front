@@ -23,7 +23,8 @@ function ModalNewExpense({ path }) {
         for (let i = 0; i < items; i++) {
             const eachExpense = {
                 "debtAccount": document.getElementById(`account${i}`).value,
-                "debtAmount": document.getElementById(`amount${i}`).value
+                "debtAmount": document.getElementById(`amount${i}`).value,
+                "discountAmount": document.getElementById(`discount${i}`).value
             }
             accountsAmounts.push(eachExpense)
         }
