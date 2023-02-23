@@ -3,12 +3,18 @@ import ModalButton from "../Utils/ModalButton"
 import Select from "../Utils/Select"
 import ModalBody from "../Utils/ModalBody"
 import { useState, useEffect } from 'react'
+import InfoMessage from "../Utils/InfoMessage"
 
 function NewInvestment({ path }) {
 
     // save investment register
     const saveInvestment = () => {
-        const requestOptions = {
+
+        document.getElementById('new-investment-btn-close').disabled = true
+        document.getElementById('new-investment-btn-save').disabled = true
+        document.getElementById('new-investment-msg').style.display = "unset"
+
+        const requestOptionsInvestment = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -25,11 +31,44 @@ function NewInvestment({ path }) {
             })
         }
 
-        console.log(requestOptions)
-
-        fetch(`${path}/investment`, requestOptions)
+        fetch(`${path}/investment`, requestOptionsInvestment)
             .then((res) => res.json())
-            .then((data) => console.log(data))
+            .then((data) => {
+                console.log(data)
+                document.getElementById('new-investment-msg').innerHTML = 'Estamos guardando la cotización de compra'
+            })
+
+        const requestOptionsLastValue = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                "ticket": document.getElementById('ticket').value,
+                "price": document.getElementById('purchasePrice').value,
+                "volume": 0
+            })
+        };
+
+        fetch(`${path}/lastvalue/manualquote`, requestOptionsLastValue)
+            .then(res => res.json())
+            .then(data => {
+                document.getElementById('new-investment-msg').innerHTML = 'La inversión fue guardada con éxito'
+                document.getElementById('new-investment-msg').className = 'alert alert-success'
+
+                setTimeout(() => {
+                    document.getElementById('new-investment-msg').innerHTML = 'Estamos creando el tipo de activo'
+                    document.getElementById('new-investment-msg').style.display = "none"
+                    document.getElementById('new-investment-btn-close').disabled = false
+                    document.getElementById('new-investment-btn-save').disabled = false
+                    document.getElementById("ticket").value = ""
+                    document.getElementById("purchaseDate").value = ""
+                    document.getElementById("quantity").value = ""
+                    document.getElementById("purchasePrice").value = ""
+                    document.getElementById("currency").value = ""
+                    document.getElementById("assetType").value = ""
+                    document.getElementById("operation").value = ""
+                    document.getElementById("commission").value = ""
+                }, 2000)
+            })
     }
 
     const [assetTypeInfo, setAssetTypeInfo] = useState([])
@@ -82,7 +121,6 @@ function NewInvestment({ path }) {
                                 {listOfAssets.map(opt => <option>{opt}</option>)}
                             </select>
                         </div>
-                        {/* <LabelInput text={'Ticket'} id={'ticket'} type={'string'} /> */}
                         <LabelInput text={'Purchase date'} id={'purchaseDate'} type={'date'} />
                         <LabelInput text={'Quantity'} id={'quantity'} type={'number'} />
                         <LabelInput text={'Purchase price'} id={'purchasePrice'} type={'number'} />
@@ -93,9 +131,12 @@ function NewInvestment({ path }) {
                     </form>
                 </div>
                 <div className="modal-footer">
-                    <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" className="btn btn-primary" onClick={saveInvestment}>Save changes</button>
+                    <button type="button" className="btn btn-secondary" data-dismiss="modal" id="new-investment-btn-close">Close</button>
+                    <button type="button" className="btn btn-primary" onClick={saveInvestment} id="new-investment-btn-save">Save changes</button>
                 </div>
+                <InfoMessage id={'new-investment-msg'} type={'alert alert-info'}>
+                    Estamos guardando la inversión
+                </InfoMessage>
             </ModalBody>
         </div>
     )

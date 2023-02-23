@@ -13,8 +13,13 @@ export const DataContextProvider = ({children}) => {
         setItems(0)
     }
 
+    const [date, setDate] = useState("")
+    const newDate = (date) => {
+        setDate(date)
+    }
+
     return (
-        <Context.Provider value={{addItems, items, resetItems}}>
+        <Context.Provider value={{addItems, items, resetItems, date, newDate}}>
             {children}
         </Context.Provider>
     )

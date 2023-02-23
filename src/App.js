@@ -7,7 +7,7 @@ import Inversiones from './Components/Inversiones'
 import Cashflow from './Components/Cashflow';
 import Navbar from './Components/Navbar';
 import HistoricalInvestment from './Components/HistoricalInvestment'
-import Portfolio from './Components/Portfolio';
+import Portfolio from './Components/Portfolio/Portfolio';
 import Balance from './Components/Balance';
 import { DataContextProvider } from './Components/Context/Context';
 
