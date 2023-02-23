@@ -40,7 +40,9 @@ function TableSubDetail({ columns = [], rows = [] }) {
                     <td><strong>Subtotal</strong></td>
                     <td></td>
                     <td></td>
-                    <td><strong>{subtotal}</strong></td>
+                    <td></td>
+                    <td></td>
+                    <td><strong>{subtotal.toLocaleString('es')}</strong></td>
                     <td></td>
                 </tr>
             </tbody>
