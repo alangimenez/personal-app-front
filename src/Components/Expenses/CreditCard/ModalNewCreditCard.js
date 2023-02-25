@@ -5,7 +5,7 @@ import ModalButton from "../../Utils/ModalButton"
 import Select from "../../Utils/Select"
 import InfoMessage from "../../Utils/InfoMessage"
 
-function ModalNewCreditCard({path}) {
+function ModalNewCreditCard({ path }) {
 
     const [liquidAccounts, setLiquidAccounts] = useState([])
     const getLiquidAccounts = () => {
@@ -22,7 +22,7 @@ function ModalNewCreditCard({path}) {
         document.getElementById('new-credit-card-close').disabled = true
         document.getElementById('new-credit-card-save').disabled = true
         document.getElementById('new-credit-card-msg').style.display = "unset"
-        const requestOptions = {
+        const requestOptionsCreditCard = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -31,10 +31,28 @@ function ModalNewCreditCard({path}) {
             })
         }
 
-        fetch(`${path}/creditcard`, requestOptions)
+        fetch(`${path}/creditcard`, requestOptionsCreditCard)
             .then(res => res.json())
             .then(data => {
-                document.getElementById('new-credit-card-msg').innerHTML = 'La cuenta fue creada con éxito'
+                document.getElementById('new-credit-card-msg').innerHTML = 'Estamos creando el periodo de la tarjeta'
+            })
+
+        const requestOptionsExpenseCreditCard = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                "name": document.getElementById("new-credit-card-name").value,
+                "debtAccount": document.getElementById("new-credit-card-debt-account").value,
+                "closeDate": document.getElementById("new-credit-card-close-date").value,
+                "paymentDate": document.getElementById("new-credit-card-payment-date").value,
+                "period": document.getElementById("new-credit-card-period").value
+            })
+        }
+
+        fetch(`${path}/expensecreditcard/period`, requestOptionsExpenseCreditCard)
+            .then(res => res.json())
+            .then(data => {
+                document.getElementById('new-credit-card-msg').innerHTML = 'La tarjeta fue creada con éxito'
                 document.getElementById('new-credit-card-msg').className = 'alert alert-success'
 
                 setTimeout(() => {
@@ -42,6 +60,8 @@ function ModalNewCreditCard({path}) {
                     document.getElementById('new-credit-card-msg').style.display = "none"
                     document.getElementById('new-credit-card-name').value = ""
                     document.getElementById('new-credit-card-debt-account').value = ""
+                    document.getElementById('new-credit-card-close-date').value = ""
+                    document.getElementById('new-credit-card-payment-date').value = ""
                     document.getElementById('new-credit-card-close').disabled = false
                     document.getElementById('new-credit-card-save').disabled = false
                 }, 2000)
@@ -59,6 +79,9 @@ function ModalNewCreditCard({path}) {
                 <form>
                     <LabelInput text={'Nombre de la tarjeta'} id={'new-credit-card-name'} type={'string'} />
                     <Select text={'Cuenta a debitar'} id={'new-credit-card-debt-account'} options={liquidAccounts} />
+                    <Select text={'Periodo inicial'} id={'new-credit-card-period'} options={['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']} />
+                    <LabelInput text={'Fecha de cierre del periodo inicial'} id={'new-credit-card-close-date'} type={'date'} />
+                    <LabelInput text={'Fecha de pago del periodo inicial'} id={'new-credit-card-payment-date'} type={'date'} />
                 </form>
 
                 <div className="modal-footer">
