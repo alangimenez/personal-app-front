@@ -13,8 +13,17 @@ function Navbar() {
                     <li className="nav-item">
                         <a className="nav-link" href="/ingresos">Ingresos</a>
                     </li>
-                    <li className="nav-item">
+                    {/* <li className="nav-item">
                         <a className="nav-link" href="/gastos">Gastos</a>
+                    </li> */}
+                    <li className="nav-item dropdown">
+                        <a className="nav-link dropdown-toggle" href="/gastos" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Egresos
+                        </a>
+                        <div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <a className="dropdown-item" href="/gastos">Gastos</a>
+                            <a className="dropdown-item" href="/creditcard">Tarjeta de crédito</a>
+                        </div>
                     </li>
                     <li className="nav-item dropdown">
                         <a className="nav-link dropdown-toggle" href="/inversiones" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
