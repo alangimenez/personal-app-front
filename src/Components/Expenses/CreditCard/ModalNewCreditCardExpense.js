@@ -69,7 +69,7 @@ function ModalNewCreditCardExpense({ path }) {
     const [period, setPeriod] = useState([])
 
     const getOpenPeriodByCreditCard = () => {
-        fetch(`${path}/expensecreditcard/period`)
+        fetch(`${path}/expensecreditcard/period/OPEN`)
             .then(res => res.json())
             .then(data => {
                 setCreditCard(data)
