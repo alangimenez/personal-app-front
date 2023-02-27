@@ -45,10 +45,13 @@ function ModalNewExpense({ path }) {
             .then((res) => res.json())
             .then((data) => {
                 console.log(data)
-                document.getElementById('msg-processing').style.display = "none"
-                document.getElementById('msg-successfull').style.display = "unset"
+                document.getElementById('msg-processing').className = 'alert alert-success'
+                document.getElementById('msg-processing').innerHTML = "El gasto fue guardado con éxito"
                 setTimeout(() => {
-                    document.getElementById('msg-successfull').style.display = "none"
+                    document.getElementById('msg-processing').innerHTML = "Estamos guardando el gasto"
+                    document.getElementById('msg-processing').className = 'alert alert-info'
+                    document.getElementById('msg-processing').style.display = "none"
+
                     document.getElementById('button-close').disabled = false
                     document.getElementById('button-save').disabled = false
                     document.getElementById("comments").value = ""
@@ -98,8 +101,9 @@ function ModalNewExpense({ path }) {
                         <button type="button" className="btn btn-primary" onClick={saveExpense} id="button-save">Save changes</button>
                     </div>
 
-                    <InfoMessage text={'Estamos guardando el gasto'} id={'msg-processing'} />
-                    <SuccessMessage text={'El gasto fue guardado con éxito'} id={'msg-successfull'} />
+                    <InfoMessage id={'msg-processing'} type='alert alert-info'>
+                        Estamos guardando el gasto
+                    </InfoMessage>
                 </>
             </ModalBody>
         </div>
