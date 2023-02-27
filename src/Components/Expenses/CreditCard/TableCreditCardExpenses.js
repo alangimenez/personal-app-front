@@ -56,6 +56,7 @@ function TableCreditCardExpenses({ path }) {
     const [status, setStatus] = useState("")
     const [closeDate, setCloseDate] = useState("")
     const [paymentDate, setPaymentDate] = useState("")
+    const [totalAmount, setTotalAmount] = useState(0)
     const showExpenses = () => {
         const name = document.getElementById('table-credit-card-expenses-name').value
         const period = document.getElementById('table-credit-card-expenses-period').value
@@ -65,6 +66,12 @@ function TableCreditCardExpenses({ path }) {
         setStatus(creditCardDetail[key].status)
         setCloseDate(creditCardDetail[key].closeDate)
         setPaymentDate(creditCardDetail[key].paymentDate)
+
+        let total = 0
+        creditCardDetail[key].expenses.map(e => {
+            total = total + e.amount
+        })
+        setTotalAmount(total)
     }
 
     return (
@@ -98,6 +105,11 @@ function TableCreditCardExpenses({ path }) {
                                 <td>{e.amount}</td>
                             </tr>)
                         }
+                        <tr>
+                            <td><strong>Total</strong></td>
+                            <td></td>
+                            <td><strong>{totalAmount.toLocaleString('es')}</strong></td>
+                        </tr>
                     </tbody>
                 </table>
         </>

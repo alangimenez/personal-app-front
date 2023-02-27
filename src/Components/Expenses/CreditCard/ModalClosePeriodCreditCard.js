@@ -46,12 +46,19 @@ function ModalClosePeriodCreditCard({ path }) {
     }
 
     const [expensesDetail, setExpensesDetail] = useState([])
+    const [totalAmount, setTotalAmount] = useState(0)
     const showDetailOfPeriodOfCreditCard = () => {
         const name = document.getElementById('close-period-credit-card-name').value
         const period = document.getElementById('close-period-credit-card-period').value
         creditCardDetail.map(ccd => {
             if (ccd.name == name && ccd.period == period) {
                 setExpensesDetail(ccd.expenses)
+
+                let total = 0
+                ccd.expenses.map(e => {
+                    total = total + e.amount
+                })
+                setTotalAmount(total)
             }
         })
 
@@ -128,6 +135,11 @@ function ModalClosePeriodCreditCard({ path }) {
                                 <td>{e.amount}</td>
                             </tr>)
                         }
+                        <tr>
+                            <td><strong>Total</strong></td>
+                            <td></td>
+                            <td><strong>{totalAmount.toLocaleString('es')}</strong></td>
+                        </tr>
                     </tbody>
                 </table>
 
