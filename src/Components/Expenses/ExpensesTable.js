@@ -10,7 +10,7 @@ function ExpensesTables({ path }) {
             headers: { 'Content-Type': 'application/json' }
         }
 
-        fetch(`${path}/expenses`, requiredOptions)
+        fetch(`${path}/registers`, requiredOptions)
             .then((res) => res.json())
             .then((data) => {
                 console.log(data);
@@ -36,7 +36,7 @@ function ExpensesTables({ path }) {
         }
 
         if (status == true) {
-            fetch(`${path}/expenses/status`, requiredOptions)
+            fetch(`${path}/registers/status`, requiredOptions)
             .then((res) => res.json())
             .then((data) => {
                 console.log(data);

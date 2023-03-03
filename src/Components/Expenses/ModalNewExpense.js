@@ -44,7 +44,7 @@ function ModalNewExpense({ path }) {
             })
         }
 
-        fetch(`${path}/expenses/batch`, requestOptions)
+        fetch(`${path}/registers/batch`, requestOptions)
             .then((res) => res.json())
             .then((data) => {
                 console.log(data)
@@ -75,8 +75,6 @@ function ModalNewExpense({ path }) {
         fetch(`${path}/account/liquid`)
             .then((res) => res.json())
             .then((data) => {
-                console.log("hola")
-                console.log(data)
                 setAccounts(data)
             })
     }
