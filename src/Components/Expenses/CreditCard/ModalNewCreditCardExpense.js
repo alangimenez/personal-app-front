@@ -13,19 +13,26 @@ function ModalNewCreditCardExpense({ path }) {
     const { items, resetItems } = useContext(DataContext)
 
     const saveExpenseInCreditCard = () => {
+        let mp = document.getElementById('new-expense-credit-card-mp').checked
+
         document.getElementById('new-expense-credit-card-close').disabled = true
         document.getElementById('new-expense-credit-card-save').disabled = true
+        if (mp) {
+            document.getElementById('new-expense-credit-card-msg').innerHTML = 'Estamos registrando el beneficio'
+        }
         document.getElementById('new-expense-credit-card-msg').style.display = "unset"
 
         const accountsAmounts = []
         for (let i = 0; i < items; i++) {
             const eachExpense = {
-                "account": document.getElementById(`account${i}`).value,
+                "debtAccount": document.getElementById(`account${i}`).value,
                 "debtAmount": document.getElementById(`amount${i}`).value,
                 "discountAmount": document.getElementById(`discount${i}`).value
             }
             accountsAmounts.push(eachExpense)
         }
+
+        const creditKey = creditCard.findIndex(cc => cc.name == document.getElementById('new-expense-credit-card-name').value)
 
         const requestOptions = {
             method: 'POST',
@@ -37,8 +44,18 @@ function ModalNewCreditCardExpense({ path }) {
                 "currency": 'ARS',
                 "comments": document.getElementById("new-expense-credit-card-comments").value,
                 "period": document.getElementById("new-expense-credit-card-period").value,
-                "benefitMP": document.getElementById("new-expense-credit-card-mp").checked
+                "benefitMP": mp,
+                "credit": creditCard[creditKey].credit
             })
+        }
+
+        if(mp) {
+            fetch(`${path}/mercadopago/batch`, requestOptions)
+                .then(res => res.json())
+                .then(data => {
+                    console.log(data)
+                    document.getElementById('new-expense-credit-card-msg').innerHTML = "Estamos guardando el gasto"
+                })
         }
 
         fetch(`${path}/expensecreditcard`, requestOptions)
@@ -55,6 +72,7 @@ function ModalNewCreditCardExpense({ path }) {
                     document.getElementById("new-expense-credit-card-date").value = ""
                     document.getElementById("new-expense-credit-card-comments").value = ""
                     document.getElementById("new-expense-credit-card-period").value = ""
+                    mp = false
                     const parent = document.getElementById('newInputsRoot')
                     while (parent.firstChild) {
                         parent.firstChild.remove()
@@ -98,7 +116,7 @@ function ModalNewCreditCardExpense({ path }) {
                         <LabelInput text={'Fecha'} id={'new-expense-credit-card-date'} type={'date'} />
                         {/* <Select text={'Tarjeta'} id={'new-expense-credit-card-name'} options={creditCardNames} onChange={handleChangeSelectA}/> */}
                         <div className="form-group">
-                            <label htmlFor='new-expense-credit-card-name'>Asset type</label>
+                            <label htmlFor='new-expense-credit-card-name'>Tarjeta</label>
                             <select className="form-control" id='new-expense-credit-card-name' onChange={handleChangeSelectA}>
                                 {creditCardNames.map(opt => <option>{opt}</option>)}
                             </select>
