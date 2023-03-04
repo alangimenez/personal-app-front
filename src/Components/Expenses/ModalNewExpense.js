@@ -4,7 +4,6 @@ import LabelInput from "../Utils/LabelInput"
 import LabelTextArea from "../Utils/LabelTextArea"
 import ModalButton from "../Utils/ModalButton"
 import Select from "../Utils/Select"
-import SuccessMessage from "../Utils/SuccessMessage"
 import ModalBody from "../Utils/ModalBody"
 import { useState, useEffect, useContext } from "react"
 import NewInputs from "./NewInputs"
@@ -14,8 +13,12 @@ function ModalNewExpense({ path }) {
     const { items, resetItems } = useContext(DataContext)
 
     const saveExpense = () => {
+        let mp = document.getElementById('modal-new-expense-mp').checked
         document.getElementById('button-close').disabled = true
         document.getElementById('button-save').disabled = true
+        if(mp) {
+            document.getElementById('msg-processing').innerHTML = "Estamos registrando el beneficio"
+        }
         document.getElementById('msg-processing').style.display = "unset"
 
 
@@ -38,8 +41,17 @@ function ModalNewExpense({ path }) {
                 "credit": document.getElementById("creditAccount").value,
                 "currency": document.getElementById("debtCurrency").value,
                 "comments": document.getElementById("comments").value,
-                "benefitMP": document.getElementById("modal-new-expense-mp").checked
+                "benefitMP": mp
             })
+        }
+
+        if(mp) {
+            fetch(`${path}/mercadopago/batch`, requestOptions)
+                .then(res => res.json())
+                .then(data => {
+                    console.log(data)
+                    document.getElementById('msg-processing').innerHTML = "Estamos guardando el gasto"
+                })
         }
 
         fetch(`${path}/registers/batch`, requestOptions)
@@ -59,7 +71,7 @@ function ModalNewExpense({ path }) {
                     document.getElementById("debtCurrency").value = ""
                     document.getElementById("date").value = ""
                     document.getElementById("creditAccount").value = ""
-                    document.getElementById("modal-new-expense-mp").checked = false
+                    mp = false
                     const parent = document.getElementById('newInputsRoot')
                     while (parent.firstChild) {
                         parent.firstChild.remove()

@@ -13,7 +13,15 @@ function Balance ({path}) {
             })
     }
 
-    useEffect(() => { getLiquidAndFciBalance() }, [])
+    const [benefitMP, setBenefitMP] = useState(0)
+    const getBenefitMP = () => {
+        fetch(`${path}/mercadopago/last`)
+            .then(res => res.json())
+            .then(data => setBenefitMP(data[0].discountTotal - data[0].discountConsumed)
+            )
+    }
+
+    useEffect(() => { getLiquidAndFciBalance(); getBenefitMP() }, [])
 
     return (
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -26,6 +34,7 @@ function Balance ({path}) {
                     {balance.map(it => 
                         <li className="nav-item" style={{marginLeft: 5, marginRight: 5}}>{it.name}: ${it.balance}</li>
                     )}
+                    <li className="nav-item" style={{marginLeft: 5, marginRight: 5}}>Beneficio MP remanente: ${benefitMP}</li>
                 </ul>
             </div>
         </nav>
