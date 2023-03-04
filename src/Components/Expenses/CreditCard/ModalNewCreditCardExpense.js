@@ -36,14 +36,14 @@ function ModalNewCreditCardExpense({ path }) {
                 "expenses": accountsAmounts,
                 "currency": 'ARS',
                 "comments": document.getElementById("new-expense-credit-card-comments").value,
-                "period": document.getElementById("new-expense-credit-card-period").value
+                "period": document.getElementById("new-expense-credit-card-period").value,
+                "benefitMP": document.getElementById("new-expense-credit-card-mp").checked
             })
         }
 
         fetch(`${path}/expensecreditcard`, requestOptions)
             .then((res) => res.json())
             .then((data) => {
-                console.log(data)
                 document.getElementById('new-expense-credit-card-msg').innerHTML = 'El gasto fue guardado con éxito'
                 document.getElementById('new-expense-credit-card-msg').className = 'alert alert-success'
                 setTimeout(() => {
@@ -106,6 +106,14 @@ function ModalNewCreditCardExpense({ path }) {
                         <Select text={'Periodo'} id={'new-expense-credit-card-period'} options={period} />
                         <LabelTextArea text={'Comentarios'} id={'new-expense-credit-card-comments'} />
                         <NewInputs path={path} />
+
+                        <div className="form-check">
+                            <input className="form-check-input" type="checkbox" value="" id="new-expense-credit-card-mp"></input>
+                            <label className="form-check-label" htmlFor="new-expense-credit-card-mp">
+                                Beneficio Mercado Pago 30%
+                            </label>
+                        </div>
+
                     </form>
 
                     <div className="modal-footer">

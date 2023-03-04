@@ -29,8 +29,6 @@ function ModalNewExpense({ path }) {
             accountsAmounts.push(eachExpense)
         }
 
-        const benefitMP = document.getElementById("modal-new-expense-mp").value == true ? 0.3 : 1
-
         const requestOptions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -40,7 +38,7 @@ function ModalNewExpense({ path }) {
                 "credit": document.getElementById("creditAccount").value,
                 "currency": document.getElementById("debtCurrency").value,
                 "comments": document.getElementById("comments").value,
-                "benefitMP": benefitMP
+                "benefitMP": document.getElementById("modal-new-expense-mp").checked
             })
         }
 
@@ -61,6 +59,7 @@ function ModalNewExpense({ path }) {
                     document.getElementById("debtCurrency").value = ""
                     document.getElementById("date").value = ""
                     document.getElementById("creditAccount").value = ""
+                    document.getElementById("modal-new-expense-mp").checked = false
                     const parent = document.getElementById('newInputsRoot')
                     while (parent.firstChild) {
                         parent.firstChild.remove()
@@ -99,9 +98,9 @@ function ModalNewExpense({ path }) {
 
                         <div className="form-check">
                             <input className="form-check-input" type="checkbox" value="" id="modal-new-expense-mp"></input>
-                                <label className="form-check-label" htmlFor="modal-new-expense-mp">
-                                    Beneficio Mercado Pago 30%
-                                </label>
+                            <label className="form-check-label" htmlFor="modal-new-expense-mp">
+                                Beneficio Mercado Pago 30%
+                            </label>
                         </div>
 
                     </form>
