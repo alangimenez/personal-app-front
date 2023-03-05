@@ -11,6 +11,7 @@ import Portfolio from './Components/Portfolio/Portfolio';
 import Balance from './Components/Balance';
 import { DataContextProvider } from './Components/Context/Context';
 import CreditCard from './Components/Expenses/CreditCard/CreditCard';
+import RefundMain from './Components/Refund/RefundMain';
 
 function App() {
 
@@ -32,6 +33,7 @@ function App() {
           <Route path="/inversiones/historico" element={<HistoricalInvestment path={path} />} />
           <Route path="/portfolio" element={<Portfolio path={path} />} />
           <Route path="/creditcard" element={<CreditCard path={path} />} />
+          <Route path="/refund" element={<RefundMain path={path} />} /> 
         </Routes>
       </DataContextProvider>
     </>

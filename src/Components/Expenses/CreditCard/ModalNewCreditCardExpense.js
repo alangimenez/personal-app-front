@@ -131,6 +131,12 @@ function ModalNewCreditCardExpense({ path }) {
                                 Beneficio Mercado Pago 30%
                             </label>
                         </div>
+                        <div className="form-check">
+                            <input className="form-check-input" type="checkbox" value="" id="new-expense-credit-card-refund"></input>
+                            <label className="form-check-label" htmlFor="new-expense-credit-card-refund">
+                                Gasto a cuenta
+                            </label>
+                        </div>
 
                     </form>
 

@@ -23,6 +23,7 @@ function Navbar() {
                         <div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                             <a className="dropdown-item" href="/gastos">Gastos</a>
                             <a className="dropdown-item" href="/creditcard">Tarjeta de crédito</a>
+                            <a className="dropdown-item" href="/refund">Devoluciones de gastos</a>
                         </div>
                     </li>
                     <li className="nav-item dropdown">
