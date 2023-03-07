@@ -14,9 +14,11 @@ function ModalNewExpense({ path }) {
 
     const saveExpense = () => {
         let mp = document.getElementById('modal-new-expense-mp').checked
+        let refund = document.getElementById('modal-new-expense-refund').checked
+
         document.getElementById('button-close').disabled = true
         document.getElementById('button-save').disabled = true
-        if(mp) {
+        if (mp) {
             document.getElementById('msg-processing').innerHTML = "Estamos registrando el beneficio"
         }
         document.getElementById('msg-processing').style.display = "unset"
@@ -45,11 +47,22 @@ function ModalNewExpense({ path }) {
             })
         }
 
-        if(mp) {
+        if (mp) {
             fetch(`${path}/mercadopago/batch`, requestOptions)
                 .then(res => res.json())
                 .then(data => {
                     console.log(data)
+                    document.getElementById('msg-processing').innerHTML = "Estamos guardando el gasto"
+                    if (refund) {
+                        document.getElementById('new-expense-credit-card-msg').innerHTML = "Estamos registrandolo para devolución"
+                    }
+                })
+        }
+
+        if (refund) {
+            fetch(`${path}/refund/expense`, requestOptions)
+                .then(res => res.json())
+                .then(data => {
                     document.getElementById('msg-processing').innerHTML = "Estamos guardando el gasto"
                 })
         }
@@ -114,6 +127,13 @@ function ModalNewExpense({ path }) {
                                 Beneficio Mercado Pago 30%
                             </label>
                         </div>
+                        <div className="form-check">
+                            <input className="form-check-input" type="checkbox" value="" id="modal-new-expense-refund"></input>
+                            <label className="form-check-label" htmlFor="modal-new-expense-refund">
+                                Gasto a cuenta
+                            </label>
+                        </div>
+
 
                     </form>
 

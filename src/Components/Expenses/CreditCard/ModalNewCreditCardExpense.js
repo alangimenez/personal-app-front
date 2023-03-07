@@ -14,6 +14,7 @@ function ModalNewCreditCardExpense({ path }) {
 
     const saveExpenseInCreditCard = () => {
         let mp = document.getElementById('new-expense-credit-card-mp').checked
+        let refund = document.getElementById('new-expense-credit-card-refund').checked
 
         document.getElementById('new-expense-credit-card-close').disabled = true
         document.getElementById('new-expense-credit-card-save').disabled = true
@@ -49,11 +50,22 @@ function ModalNewCreditCardExpense({ path }) {
             })
         }
 
-        if(mp) {
+        if (mp) {
             fetch(`${path}/mercadopago/batch`, requestOptions)
                 .then(res => res.json())
                 .then(data => {
                     console.log(data)
+                    document.getElementById('new-expense-credit-card-msg').innerHTML = "Estamos guardando el gasto"
+                    if (refund) {
+                        document.getElementById('new-expense-credit-card-msg').innerHTML = "Estamos registrandolo para devolución"
+                    }
+                })
+        }
+
+        if (refund) {
+            fetch(`${path}/refund/expense`, requestOptions)
+                .then(res => res.json())
+                .then(data => {
                     document.getElementById('new-expense-credit-card-msg').innerHTML = "Estamos guardando el gasto"
                 })
         }
