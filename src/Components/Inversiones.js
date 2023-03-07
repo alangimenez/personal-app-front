@@ -4,6 +4,7 @@ import ModalNewInvestment from './Investments/modalNewInvestment'
 import ModalNewAssetType from './Investments/ModalNewAssetType'
 import ModalUpdateQuoteManually from './Investments/ModalUpdateQuoteManually'
 import ModalNewTransfer from './Investments/ModalNewTransfer'
+import ModalClosePeriod from './Investments/ModalClosePeriod'
 
 function Inversiones({ path }) {
     // cargar cotizaciones
@@ -110,6 +111,7 @@ function Inversiones({ path }) {
             <ModalNewInvestment path={path} />
             <ModalUpdateQuoteManually path={path} />
             <ModalNewTransfer path={path} />
+            <ModalClosePeriod path={path} />
             <QuotesTable cotizacion={cotizacion} />
         </div>
     )

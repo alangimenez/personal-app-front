@@ -4,7 +4,6 @@ import LabelInput from "../Utils/LabelInput"
 import LabelTextArea from "../Utils/LabelTextArea"
 import ModalButton from "../Utils/ModalButton"
 import Select from "../Utils/Select"
-import SuccessMessage from "../Utils/SuccessMessage"
 import ModalBody from "../Utils/ModalBody"
 import { useState, useEffect, useContext } from "react"
 import NewInputs from "./NewInputs"
@@ -14,8 +13,14 @@ function ModalNewExpense({ path }) {
     const { items, resetItems } = useContext(DataContext)
 
     const saveExpense = () => {
+        let mp = document.getElementById('modal-new-expense-mp').checked
+        let refund = document.getElementById('modal-new-expense-refund').checked
+
         document.getElementById('button-close').disabled = true
         document.getElementById('button-save').disabled = true
+        if (mp) {
+            document.getElementById('msg-processing').innerHTML = "Estamos registrando el beneficio"
+        }
         document.getElementById('msg-processing').style.display = "unset"
 
 
@@ -37,8 +42,29 @@ function ModalNewExpense({ path }) {
                 "expenses": accountsAmounts,
                 "credit": document.getElementById("creditAccount").value,
                 "currency": document.getElementById("debtCurrency").value,
-                "comments": document.getElementById("comments").value
+                "comments": document.getElementById("comments").value,
+                "benefitMP": mp
             })
+        }
+
+        if (mp) {
+            fetch(`${path}/mercadopago/batch`, requestOptions)
+                .then(res => res.json())
+                .then(data => {
+                    console.log(data)
+                    document.getElementById('msg-processing').innerHTML = "Estamos guardando el gasto"
+                    if (refund) {
+                        document.getElementById('new-expense-credit-card-msg').innerHTML = "Estamos registrandolo para devolución"
+                    }
+                })
+        }
+
+        if (refund) {
+            fetch(`${path}/refund/expense`, requestOptions)
+                .then(res => res.json())
+                .then(data => {
+                    document.getElementById('msg-processing').innerHTML = "Estamos guardando el gasto"
+                })
         }
 
         fetch(`${path}/registers/batch`, requestOptions)
@@ -58,6 +84,7 @@ function ModalNewExpense({ path }) {
                     document.getElementById("debtCurrency").value = ""
                     document.getElementById("date").value = ""
                     document.getElementById("creditAccount").value = ""
+                    mp = false
                     const parent = document.getElementById('newInputsRoot')
                     while (parent.firstChild) {
                         parent.firstChild.remove()
@@ -90,8 +117,24 @@ function ModalNewExpense({ path }) {
                         <Select text={'Modo de pago'} id={'creditAccount'} options={accounts} />
                         {/* <LabelInput text={'Modo de pago'} id={'creditAccount'} type={'string'} /> */}
                         <Select text={'Moneda'} id={'debtCurrency'} options={['ARS', 'USD']} />
+
                         <LabelTextArea text={'Comentarios'} id={'comments'} />
                         <NewInputs path={path} />
+
+                        <div className="form-check">
+                            <input className="form-check-input" type="checkbox" value="" id="modal-new-expense-mp"></input>
+                            <label className="form-check-label" htmlFor="modal-new-expense-mp">
+                                Beneficio Mercado Pago 30%
+                            </label>
+                        </div>
+                        <div className="form-check">
+                            <input className="form-check-input" type="checkbox" value="" id="modal-new-expense-refund"></input>
+                            <label className="form-check-label" htmlFor="modal-new-expense-refund">
+                                Gasto a cuenta
+                            </label>
+                        </div>
+
+
                     </form>
 
                     <div className="modal-footer">
