@@ -32,7 +32,39 @@ function TableOfRefunds({ path }) {
     }
 
     const saveRefund = () => {
-        
+        document.getElementById('table-of-refunds-btn-close').disabled = true
+        document.getElementById('table-of-refunds-btn-save').disabled = true
+        document.getElementById('table-of-refunds-msg').style.display = "unset"
+
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                "date": document.getElementById("table-of-refunds-date").value,
+                "id": id,
+                "amount": document.getElementById("table-of-refunds-amount").value,
+                "account": document.getElementById("table-of-refunds-account").value
+            })
+        }
+
+        fetch(`${path}/refund`, requestOptions)
+            .then((res) => res.json())
+            .then((data) => {
+                document.getElementById('table-of-refunds-msg').className = 'alert alert-success'
+                document.getElementById('table-of-refunds-msg').innerHTML = "La devolución fue cargada con éxito"
+                setTimeout(() => {
+                    document.getElementById('table-of-refunds-msg').innerHTML = "Estamos cargando la devolución"
+                    document.getElementById('table-of-refunds-msg').className = 'alert alert-info'
+                    document.getElementById('table-of-refunds-msg').style.display = "none"
+
+                    document.getElementById('table-of-refunds-btn-close').disabled = false
+                    document.getElementById('table-of-refunds-btn-save').disabled = false
+                    document.getElementById("table-of-refunds-date").value = ""
+                    document.getElementById("table-of-refunds-amount").value = ""
+                    document.getElementById("table-of-refunds-account").value = ""
+                }, 2000)
+            })
+
     }
 
     return (
@@ -49,12 +81,16 @@ function TableOfRefunds({ path }) {
                     {
                         refunds.map(e => <tr>
                             <td>{e.date}</td>
-                            <td>{e.total}</td>
+                            <td>{e.total.toLocaleString('es')}</td>
                             <td>{e.status}</td>
                             <td>
-                                <button type="button" className="btn btn-primary" data-toggle="modal" data-target='#table-of-refunds' id={e._id} onClick={handlerId}>
-                                    Devolución
-                                </button>
+                                {
+                                    e.status == "OPEN" ?
+                                        <button type="button" className="btn btn-primary" data-toggle="modal" data-target='#table-of-refunds' id={e._id} onClick={handlerId}>
+                                            Devolución
+                                        </button> :
+                                        <p></p>
+                                }
                             </td>
                         </tr>)
                     }
@@ -78,11 +114,11 @@ function TableOfRefunds({ path }) {
                 </div>
 
                 <div className="modal-footer">
-                    <button type="button" className="btn btn-secondary" data-dismiss="modal" id="new-other-quote-btn-close">Close</button>
-                    <button type="button" className="btn btn-primary" /* onClick={saveOtherQuote} */ id="new-other-quote-btn-save">Save changes</button>
+                    <button type="button" className="btn btn-secondary" data-dismiss="modal" id="table-of-refunds-btn-close">Close</button>
+                    <button type="button" className="btn btn-primary" onClick={saveRefund} id="table-of-refunds-btn-save">Save changes</button>
                 </div>
 
-                <InfoMessage id={'new-other-quote-msg'} type={'alert alert-info'}>
+                <InfoMessage id={'table-of-refunds-msg'} type={'alert alert-info'}>
                     Estamos cargando la devolución
                 </InfoMessage>
             </ModalBody>
