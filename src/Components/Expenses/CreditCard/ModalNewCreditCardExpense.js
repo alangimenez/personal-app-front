@@ -130,12 +130,12 @@ function ModalNewCreditCardExpense({ path }) {
                         <div className="form-group">
                             <label htmlFor='new-expense-credit-card-name'>Tarjeta</label>
                             <select className="form-control" id='new-expense-credit-card-name' onChange={handleChangeSelectA}>
-                                {creditCardNames.map(opt => <option>{opt}</option>)}
+                                {creditCardNames.map((opt, index) => <option key={index}>{opt}</option>)}
                             </select>
                         </div>
                         <Select text={'Periodo'} id={'new-expense-credit-card-period'} options={period} />
                         <LabelTextArea text={'Comentarios'} id={'new-expense-credit-card-comments'} />
-                        <NewInputs path={path} />
+                        {/* <NewInputs path={path} /> */}
 
                         <div className="form-check">
                             <input className="form-check-input" type="checkbox" value="" id="new-expense-credit-card-mp"></input>

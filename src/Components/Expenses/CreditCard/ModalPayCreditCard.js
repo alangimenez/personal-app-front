@@ -110,7 +110,7 @@ function ModalPayCreditCard({ path }) {
                     <div className="form-group">
                         <label htmlFor='pay-credit-card-name'>Tarjeta</label>
                         <select className="form-control" id='pay-credit-card-name' onChange={handleChangeSelectAB}>
-                            {creditCardNames.map(opt => <option>{opt}</option>)}
+                            {creditCardNames.map((opt, index) => <option key={index}>{opt}</option>)}
                         </select>
                     </div>
                     <Select text={'Periodo a pagar'} id={'pay-credit-card-period'} options={period} />

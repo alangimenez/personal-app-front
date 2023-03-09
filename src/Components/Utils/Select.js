@@ -3,7 +3,7 @@ function Select({ text, id, options }) {
         <div className="form-group">
             <label htmlFor={`${id}`}>{text}</label>
             <select className="form-control" id={`${id}`}>
-                {options.map(opt => <option>{opt}</option>)}
+                {options.map((opt, index) => <option key={index}>{opt}</option>)}
             </select>
         </div>
     )

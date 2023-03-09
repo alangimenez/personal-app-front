@@ -45,7 +45,7 @@ function HistoricalInvestment({path}) {
                 </thead>
                 <tbody>
                     {
-                        historicalInvestment.map(e => <tr>
+                        historicalInvestment.map((e, index) => <tr key={index}>
                             <td>{e.name}</td>
                             <td>{e.ticket}</td>
                             <td>{e.operationDate}</td>

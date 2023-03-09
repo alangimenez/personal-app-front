@@ -75,7 +75,7 @@ function ModalUpdateQuoteManually({ path }) {
                         <div className="form-group">
                             <label htmlFor='ticket'>Ticket</label>
                             <select className="form-control" id='quote-manual-ticket'>
-                                {tickets.map(opt => <option>{opt}</option>)}
+                                {tickets.map((opt, index) => <option key={index}>{opt}</option>)}
                             </select>
                         </div>
                         <LabelInput text={'Volumen'} id={'quote-manual-volume'} type={'number'} />

@@ -58,7 +58,7 @@ function ExpensesTables({ path }) {
             </thead>
             <tbody>
                 {
-                    lastExpenses.map(e => <tr>
+                    lastExpenses.map((e, index) => <tr key={index}>
                         <td>{e.date}</td>
                         <td>{e.debit}</td>
                         <td>{e.debitCurrency}</td>
