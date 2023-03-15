@@ -96,7 +96,8 @@ function ModalNewCreditCardExpense({ path }) {
 
     const [creditCard, setCreditCard] = useState([])
     const [creditCardNames, setCreditCardNames] = useState([])
-    const [period, setPeriod] = useState([])
+    const [year, setYear] = useState([])
+    const [month, setMonth] = useState([])
 
     const getOpenPeriodByCreditCard = () => {
         fetch(`${path}/expensecreditcard/period/OPEN`)
@@ -106,15 +107,25 @@ function ModalNewCreditCardExpense({ path }) {
                 const array = []
                 data.map(it => array.push(it.name))
                 setCreditCardNames(array)
-                setPeriod(data[0].openPeriods)
             })
     }
 
     useEffect(() => { getOpenPeriodByCreditCard() }, [])
 
-    const handleChangeSelectA = (event) => {
+    const [keyOfCreditCard, setKeyOfCreditCard] = useState(0)
+    const handleChangeSelectCreditCard = (event) => {
         const key = creditCard.findIndex(at => at.name == event.target.value)
-        setPeriod(creditCard[key].openPeriods)
+        setKeyOfCreditCard(key)
+        const arrayOfYears = []
+        creditCard[key].openPeriods.map(p => arrayOfYears.push(p.year))
+        setYear(arrayOfYears)
+    }
+
+    const handleChangeSelectYear = (event) => {
+        const keyOfPeriod = creditCard[keyOfCreditCard].openPeriods.findIndex(p => p.year == event.target.value)
+        const arrayOfMonths = []
+        creditCard[keyOfCreditCard].openPeriods[keyOfPeriod].month.map(p => arrayOfMonths.push(p))
+        setMonth(arrayOfMonths)
     }
 
     return (
@@ -126,14 +137,19 @@ function ModalNewCreditCardExpense({ path }) {
                 <>
                     <form>
                         <LabelInput text={'Fecha'} id={'new-expense-credit-card-date'} type={'date'} />
-                        {/* <Select text={'Tarjeta'} id={'new-expense-credit-card-name'} options={creditCardNames} onChange={handleChangeSelectA}/> */}
                         <div className="form-group">
                             <label htmlFor='new-expense-credit-card-name'>Tarjeta</label>
-                            <select className="form-control" id='new-expense-credit-card-name' onChange={handleChangeSelectA}>
+                            <select className="form-control" id='new-expense-credit-card-name' onChange={handleChangeSelectCreditCard}>
                                 {creditCardNames.map(opt => <option>{opt}</option>)}
                             </select>
                         </div>
-                        <Select text={'Periodo'} id={'new-expense-credit-card-period'} options={period} />
+                        <div className="form-group">
+                            <label htmlFor='new-expense-credit-card-year'>Año</label>
+                            <select className="form-control" id='new-expense-credit-card-year' onChange={handleChangeSelectYear}>
+                                {year.map(opt => <option>{opt}</option>)}
+                            </select>
+                        </div>
+                        <Select text={'Mes'} id={'new-expense-credit-card-mes'} options={month} />
                         <LabelTextArea text={'Comentarios'} id={'new-expense-credit-card-comments'} />
                         <NewInputs path={path} />
 
