@@ -10,7 +10,7 @@ import HistoricalInvestment from './Components/HistoricalInvestment'
 import Portfolio from './Components/Portfolio/Portfolio';
 import Balance from './Components/Balance';
 import { DataContextProvider } from './Components/Context/Context';
-import CreditCard from './Components/Expenses/CreditCard/CreditCard';
+import CreditCard from './Components/CreditCard/CreditCardMain';
 import RefundMain from './Components/Refund/RefundMain';
 
 function App() {

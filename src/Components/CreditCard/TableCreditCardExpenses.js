@@ -1,4 +1,4 @@
-import Select from "../../Utils/Select"
+import Select from "../Utils/Select"
 import { useEffect, useState } from "react"
 
 function TableCreditCardExpenses({ path }) {
@@ -46,10 +46,23 @@ function TableCreditCardExpenses({ path }) {
 
     useEffect(() => { getExpensesByCreditCard() }, [])
 
-    const [period, setPeriod] = useState([])
+    const [year, setYear] = useState([])
+    const [month, setMonth] = useState([])
+    const [keyOfCreditCard, setKeyOfCreditCard] = useState(0)
     const handleChangeSelectCreditCard = event => {
         const key = creditCardPeriods.findIndex(ccp => ccp.name == event.target.value)
-        setPeriod(creditCardPeriods[key].periods)
+        setKeyOfCreditCard(key)
+        const arrayOfYears = []
+        console.log(creditCardPeriods[key])
+        creditCardPeriods[key].openPeriods.map(p => arrayOfYears.push(p.year))
+        setYear(arrayOfYears)
+    }
+
+    const handleChangeSelectYear = (event) => {
+        const keyOfPeriod = creditCardPeriods[keyOfCreditCard].openPeriods.findIndex(p => p.year == event.target.value)
+        const arrayOfMonths = []
+        creditCardPeriods[keyOfCreditCard].openPeriods[keyOfPeriod].month.map(p => arrayOfMonths.push(p))
+        setMonth(arrayOfMonths)
     }
 
     const [expenses, setExpenses] = useState([])
@@ -83,35 +96,46 @@ function TableCreditCardExpenses({ path }) {
                         {creditCardNames.map(opt => <option>{opt}</option>)}
                     </select>
                 </div>
-                <Select text={'Periodo'} id={'table-credit-card-expenses-period'} options={period} />
+                <div className="form-group">
+                    <label htmlFor='new-expense-credit-card-name'>Año</label>
+                    <select className="form-control" id='new-expense-credit-card-name' onChange={handleChangeSelectCreditCard}>
+                        {year.map(opt => <option>{opt}</option>)}
+                    </select>
+                </div>
+                <div className="form-group">
+                    <label htmlFor='new-expense-credit-card-year'>Mes</label>
+                    <select className="form-control" id='new-expense-credit-card-year' onChange={handleChangeSelectYear}>
+                        {month.map(opt => <option>{opt}</option>)}
+                    </select>
+                </div>
                 <button type="button" className="btn btn-primary" id="table-credit-card-expenses-get" onClick={showExpenses}>Mostrar</button>
             </form>
 
             <p>Status: <strong>{status}</strong>. Cierre: <strong>{closeDate}</strong>. Vencimiento: <strong>{paymentDate}</strong>.</p>
 
             <table className='table table-striped'>
-                    <thead>
-                        <tr>
-                            <td><strong>Fecha</strong></td>
-                            <td><strong>Cuenta</strong></td>
-                            <td><strong>Importe</strong></td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {
-                            expenses.map(e => <tr>
-                                <td>{e.date}</td>
-                                <td>{e.account}</td>
-                                <td>{e.amount}</td>
-                            </tr>)
-                        }
-                        <tr>
-                            <td><strong>Total</strong></td>
-                            <td></td>
-                            <td><strong>{totalAmount.toLocaleString('es')}</strong></td>
-                        </tr>
-                    </tbody>
-                </table>
+                <thead>
+                    <tr>
+                        <td><strong>Fecha</strong></td>
+                        <td><strong>Cuenta</strong></td>
+                        <td><strong>Importe</strong></td>
+                    </tr>
+                </thead>
+                <tbody>
+                    {
+                        expenses.map(e => <tr>
+                            <td>{e.date}</td>
+                            <td>{e.account}</td>
+                            <td>{e.amount}</td>
+                        </tr>)
+                    }
+                    <tr>
+                        <td><strong>Total</strong></td>
+                        <td></td>
+                        <td><strong>{totalAmount.toLocaleString('es')}</strong></td>
+                    </tr>
+                </tbody>
+            </table>
         </>
     )
 }

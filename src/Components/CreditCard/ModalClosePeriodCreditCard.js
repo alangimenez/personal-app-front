@@ -1,7 +1,7 @@
-import ModalBody from "../../Utils/ModalBody"
-import ModalButton from "../../Utils/ModalButton"
-import Select from "../../Utils/Select"
-import InfoMessage from "../../Utils/InfoMessage"
+import ModalBody from "../Utils/ModalBody"
+import ModalButton from "../Utils/ModalButton"
+import Select from "../Utils/Select"
+import InfoMessage from "../Utils/InfoMessage"
 import { useState, useEffect } from "react"
 
 function ModalClosePeriodCreditCard({ path }) {

@@ -1,12 +1,12 @@
-import DataContext from "../../Context/Context"
-import InfoMessage from "../../Utils/InfoMessage"
-import LabelInput from "../../Utils/LabelInput"
-import LabelTextArea from "../../Utils/LabelTextArea"
-import ModalButton from "../../Utils/ModalButton"
-import Select from "../../Utils/Select"
-import ModalBody from "../../Utils/ModalBody"
+import DataContext from "../Context/Context"
+import InfoMessage from "../Utils/InfoMessage"
+import LabelInput from "../Utils/LabelInput"
+import LabelTextArea from "../Utils/LabelTextArea"
+import ModalButton from "../Utils/ModalButton"
+import Select from "../Utils/Select"
+import ModalBody from "../Utils/ModalBody"
 import { useState, useEffect, useContext } from "react"
-import NewInputs from "../../Expenses/NewInputs"
+import NewInputs from "../Expenses/NewInputs"
 
 function ModalNewCreditCardExpense({ path }) {
 

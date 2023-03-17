@@ -5,7 +5,7 @@ import ModalNewPeriodOfCreditCard from "./ModalNewPeriodOfCreditCard"
 import ModalPayCreditCard from "./ModalPayCreditCard"
 import TableCreditCardExpenses from "./TableCreditCardExpenses"
 
-function CreditCard({ path }) {
+function CreditCardMain({ path }) {
 
     return (
         <div>
@@ -19,4 +19,4 @@ function CreditCard({ path }) {
     )
 }
 
-export default CreditCard
+export default CreditCardMain

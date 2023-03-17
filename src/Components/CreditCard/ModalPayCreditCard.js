@@ -1,8 +1,8 @@
-import ModalBody from "../../Utils/ModalBody"
-import ModalButton from "../../Utils/ModalButton"
-import Select from "../../Utils/Select"
+import ModalBody from "../Utils/ModalBody"
+import ModalButton from "../Utils/ModalButton"
+import Select from "../Utils/Select"
 import { useState, useEffect } from "react"
-import InfoMessage from "../../Utils/InfoMessage"
+import InfoMessage from "../Utils/InfoMessage"
 
 function ModalPayCreditCard({ path }) {
 

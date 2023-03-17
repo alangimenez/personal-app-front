@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react"
-import LabelInput from "../../Utils/LabelInput"
-import ModalBody from "../../Utils/ModalBody"
-import ModalButton from "../../Utils/ModalButton"
-import Select from "../../Utils/Select"
-import InfoMessage from "../../Utils/InfoMessage"
+import LabelInput from "../Utils/LabelInput"
+import ModalBody from "../Utils/ModalBody"
+import ModalButton from "../Utils/ModalButton"
+import Select from "../Utils/Select"
+import InfoMessage from "../Utils/InfoMessage"
 
 function ModalNewPeriodOfCreditCard({ path }) {
 
