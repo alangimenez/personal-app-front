@@ -5,15 +5,15 @@ function TableDetail({ columns = [], rows = [], path }) {
             <thead>
                 <tr>
                     {
-                        columns.map(e =>
-                            <td><strong>{e}</strong></td>
+                        columns.map((e, index) =>
+                            <td key={index}><strong>{e}</strong></td>
                         )
                     }
                 </tr>
             </thead>
             <tbody>
                 {
-                    rows.map(e => <tr>
+                    rows.map((e, index) => <tr key={index}>
                         <td>{e.assetType}</td>
                         <td>{e.arsBna.toLocaleString('es')}</td>
                         <td>{e.usdBna.toLocaleString('es')}</td>

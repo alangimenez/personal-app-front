@@ -33,7 +33,7 @@ function Cashflow({ path }) {
                 </thead>
                 <tbody>
                     {
-                        cashflow.map(e => <tr>
+                        cashflow.map((e, index) => <tr key={index}>
                             <td>{e.bondName}</td>
                             <td>{e.dateInterest}</td>
                             <td>{e.amountInterest}</td>

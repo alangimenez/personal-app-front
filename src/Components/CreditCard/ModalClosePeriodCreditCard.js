@@ -112,7 +112,7 @@ function ModalClosePeriodCreditCard({ path }) {
                     <div className="form-group">
                         <label htmlFor='close-period-credit-card-name'>Tarjeta</label>
                         <select className="form-control" id='close-period-credit-card-name' onChange={handleChangeSelectAB}>
-                            {creditCardNames.map(opt => <option>{opt}</option>)}
+                            {creditCardNames.map((opt, index) => <option key={index}>{opt}</option>)}
                         </select>
                     </div>
                     {/* <Select text={'Tarjeta'} id={'close-period-credit-card-name'} options={creditCardNames} onChange={handleChangeSelectAB} /> */}

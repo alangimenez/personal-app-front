@@ -4,9 +4,9 @@ import LabelInput from "../Utils/LabelInput"
 import { useEffect, useState, useContext } from 'react'
 
 function NewInputs({ path }) {
-    const { addItems, items } = useContext(DataContext)
+    const { addItems, items, accountsOptions } = useContext(DataContext)
 
-    const [accountsOptions, setAccountsOptions] = useState([])
+    /* const [accountsOptions, setAccountsOptions] = useState([])
     const getAccountOptions = () => {
         let array = []
         fetch(`${path}/account/expenses`)
@@ -17,7 +17,7 @@ function NewInputs({ path }) {
                 setAccountsOptions(array)
             })
 
-    }
+    } */
 
     const addOtherInput = () => {
         const div = document.createElement('div')
@@ -65,7 +65,7 @@ function NewInputs({ path }) {
     }
 
 
-    useEffect(async () =>  getAccountOptions(), [])
+    /* useEffect(async () =>  getAccountOptions(), []) */
 
     return (
         <div>

@@ -103,7 +103,21 @@ function ModalNewExpense({ path }) {
             })
     }
 
-    useEffect(() => { getAccounts() }, [])
+
+    const { setAccountsOptions } = useContext(DataContext)
+    const getAccountOptions = () => {
+        let array = []
+        fetch(`${path}/account/expenses`)
+            .then((res) => res.json())
+            .then((data) => {
+                data.map((account) => array.push(account.name))
+                console.log('array' + array)
+                setAccountsOptions(array)
+            })
+
+    }
+
+    useEffect(() => { getAccounts(); getAccountOptions() }, [])
 
     return (
         <div>

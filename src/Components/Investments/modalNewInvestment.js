@@ -5,7 +5,7 @@ import ModalBody from "../Utils/ModalBody"
 import { useState, useEffect } from 'react'
 import InfoMessage from "../Utils/InfoMessage"
 
-function NewInvestment({ path }) {
+function ModalNewInvestment({ path }) {
 
     // save investment register
     const saveInvestment = () => {
@@ -112,13 +112,13 @@ function NewInvestment({ path }) {
                         <div className="form-group">
                             <label htmlFor='assetType'>Asset type</label>
                             <select className="form-control" id='assetType' onChange={handleChangeSelect}>
-                                {assetTypes.map(opt => <option>{opt}</option>)}
+                                {assetTypes.map((opt, index) => <option key={index}>{opt}</option>)}
                             </select>
                         </div>
                         <div className="form-group">
                             <label htmlFor='ticket'>Ticket</label>
                             <select className="form-control" id='ticket'>
-                                {listOfAssets.map(opt => <option>{opt}</option>)}
+                                {listOfAssets.map((opt, index) => <option key={index}>{opt}</option>)}
                             </select>
                         </div>
                         <LabelInput text={'Purchase date'} id={'purchaseDate'} type={'date'} />
@@ -142,4 +142,4 @@ function NewInvestment({ path }) {
     )
 }
 
-export default NewInvestment
+export default ModalNewInvestment
