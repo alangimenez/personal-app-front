@@ -80,7 +80,7 @@ function TableCreditCardExpenses({ path }) {
                 <div className="form-group">
                     <label htmlFor='table-credit-card-expenses-name'>Tarjeta</label>
                     <select className="form-control" id='table-credit-card-expenses-name' onChange={handleChangeSelectCreditCard}>
-                        {creditCardNames.map(opt => <option>{opt}</option>)}
+                        {creditCardNames.map((opt, index) => <option key={index}>{opt}</option>)}
                     </select>
                 </div>
                 <Select text={'Periodo'} id={'table-credit-card-expenses-period'} options={period} />
@@ -99,7 +99,7 @@ function TableCreditCardExpenses({ path }) {
                     </thead>
                     <tbody>
                         {
-                            expenses.map(e => <tr>
+                            expenses.map((e, index) => <tr key={index}>
                                 <td>{e.date}</td>
                                 <td>{e.account}</td>
                                 <td>{e.amount}</td>

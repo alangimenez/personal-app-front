@@ -31,8 +31,8 @@ function Balance ({path}) {
             </button>
             <div className="collapse navbar-collapse" id="navbarNav">
                 <ul className="navbar-nav">
-                    {balance.map(it => 
-                        <li className="nav-item" style={{marginLeft: 5, marginRight: 5}}>{it.name}: ${it.balance}</li>
+                    {balance.map((it, index) => 
+                        <li className="nav-item" style={{marginLeft: 5, marginRight: 5}} key={index}>{it.name}: ${it.balance}</li>
                     )}
                     <li className="nav-item" style={{marginLeft: 5, marginRight: 5}}>Beneficio MP remanente: ${benefitMP}</li>
                 </ul>

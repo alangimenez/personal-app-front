@@ -18,10 +18,12 @@ export const DataContextProvider = ({children}) => {
         setDate(date)
     }
 
+    const [accountsOptions, setAccountsOptions] = useState([])
+
     return (
-        <Context.Provider value={{addItems, items, resetItems, date, newDate}}>
+        <Context.Provider value={{addItems, items, resetItems, date, newDate, setAccountsOptions, accountsOptions}}>
             {children}
-        </Context.Provider>
+        </Context.Provider> 
     )
 }
 

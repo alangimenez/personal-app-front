@@ -27,13 +27,13 @@ function App() {
         <Routes>
           <Route path="/" element={<Demo path={path} />}></Route>
           <Route path="/ingresos" element={<EarningsMain path={path} />}></Route>
-          <Route path="/gastos" element={<Gastos path={path} />}></Route>
+          <Route exact path="/gastos" element={<Gastos path={path} />}></Route>
           <Route path="/inversiones" element={<Inversiones path={path} />} />
           <Route path="/cashflow" element={<Cashflow path={path} />}></Route>
           <Route path="/inversiones/historico" element={<HistoricalInvestment path={path} />} />
           <Route path="/portfolio" element={<Portfolio path={path} />} />
-          <Route path="/creditcard" element={<CreditCard path={path} />} />
-          <Route path="/refund" element={<RefundMain path={path} />} /> 
+          <Route exact path="/creditcard" element={<CreditCard path={path} />} />
+          <Route exact path="/refund" element={<RefundMain path={path} />} /> 
         </Routes>
       </DataContextProvider>
     </>

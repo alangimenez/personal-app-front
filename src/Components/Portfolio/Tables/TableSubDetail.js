@@ -18,15 +18,15 @@ function TableSubDetail({ columns = [], rows = [] }) {
             <thead>
                 <tr>
                     {
-                        columns.map(e =>
-                            <td><strong>{e}</strong></td>
+                        columns.map((e, index) =>
+                            <td key={index}><strong>{e}</strong></td>
                         )
                     }
                 </tr>
             </thead>
             <tbody>
                 {
-                    rows.map(e => <tr>
+                    rows.map((e, index) => <tr key={index}>
                         <td>{e.ticket}</td>
                         <td>{e.currency}</td>
                         <td>{e.priceArsBna.toLocaleString('es')}</td>

@@ -79,7 +79,7 @@ function TableOfRefunds({ path }) {
                 </thead>
                 <tbody>
                     {
-                        refunds.map(e => <tr>
+                        refunds.map((e, index) => <tr key={index}>
                             <td>{e.date}</td>
                             <td>{e.total.toLocaleString('es')}</td>
                             <td>{e.status}</td>

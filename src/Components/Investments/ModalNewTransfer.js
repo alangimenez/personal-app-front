@@ -70,13 +70,13 @@ function ModalNewTransfer({ path }) {
                     <div className="form-group">
                         <label htmlFor='modal-new-transfer-account-from'>Cuenta de origen</label>
                         <select className="form-control" id='modal-new-transfer-account-from'>
-                            {accounts.map(opt => <option>{opt}</option>)}
+                            {accounts.map((opt, index) => <option key={index}>{opt}</option>)}
                         </select>
                     </div>
                     <div className="form-group">
                         <label htmlFor='modal-new-transfer-account-to'>Cuenta de destino</label>
                         <select className="form-control" id='modal-new-transfer-account-to'>
-                            {accounts.map(opt => <option>{opt}</option>)}
+                            {accounts.map((opt, index) => <option key={index}>{opt}</option>)}
                         </select>
                     </div>
                     <LabelInput text={'Monto de transferencia'} id={'modal-new-transfer-amount'} type={'number'} />

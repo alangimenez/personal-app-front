@@ -1,7 +1,10 @@
+import { Link } from "react-router-dom"
+
 function Navbar() {
     return (
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
-            <a className="navbar-brand" href="/">Home</a>
+            {/* <a className="navbar-brand" href="/">Home</a> */}
+            <Link className="navbar-brand" to="/">Home</Link>
             <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span className="navbar-toggler-icon"></span>
             </button>
@@ -11,7 +14,8 @@ function Navbar() {
                         <a className="nav-link" href="/">Home</a>
                     </li> */}
                     <li className="nav-item">
-                        <a className="nav-link" href="/ingresos">Ingresos</a>
+                        {/* <a className="nav-link" href="/ingresos">Ingresos</a> */}
+                        <Link className="nav-link" to="/ingresos">Ingresos</Link>
                     </li>
                     {/* <li className="nav-item">
                         <a className="nav-link" href="/gastos">Gastos</a>
@@ -20,10 +24,14 @@ function Navbar() {
                         <a className="nav-link dropdown-toggle" href="/gastos" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Egresos
                         </a>
+                        {/* <Link to="/gastos" className="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >Egresos</Link> */}
                         <div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            <a className="dropdown-item" href="/gastos">Gastos</a>
+                            {/* <a className="dropdown-item" href="/gastos">Gastos</a>
                             <a className="dropdown-item" href="/creditcard">Tarjeta de crédito</a>
-                            <a className="dropdown-item" href="/refund">Devoluciones de gastos</a>
+                            <a className="dropdown-item" href="/refund">Devoluciones de gastos</a> */}
+                            <Link className="dropdown-item" to="/gastos">Gastos</Link>
+                            <Link className="dropdown-item" to="/creditcard">Tarjeta de crédito</Link>
+                            <Link className="dropdown-item" to="/refund">Devoluciones de gastos</Link>
                         </div>
                     </li>
                     <li className="nav-item dropdown">
@@ -31,10 +39,14 @@ function Navbar() {
                             Inversiones
                         </a>
                         <div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            <a className="dropdown-item" href="/inversiones">Resumen</a>
+                            {/* <a className="dropdown-item" href="/inversiones">Resumen</a>
                             <a className="dropdown-item" href="/cashflow">Cashflow</a>
                             <a className="dropdown-item" href="/inversiones/historico">Inversiones historicas</a>
-                            <a className="dropdown-item" href="/portfolio">Portfolio</a>
+                            <a className="dropdown-item" href="/portfolio">Portfolio</a> */}
+                            <Link className="dropdown-item" to="/inversiones">Resumen</Link>
+                            <Link className="dropdown-item" to="/cashflow">Cashflow</Link>
+                            <Link className="dropdown-item" to="/inversiones/historico">Inversiones historicas</Link>
+                            <Link className="dropdown-item" to="/portfolio">Portfolio</Link>
                         </div>
                     </li>
                 </ul>
