@@ -10,7 +10,7 @@ import NewInputs from "../Expenses/NewInputs"
 
 function ModalNewCreditCardExpense({ path }) {
 
-    const { items, resetItems } = useContext(DataContext)
+    const { items, resetItems, getAccountOptions, accountsOptions } = useContext(DataContext)
 
     const saveExpenseInCreditCard = () => {
         let mp = document.getElementById('new-expense-credit-card-mp').checked
@@ -33,7 +33,7 @@ function ModalNewCreditCardExpense({ path }) {
             accountsAmounts.push(eachExpense)
         }
 
-        const creditKey = creditCard.findIndex(cc => cc.name == document.getElementById('new-expense-credit-card-name').value)
+        const creditKey = periodsOfCreditCards.findIndex(cc => cc.name == document.getElementById('new-expense-credit-card-name').value)
 
         const requestOptions = {
             method: 'POST',
@@ -44,9 +44,10 @@ function ModalNewCreditCardExpense({ path }) {
                 "expenses": accountsAmounts,
                 "currency": 'ARS',
                 "comments": document.getElementById("new-expense-credit-card-comments").value,
-                "period": document.getElementById("new-expense-credit-card-period").value,
+                "year": document.getElementById("new-expense-credit-card-year").value,
+                "month": document.getElementById("new-expense-credit-card-month").value,
                 "benefitMP": mp,
-                "credit": creditCard[creditKey].credit
+                "credit": periodsOfCreditCards[creditKey].credit
             })
         }
 
@@ -83,7 +84,8 @@ function ModalNewCreditCardExpense({ path }) {
 
                     document.getElementById("new-expense-credit-card-date").value = ""
                     document.getElementById("new-expense-credit-card-comments").value = ""
-                    document.getElementById("new-expense-credit-card-period").value = ""
+                    document.getElementById("new-expense-credit-card-year").value = ""
+                    document.getElementById("new-expense-credit-card-month").value = ""
                     mp = false
                     const parent = document.getElementById('newInputsRoot')
                     while (parent.firstChild) {
@@ -94,7 +96,7 @@ function ModalNewCreditCardExpense({ path }) {
             })
     }
 
-    const [creditCard, setCreditCard] = useState([])
+    const [periodsOfCreditCards, setPeriodsOfCreditCards] = useState([])
     const [creditCardNames, setCreditCardNames] = useState([])
     const [year, setYear] = useState([])
     const [month, setMonth] = useState([])
@@ -103,28 +105,45 @@ function ModalNewCreditCardExpense({ path }) {
         fetch(`${path}/expensecreditcard/period/OPEN`)
             .then(res => res.json())
             .then(data => {
-                setCreditCard(data)
+                setPeriodsOfCreditCards(data)
                 const array = []
                 data.map(it => array.push(it.name))
+                array.unshift("")
                 setCreditCardNames(array)
             })
     }
 
-    useEffect(() => { getOpenPeriodByCreditCard() }, [])
+    useEffect(() => { 
+        getOpenPeriodByCreditCard()
+        if(accountsOptions.length == 0) {
+            getAccountOptions()
+        }
+     }, [])
 
     const [keyOfCreditCard, setKeyOfCreditCard] = useState(0)
     const handleChangeSelectCreditCard = (event) => {
-        const key = creditCard.findIndex(at => at.name == event.target.value)
-        setKeyOfCreditCard(key)
-        const arrayOfYears = []
-        creditCard[key].openPeriods.map(p => arrayOfYears.push(p.year))
-        setYear(arrayOfYears)
+        const { key, year } = changeArrayOfYears(event.target.value)
+        changeArrayOfMonths(year, key)
     }
 
-    const handleChangeSelectYear = (event) => {
-        const keyOfPeriod = creditCard[keyOfCreditCard].openPeriods.findIndex(p => p.year == event.target.value)
+    const handleChangeSelectYear = (event) => changeArrayOfMonths(event.target.value, keyOfCreditCard)
+
+    const changeArrayOfYears = name => {
+        const key = periodsOfCreditCards.findIndex(ccp => ccp.name == name)
+        setKeyOfCreditCard(key)
+        const arrayOfYears = []
+        periodsOfCreditCards[key].openPeriods.map(p => arrayOfYears.push(p.year))
+        setYear(arrayOfYears)
+        return {
+            "key": key,
+            "year": arrayOfYears[0]
+        }
+    }
+
+    const changeArrayOfMonths = (year, key) => {
+        const keyOfPeriod = periodsOfCreditCards[key].openPeriods.findIndex(p => p.year == year)
         const arrayOfMonths = []
-        creditCard[keyOfCreditCard].openPeriods[keyOfPeriod].month.map(p => arrayOfMonths.push(p))
+        periodsOfCreditCards[key].openPeriods[keyOfPeriod].month.map(p => arrayOfMonths.push(p))
         setMonth(arrayOfMonths)
     }
 
@@ -146,12 +165,12 @@ function ModalNewCreditCardExpense({ path }) {
                         <div className="form-group">
                             <label htmlFor='new-expense-credit-card-year'>Año</label>
                             <select className="form-control" id='new-expense-credit-card-year' onChange={handleChangeSelectYear}>
-                                {year.map(opt => <option>{opt}</option>)}
+                                {year.map((opt, index) => <option key={index}>{opt}</option>)}
                             </select>
                         </div>
-                        <Select text={'Mes'} id={'new-expense-credit-card-mes'} options={month} />
+                        <Select text={'Mes'} id={'new-expense-credit-card-month'} options={month} />
                         <LabelTextArea text={'Comentarios'} id={'new-expense-credit-card-comments'} />
-                        {/* <NewInputs path={path} /> */}
+                        <NewInputs path={path} />
 
                         <div className="form-check">
                             <input className="form-check-input" type="checkbox" value="" id="new-expense-credit-card-mp"></input>

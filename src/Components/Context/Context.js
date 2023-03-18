@@ -4,6 +4,8 @@ const Context = React.createContext()
 
 export const DataContextProvider = ({children}) => {
 
+    const path = process.env.REACT_APP_BASEPATH
+
     const [items, setItems] = useState(0)
     const addItems = () => {
         setItems(items + 1)
@@ -20,8 +22,19 @@ export const DataContextProvider = ({children}) => {
 
     const [accountsOptions, setAccountsOptions] = useState([])
 
+    const getAccountOptions = () => {
+        let array = []
+        fetch(`${path}/account/expenses`)
+            .then((res) => res.json())
+            .then((data) => {
+                data.map((account) => array.push(account.name))
+                console.log('array' + array)
+                setAccountsOptions(array)
+            })
+    }
+
     return (
-        <Context.Provider value={{addItems, items, resetItems, date, newDate, setAccountsOptions, accountsOptions}}>
+        <Context.Provider value={{addItems, items, resetItems, date, newDate, getAccountOptions, accountsOptions}}>
             {children}
         </Context.Provider> 
     )

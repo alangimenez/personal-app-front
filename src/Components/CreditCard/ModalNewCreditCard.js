@@ -45,7 +45,8 @@ function ModalNewCreditCard({ path }) {
                 "debtAccount": document.getElementById("new-credit-card-debt-account").value,
                 "closeDate": document.getElementById("new-credit-card-close-date").value,
                 "paymentDate": document.getElementById("new-credit-card-payment-date").value,
-                "period": document.getElementById("new-credit-card-period").value
+                "year": document.getElementById("new-credit-card-year").value,
+                "month": document.getElementById("new-credit-card-month").value
             })
         }
 
@@ -79,7 +80,8 @@ function ModalNewCreditCard({ path }) {
                 <form>
                     <LabelInput text={'Nombre de la tarjeta'} id={'new-credit-card-name'} type={'string'} />
                     <Select text={'Cuenta a debitar'} id={'new-credit-card-debt-account'} options={liquidAccounts} />
-                    <Select text={'Periodo inicial'} id={'new-credit-card-period'} options={['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']} />
+                    <Select text={'Año inicial'} id={'new-credit-card-year'} options={[2023, 2024, 2025, 2026, 2027]} />
+                    <Select text={'Mes inicial'} id={'new-credit-card-month'} options={['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']} />
                     <LabelInput text={'Fecha de cierre del periodo inicial'} id={'new-credit-card-close-date'} type={'date'} />
                     <LabelInput text={'Fecha de pago del periodo inicial'} id={'new-credit-card-payment-date'} type={'date'} />
                 </form>

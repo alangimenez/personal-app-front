@@ -114,7 +114,6 @@ function ModalNewExpense({ path }) {
                 console.log('array' + array)
                 setAccountsOptions(array)
             })
-
     }
 
     useEffect(() => { getAccounts(); getAccountOptions() }, [])
