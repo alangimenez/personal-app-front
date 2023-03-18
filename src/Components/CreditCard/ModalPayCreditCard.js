@@ -1,12 +1,12 @@
-import ModalBody from "../../Utils/ModalBody"
-import ModalButton from "../../Utils/ModalButton"
-import Select from "../../Utils/Select"
+import ModalBody from "../Utils/ModalBody"
+import ModalButton from "../Utils/ModalButton"
+import Select from "../Utils/Select"
 import { useState, useEffect } from "react"
-import InfoMessage from "../../Utils/InfoMessage"
+import InfoMessage from "../Utils/InfoMessage"
 
 function ModalPayCreditCard({ path }) {
 
-    const [creditCard, setCreditCard] = useState([])
+    const [periodsOfCreditCards, setPeriodsOfCreditCards] = useState([])
     const [creditCardNames, setCreditCardNames] = useState([])
     const [period, setPeriod] = useState([])
     const [disabled, setDisabled] = useState(true)
@@ -15,7 +15,7 @@ function ModalPayCreditCard({ path }) {
         fetch(`${path}/expensecreditcard/period/CLOSED`)
             .then(res => res.json())
             .then(data => {
-                setCreditCard(data)
+                setPeriodsOfCreditCards(data)
                 const array = []
                 data.map(it => array.push(it.name))
                 array.unshift("")
@@ -23,41 +23,55 @@ function ModalPayCreditCard({ path }) {
             })
     }
 
-    useEffect(() => {
-        getClosedPeriodByCreditCard()
-        getExpensesByCreditCardAndPeriod()
-    }, [])
+    useEffect(() => { getClosedPeriodByCreditCard() }, [])
 
-    const handleChangeSelectAB = (event) => {
-        const key = creditCard.findIndex(at => at.name == event.target.value)
-        setPeriod(creditCard[key].openPeriods)
+    const [year, setYear] = useState([])
+    const [month, setMonth] = useState([])
+    const [keyOfCreditCard, setKeyOfCreditCard] = useState(0)
+    const handleChangeSelectCreditCard = (event) => {
+        const { key, year } = changeArrayOfYears(event.target.value)
+        changeArrayOfMonths(year, key)
     }
 
-    const [creditCardDetail, setCreditCardDetail] = useState([])
-    const getExpensesByCreditCardAndPeriod = () => {
-        fetch(`${path}/expensecreditcard/CLOSED`)
-            .then(res => res.json())
-            .then(data => {
-                setCreditCardDetail(data)
-            })
+    const handleChangeSelectYear = (event) => changeArrayOfMonths(event.target.value, keyOfCreditCard)
+
+    const changeArrayOfYears = name => {
+        const key = periodsOfCreditCards.findIndex(ccp => ccp.name == name)
+        setKeyOfCreditCard(key)
+        const arrayOfYears = []
+        periodsOfCreditCards[key].openPeriods.map(p => arrayOfYears.push(p.year))
+        setYear(arrayOfYears)
+        return {
+            "key": key,
+            "year": arrayOfYears[0]
+        }
+    }
+
+    const changeArrayOfMonths = (year, key) => {
+        const keyOfPeriod = periodsOfCreditCards[key].openPeriods.findIndex(p => p.year == year)
+        const arrayOfMonths = []
+        periodsOfCreditCards[key].openPeriods[keyOfPeriod].month.map(p => arrayOfMonths.push(p))
+        setMonth(arrayOfMonths)
     }
 
     const [expensesDetail, setExpensesDetail] = useState([])
     const [totalAmount, setTotalAmount] = useState(0)
     const showDetailOfPeriodOfCreditCard = () => {
         const name = document.getElementById('pay-credit-card-name').value
-        const period = document.getElementById('pay-credit-card-period').value
-        creditCardDetail.map(ccd => {
-            if (ccd.name == name && ccd.period == period) {
-                setExpensesDetail(ccd.expenses)
+        const year = document.getElementById('pay-credit-card-year').value
+        const month = document.getElementById('pay-credit-card-month').value
+        
+        fetch(`${path}/expensecreditcard/expenses?name=${name}&year=${year}&month=${month}`)
+            .then(res => res.json())
+            .then(data => {
+                setExpensesDetail(data[0].expenses)
 
                 let total = 0
-                ccd.expenses.map(e => {
+                data[0].expenses.map(e => {
                     total = total + e.amount
                 })
                 setTotalAmount(total)
-            }
-        })
+            })
 
         setDisabled(false)
     }
@@ -65,21 +79,26 @@ function ModalPayCreditCard({ path }) {
     const payPeriod = () => {
         document.getElementById('pay-credit-card-close').disabled = true
         document.getElementById('pay-credit-card-select').disabled = true
-        document.getElementById('pay-credit-card-save').disabled = true
+        setDisabled(true)
         document.getElementById('pay-credit-card-msg').style.display = "unset"
 
         const requestOptions = {
-            method: 'POST',
+            method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 "name": document.getElementById("pay-credit-card-name").value,
-                "period": document.getElementById("pay-credit-card-period").value,
+                "year": document.getElementById("pay-credit-card-year").value,
+                "month": document.getElementById("pay-credit-card-month").value,
                 "status": 'PAID'
             })
         }
 
         fetch(`${path}/expensecreditcard/period/status`, requestOptions)
             .then(res => res.json())
+            .then(() => {
+                setExpensesDetail([])
+                setTotalAmount(0)
+            })
             .then(data => {
                 document.getElementById('pay-credit-card-msg').innerHTML = 'El pago del periodo fue registrado con éxito'
                 document.getElementById('pay-credit-card-msg').className = 'alert alert-success'
@@ -92,7 +111,8 @@ function ModalPayCreditCard({ path }) {
                     document.getElementById('pay-credit-card-save').disabled = false
 
                     document.getElementById("pay-credit-card-name").value = ""
-                    document.getElementById("pay-credit-card-period").value = ""
+                    document.getElementById("pay-credit-card-year").value = ""
+                    document.getElementById("pay-credit-card-month").value = ""
 
                     setExpensesDetail([])
                 }, 2000)
@@ -109,11 +129,17 @@ function ModalPayCreditCard({ path }) {
                 <form>
                     <div className="form-group">
                         <label htmlFor='pay-credit-card-name'>Tarjeta</label>
-                        <select className="form-control" id='pay-credit-card-name' onChange={handleChangeSelectAB}>
+                        <select className="form-control" id='pay-credit-card-name' onChange={handleChangeSelectCreditCard}>
                             {creditCardNames.map((opt, index) => <option key={index}>{opt}</option>)}
                         </select>
                     </div>
-                    <Select text={'Periodo a pagar'} id={'pay-credit-card-period'} options={period} />
+                    <div className="form-group">
+                        <label htmlFor='pay-credit-card-year'>Año</label>
+                        <select className="form-control" id='pay-credit-card-year' onChange={handleChangeSelectYear}>
+                            {year.map((opt, index) => <option key={index}>{opt}</option>)}
+                        </select>
+                    </div>
+                    <Select text={'Mes'} id={'pay-credit-card-month'} options={month} />
                 </form>
 
                 <table className='table table-striped'>
@@ -126,7 +152,7 @@ function ModalPayCreditCard({ path }) {
                     </thead>
                     <tbody>
                         {
-                            expensesDetail.map(e => <tr>
+                            expensesDetail.map((e, index) => <tr key={index}>
                                 <td>{e.date}</td>
                                 <td>{e.account}</td>
                                 <td>{e.amount}</td>

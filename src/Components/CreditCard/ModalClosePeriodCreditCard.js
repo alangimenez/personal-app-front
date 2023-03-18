@@ -1,66 +1,76 @@
-import ModalBody from "../../Utils/ModalBody"
-import ModalButton from "../../Utils/ModalButton"
-import Select from "../../Utils/Select"
-import InfoMessage from "../../Utils/InfoMessage"
+import ModalBody from "../Utils/ModalBody"
+import ModalButton from "../Utils/ModalButton"
+import Select from "../Utils/Select"
+import InfoMessage from "../Utils/InfoMessage"
 import { useState, useEffect } from "react"
 
 function ModalClosePeriodCreditCard({ path }) {
 
-    const [creditCard, setCreditCard] = useState([])
+    const [periodsOfCreditCards, setPeriodsOfCreditCards] = useState([])
     const [creditCardNames, setCreditCardNames] = useState([])
-    const [period, setPeriod] = useState([])
     const [disabled, setDisabled] = useState(true)
 
     const getOpenPeriodByCreditCard = () => {
         fetch(`${path}/expensecreditcard/period/OPEN`)
             .then(res => res.json())
             .then(data => {
-                setCreditCard(data)
+                setPeriodsOfCreditCards(data)
                 const array = []
                 data.map(it => array.push(it.name))
                 array.unshift("")
                 setCreditCardNames(array)
-                /* setPeriod(data[0].openPeriods) */
             })
     }
 
-    useEffect(() => {
-        getOpenPeriodByCreditCard()
-        getExpensesByCreditCardAndPeriod()
-    }, [])
+    useEffect(() => { getOpenPeriodByCreditCard() }, [])
 
-    const handleChangeSelectAB = (event) => {
-        const key = creditCard.findIndex(at => at.name == event.target.value)
-        setPeriod(creditCard[key].openPeriods)
-        // showDetailOfPeriodOfCreditCard(event.target.value, document.getElementById('close-period-credit-card-period').value)
+    const [year, setYear] = useState([])
+    const [month, setMonth] = useState([])
+    const [keyOfCreditCard, setKeyOfCreditCard] = useState(0)
+    const handleChangeSelectCreditCard = (event) => {
+        const { key, year } = changeArrayOfYears(event.target.value)
+        changeArrayOfMonths(year, key)
     }
 
-    const [creditCardDetail, setCreditCardDetail] = useState([])
-    const getExpensesByCreditCardAndPeriod = () => {
-        console.log("paso")
-        fetch(`${path}/expensecreditcard/OPEN`)
-            .then(res => res.json())
-            .then(data => {
-                setCreditCardDetail(data)
-            })
+    const handleChangeSelectYear = (event) => changeArrayOfMonths(event.target.value, keyOfCreditCard)
+
+    const changeArrayOfYears = name => {
+        const key = periodsOfCreditCards.findIndex(ccp => ccp.name == name)
+        setKeyOfCreditCard(key)
+        const arrayOfYears = []
+        periodsOfCreditCards[key].openPeriods.map(p => arrayOfYears.push(p.year))
+        setYear(arrayOfYears)
+        return {
+            "key": key,
+            "year": arrayOfYears[0]
+        }
+    }
+
+    const changeArrayOfMonths = (year, key) => {
+        const keyOfPeriod = periodsOfCreditCards[key].openPeriods.findIndex(p => p.year == year)
+        const arrayOfMonths = []
+        periodsOfCreditCards[key].openPeriods[keyOfPeriod].month.map(p => arrayOfMonths.push(p))
+        setMonth(arrayOfMonths)
     }
 
     const [expensesDetail, setExpensesDetail] = useState([])
     const [totalAmount, setTotalAmount] = useState(0)
     const showDetailOfPeriodOfCreditCard = () => {
         const name = document.getElementById('close-period-credit-card-name').value
-        const period = document.getElementById('close-period-credit-card-period').value
-        creditCardDetail.map(ccd => {
-            if (ccd.name == name && ccd.period == period) {
-                setExpensesDetail(ccd.expenses)
+        const year = document.getElementById('close-period-credit-card-year').value
+        const month = document.getElementById('close-period-credit-card-month').value
+
+        fetch(`${path}/expensecreditcard/expenses?name=${name}&year=${year}&month=${month}`)
+            .then(res => res.json())
+            .then(data => {
+                setExpensesDetail(data[0].expenses)
 
                 let total = 0
-                ccd.expenses.map(e => {
+                data[0].expenses.map(e => {
                     total = total + e.amount
                 })
                 setTotalAmount(total)
-            }
-        })
+            })
 
         setDisabled(false)
     }
@@ -68,21 +78,26 @@ function ModalClosePeriodCreditCard({ path }) {
     const closePeriod = () => {
         document.getElementById('close-period-credit-card-close').disabled = true
         document.getElementById('close-period-credit-card-select').disabled = true
-        document.getElementById('close-period-credit-card-save').disabled = true
+        setDisabled(true)
         document.getElementById('close-period-credit-card-msg').style.display = "unset"
 
         const requestOptions = {
-            method: 'POST',
+            method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 "name": document.getElementById("close-period-credit-card-name").value,
-                "period": document.getElementById("close-period-credit-card-period").value,
+                "year": document.getElementById("close-period-credit-card-year").value,
+                "month": document.getElementById("close-period-credit-card-month").value,
                 "status": 'CLOSED'
             })
         }
 
         fetch(`${path}/expensecreditcard/period/status`, requestOptions)
             .then(res => res.json())
+            .then(() => {
+                setExpensesDetail([])
+                setTotalAmount(0)
+            })
             .then(data => {
                 document.getElementById('close-period-credit-card-msg').innerHTML = 'El periodo fue cerrado con éxito'
                 document.getElementById('close-period-credit-card-msg').className = 'alert alert-success'
@@ -92,14 +107,13 @@ function ModalClosePeriodCreditCard({ path }) {
                     document.getElementById('close-period-credit-card-msg').style.display = "none"
                     document.getElementById('close-period-credit-card-close').disabled = false
                     document.getElementById('close-period-credit-card-select').disabled = false
-                    document.getElementById('close-period-credit-card-save').disabled = false
 
                     document.getElementById("close-period-credit-card-name").value = ""
-                    document.getElementById("close-period-credit-card-period").value = ""
-
-                    setExpensesDetail([])
+                    document.getElementById("close-period-credit-card-year").value = ""
+                    document.getElementById("close-period-credit-card-month").value = ""
                 }, 2000)
             })
+
     }
 
     return (
@@ -111,12 +125,17 @@ function ModalClosePeriodCreditCard({ path }) {
                 <form>
                     <div className="form-group">
                         <label htmlFor='close-period-credit-card-name'>Tarjeta</label>
-                        <select className="form-control" id='close-period-credit-card-name' onChange={handleChangeSelectAB}>
+                        <select className="form-control" id='close-period-credit-card-name' onChange={handleChangeSelectCreditCard}>
                             {creditCardNames.map((opt, index) => <option key={index}>{opt}</option>)}
                         </select>
                     </div>
-                    {/* <Select text={'Tarjeta'} id={'close-period-credit-card-name'} options={creditCardNames} onChange={handleChangeSelectAB} /> */}
-                    <Select text={'Periodo a cerrar'} id={'close-period-credit-card-period'} options={period} />
+                    <div className="form-group">
+                        <label htmlFor='close-period-credit-card-year'>Año</label>
+                        <select className="form-control" id='close-period-credit-card-year' onChange={handleChangeSelectYear}>
+                            {year.map((opt, index) => <option key={index}>{opt}</option>)}
+                        </select>
+                    </div>
+                    <Select text={'Mes'} id={'close-period-credit-card-month'} options={month} />
                 </form>
 
                 <table className='table table-striped'>

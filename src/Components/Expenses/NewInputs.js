@@ -6,20 +6,8 @@ import { useEffect, useState, useContext } from 'react'
 function NewInputs({ path }) {
     const { addItems, items, accountsOptions } = useContext(DataContext)
 
-    /* const [accountsOptions, setAccountsOptions] = useState([])
-    const getAccountOptions = () => {
-        let array = []
-        fetch(`${path}/account/expenses`)
-            .then((res) => res.json())
-            .then((data) => {
-                data.map((account) => array.push(account.name))
-                console.log('array' + array)
-                setAccountsOptions(array)
-            })
-
-    } */
-
     const addOtherInput = () => {
+        console.log(items)
         const div = document.createElement('div')
         div.setAttribute('class', 'row')
         const divLeft = document.createElement('div')
@@ -31,6 +19,8 @@ function NewInputs({ path }) {
 
         const selectAccount = document.createElement('select');
         selectAccount.setAttribute('class', 'form-control')
+        console.log(items)
+        console.log(`account${items}`)
         selectAccount.setAttribute('id', `account${items}`)
         accountsOptions.map(account => {
             const option = document.createElement('option');
