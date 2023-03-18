@@ -21,6 +21,7 @@ function TableCreditCardExpenses({ path }) {
                 arrayOfNames.push(ccd.name)
             }
         })
+        arrayOfNames.unshift("")
         setCreditCardNames(arrayOfNames)
         
     }
