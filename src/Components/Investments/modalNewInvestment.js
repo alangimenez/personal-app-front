@@ -14,12 +14,13 @@ function ModalNewInvestment({ path }) {
     const purchaseDate = document.getElementById("modal-new-investment-purchase-date")
     const quantity = document.getElementById("modal-new-investment-quantity")
     const purchasePrice = document.getElementById("modal-new-investment-purchase-price")
-    const currency = document.getElementById("modal-new-investment-currency")
+    const currency = document.getElementById("modal-new-investment-operation-currency")
     const assetType = document.getElementById("modal-new-investment-asset-type")
     const operation = document.getElementById("modal-new-investment-operation")
-    const commision = document.getElementById("modal-new-investment-commission")
+    const commission = document.getElementById("modal-new-investment-commission")
     const account = document.getElementById("modal-new-investment-account")
     const comments = document.getElementById("modal-new-investment-comments")
+    const commissionCurrency = document.getElementById("modal-new-investment-commission-currency")
 
     const saveInvestment = () => {
 
@@ -40,7 +41,7 @@ function ModalNewInvestment({ path }) {
                 "assetType": assetType.value,
                 "operation": operation.value,
                 "actualQuantity": quantity.value,
-                "commission": commision.value,
+                "commission": commission.value,
                 "commissionCurrency": currency.value
             })
         }
@@ -48,6 +49,7 @@ function ModalNewInvestment({ path }) {
         fetch(`${path}/investment`, requestOptionsInvestment)
             .then((res) => res.json())
             .then(() => {
+                console.log("first investment")
                 infoMessage.innerHTML = 'Estamos guardando la cotización de compra'
             })
 
@@ -65,6 +67,7 @@ function ModalNewInvestment({ path }) {
         fetch(`${path}/lastvalue/manualquote`, requestOptionsLastValue)
             .then(res => res.json())
             .then(() => {
+                console.log("second investment")
                 infoMessage.innerHTML = 'Estamos creando el registro de inversión'
             })
 
@@ -103,6 +106,7 @@ function ModalNewInvestment({ path }) {
         fetch(`${path}/registers/batch`, requestOptionsRegister)
             .then((res) => res.json())
             .then(() => {
+                console.log("third investment")
                 infoMessage.className = 'alert alert-success'
                 infoMessage.innerHTML = 'La inversión fue guardada con éxito'
 
@@ -118,9 +122,38 @@ function ModalNewInvestment({ path }) {
                     currency.value = ""
                     assetType.value = ""
                     operation.value = ""
-                    commision.value = ""
+                    commission.value = ""
                     comments.value = ""
                 }, 2000)
+            })
+
+        // fourth fetch (save commission)
+        const commissionRegister = {
+            "debtAccount": "Comisiones",
+            "discountAmount": 0,
+            "debtAmount": commission.value
+        }
+
+        const requestOptionsCommission = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                "date": purchaseDate.value,
+                "expenses": [commissionRegister],
+                "credit": account.value,
+                "currency": commissionCurrency.value,
+                "comments": comments.value,
+                "benefitMP": false,
+                "operation": operation.value
+            })
+        }
+
+        fetch(`${path}/registers/batch`, requestOptionsCommission)
+            .then((res) => res.json())
+            .then(() => {
+                console.log("fourth investment")
+                infoMessage.className = 'alert alert-success'
+                infoMessage.innerHTML = 'La inversión fue guardada con éxito'
             })
     }
 
@@ -185,8 +218,9 @@ function ModalNewInvestment({ path }) {
                         <LabelInput text={'Purchase date'} id={'modal-new-investment-purchase-date'} type={'date'} />
                         <LabelInput text={'Quantity'} id={'modal-new-investment-quantity'} type={'number'} />
                         <LabelInput text={'Purchase price'} id={'modal-new-investment-purchase-price'} type={'number'} />
+                        <Select text={'Operation currency'} id={'modal-new-investment-operation-currency'} options={['USD', 'ARS']} />
                         <LabelInput text={'Commissions'} id={'modal-new-investment-commission'} type={'number'} />
-                        <Select text={'Currency'} id={'modal-new-investment-currency'} options={['USD', 'ARS']} />
+                        <Select text={'Commission currency'} id={'modal-new-investment-commission-currency'} options={['USD', 'ARS']} />
                         <Select text={'Operation'} id={'modal-new-investment-operation'} options={['Buy', 'Sell']} />
                         <Select text={'Cuenta débito/crédito'} id={'modal-new-investment-account'} options={liquidAccounts} />
                         <LabelTextArea text={'Comentarios'} id={'modal-new-investment-comments'} />
