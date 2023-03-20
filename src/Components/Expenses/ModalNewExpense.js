@@ -10,7 +10,7 @@ import NewInputs from "./NewInputs"
 
 function ModalNewExpense({ path }) {
 
-    const { items, resetItems } = useContext(DataContext)
+    const { items, resetItems, getAccountOptions, accountsOptions } = useContext(DataContext)
 
     const saveExpense = () => {
         let mp = document.getElementById('modal-new-expense-mp').checked
@@ -103,20 +103,12 @@ function ModalNewExpense({ path }) {
             })
     }
 
-
-    const { setAccountsOptions } = useContext(DataContext)
-    const getAccountOptions = () => {
-        let array = []
-        fetch(`${path}/account/expenses`)
-            .then((res) => res.json())
-            .then((data) => {
-                data.map((account) => array.push(account.name))
-                console.log('array' + array)
-                setAccountsOptions(array)
-            })
-    }
-
-    useEffect(() => { getAccounts(); getAccountOptions() }, [])
+    useEffect(() => { 
+        getAccounts(); 
+        if(accountsOptions.length == 0) {
+            getAccountOptions()
+        }
+    }, [])
 
     return (
         <div>
