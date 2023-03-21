@@ -12,10 +12,7 @@ function ExpensesTables({ path }) {
 
         fetch(`${path}/registers`, requiredOptions)
             .then((res) => res.json())
-            .then((data) => {
-                console.log(data);
-                setLastExpenses(data);
-            })
+            .then((data) => setLastExpenses(data))
     }
 
     useEffect(() => getLastTenExpenses(), [])
@@ -37,10 +34,8 @@ function ExpensesTables({ path }) {
 
         if (status == true) {
             fetch(`${path}/registers/status`, requiredOptions)
-            .then((res) => res.json())
-            .then((data) => {
-                console.log(data);
-            })
+                .then((res) => res.json())
+                .then(() => { })
         }
     }
 
@@ -54,6 +49,7 @@ function ExpensesTables({ path }) {
                     <th scope='col'>Importe</th>
                     <th scope='col'>Medio de pago</th>
                     <th scope='col'>Cargado?</th>
+                    <th scope='col'>Comentarios</th>
                 </tr>
             </thead>
             <tbody>
@@ -66,8 +62,13 @@ function ExpensesTables({ path }) {
                         <td>{e.credit}</td>
                         <td>
                             <div className="form-check">
-                                <input className="form-check-input" type="checkbox" id="flexCheckChecked" onChange={(a) => {handleChangeInput(a); changeStatusOfExpense(e._id)} } checked={e.load}></input>
+                                <input className="form-check-input" type="checkbox" id="flexCheckChecked" onChange={(a) => { handleChangeInput(a); changeStatusOfExpense(e._id) }} checked={e.load}></input>
                             </div>
+                        </td>
+                        <td>
+                            <button type="button" className="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="top" title={e.comments}>
+                                Tooltip on top
+                            </button>
                         </td>
                     </tr>)
                 }
