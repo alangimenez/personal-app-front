@@ -148,7 +148,7 @@ function ModalClosePeriodCreditCard({ path }) {
                     </thead>
                     <tbody>
                         {
-                            expensesDetail.map(e => <tr>
+                            expensesDetail.map((e, index) => <tr key={index}>
                                 <td>{e.date}</td>
                                 <td>{e.account}</td>
                                 <td>{e.amount}</td>
