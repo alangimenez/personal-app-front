@@ -22,7 +22,7 @@ function ModalNewInvestment({ path }) {
     const comments = document.getElementById("modal-new-investment-comments")
     const commissionCurrency = document.getElementById("modal-new-investment-commission-currency")
 
-    const saveInvestment = () => {
+    const saveInvestment = async () => {
 
         btnClose.disabled = true
         btnSave.disabled = true
@@ -46,12 +46,17 @@ function ModalNewInvestment({ path }) {
             })
         }
 
-        fetch(`${path}/investment`, requestOptionsInvestment)
+        const resOne = await fetch(`${path}/investment`, requestOptionsInvestment)
+        const dataOne = await resOne.json()
+        console.log("first investment")
+        infoMessage.innerHTML = 'Estamos guardando la cotización de compra'
+
+        /* fetch(`${path}/investment`, requestOptionsInvestment)
             .then((res) => res.json())
             .then(() => {
                 console.log("first investment")
                 infoMessage.innerHTML = 'Estamos guardando la cotización de compra'
-            })
+            }) */
 
         // second fetch (save last value)
         const requestOptionsLastValue = {
@@ -64,12 +69,16 @@ function ModalNewInvestment({ path }) {
             })
         };
 
-        fetch(`${path}/lastvalue/manualquote`, requestOptionsLastValue)
+        const resTwo = await fetch(`${path}/lastvalue/manualquote`, requestOptionsLastValue)
+        const dataTwo = await resTwo.json()
+        console.log("second investment")
+        infoMessage.innerHTML = 'Estamos creando el registro de inversión'
+        /* fetch(`${path}/lastvalue/manualquote`, requestOptionsLastValue)
             .then(res => res.json())
             .then(() => {
                 console.log("second investment")
                 infoMessage.innerHTML = 'Estamos creando el registro de inversión'
-            })
+            }) */
 
         // third fetch (save register)
         let creditAccount
@@ -103,29 +112,16 @@ function ModalNewInvestment({ path }) {
             })
         }
 
-        fetch(`${path}/registers/batch`, requestOptionsRegister)
+        const resThree = await fetch(`${path}/registers/batch`, requestOptionsRegister)
+        const dataThree = await resThree.json()
+        console.log("third investment")
+        infoMessage.innerHTML = 'Estamos creando el registro de las comisiones'
+
+        /* fetch(`${path}/registers/batch`, requestOptionsRegister)
             .then((res) => res.json())
             .then(() => {
-                console.log("third investment")
-                infoMessage.className = 'alert alert-success'
-                infoMessage.innerHTML = 'La inversión fue guardada con éxito'
-
-                setTimeout(() => {
-                    infoMessage.innerHTML = 'Estamos guardando la inversión'
-                    infoMessage.style.display = "none"
-                    btnClose.disabled = false
-                    btnSave.disabled = false
-                    ticket.value = ""
-                    purchaseDate.value = ""
-                    quantity.value = ""
-                    purchasePrice.value = ""
-                    currency.value = ""
-                    assetType.value = ""
-                    operation.value = ""
-                    commission.value = ""
-                    comments.value = ""
-                }, 2000)
-            })
+                
+            }) */
 
         // fourth fetch (save commission)
         const commissionRegister = {
@@ -148,13 +144,35 @@ function ModalNewInvestment({ path }) {
             })
         }
 
-        fetch(`${path}/registers/batch`, requestOptionsCommission)
+        const resFour = await fetch(`${path}/registers/batch`, requestOptionsCommission)
+        const dataFour = await resFour.json()
+        console.log("fourth investment")
+        infoMessage.className = 'alert alert-success'
+        infoMessage.innerHTML = 'La inversión fue guardada con éxito'
+
+        setTimeout(() => {
+            infoMessage.style.display = "none"
+            infoMessage.innerHTML = 'Estamos guardando la inversión'
+            btnClose.disabled = false
+            btnSave.disabled = false
+            ticket.value = ""
+            purchaseDate.value = ""
+            quantity.value = ""
+            purchasePrice.value = ""
+            currency.value = ""
+            assetType.value = ""
+            operation.value = ""
+            commission.value = ""
+            comments.value = ""
+        }, 2000)
+
+        /* fetch(`${path}/registers/batch`, requestOptionsCommission)
             .then((res) => res.json())
             .then(() => {
                 console.log("fourth investment")
                 infoMessage.className = 'alert alert-success'
                 infoMessage.innerHTML = 'La inversión fue guardada con éxito'
-            })
+            }) */
     }
 
     // handlers
