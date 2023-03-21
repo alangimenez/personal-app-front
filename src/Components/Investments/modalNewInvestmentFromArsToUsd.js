@@ -6,21 +6,22 @@ import { useState, useEffect } from 'react'
 import InfoMessage from "../Utils/InfoMessage"
 import LabelTextArea from "../Utils/LabelTextArea"
 
-function ModalNewInvestment({ path }) {
-    const btnClose = document.getElementById('modal-new-investment-btn-close')
-    const btnSave = document.getElementById('modal-new-investment-btn-save')
-    const infoMessage = document.getElementById('modal-new-investment-msg')
-    const ticket = document.getElementById("modal-new-investment-ticket")
-    const purchaseDate = document.getElementById("modal-new-investment-purchase-date")
-    const quantity = document.getElementById("modal-new-investment-quantity")
-    const purchasePrice = document.getElementById("modal-new-investment-purchase-price")
-    const currency = document.getElementById("modal-new-investment-operation-currency")
-    const assetType = document.getElementById("modal-new-investment-asset-type")
-    const operation = document.getElementById("modal-new-investment-operation")
-    const commission = document.getElementById("modal-new-investment-commission")
-    const account = document.getElementById("modal-new-investment-account")
-    const comments = document.getElementById("modal-new-investment-comments")
-    const commissionCurrency = document.getElementById("modal-new-investment-commission-currency")
+function ModalNewInvestmentFromArsToUsd({ path }) {
+    const btnClose = document.getElementById('modal-new-investment-ars-to-usd-btn-close')
+    const btnSave = document.getElementById('modal-new-investment-ars-to-usd-btn-save')
+    const infoMessage = document.getElementById('modal-new-investment-ars-to-usd-msg')
+    const ticket = document.getElementById("modal-new-investment-ars-to-usd-ticket")
+    const purchaseDate = document.getElementById("modal-new-investment-ars-to-usd-purchase-date")
+    const quantity = document.getElementById("modal-new-investment-ars-to-usd-quantity")
+    const purchasePrice = document.getElementById("modal-new-investment-ars-to-usd-purchase-price")
+    const currency = document.getElementById("modal-new-investment-ars-to-usd-operation-currency")
+    const assetType = document.getElementById("modal-new-investment-ars-to-usd-asset-type")
+    const operation = document.getElementById("modal-new-investment-ars-to-usd-operation")
+    const commission = document.getElementById("modal-new-investment-ars-to-usd-commission")
+    const account = document.getElementById("modal-new-investment-ars-to-usd-account")
+    const comments = document.getElementById("modal-new-investment-ars-to-usd-comments")
+    const commissionCurrency = document.getElementById("modal-new-investment-ars-to-usd-commission-currency")
+    const mepDollar = document.getElementById("modal-new-investment-mep-dollar")
 
     const saveInvestment = () => {
 
@@ -85,7 +86,7 @@ function ModalNewInvestment({ path }) {
         const accountsAmounts = {
             "debtAccount": creditAccount,
             "discountAmount": 0,
-            "debtAmount": purchasePrice.value * quantity.value
+            "debtAmount": (purchasePrice.value * quantity.value) / mepDollar.value
         }
 
         const requestOptionsRegister = {
@@ -99,7 +100,10 @@ function ModalNewInvestment({ path }) {
                 "comments": comments.value,
                 "benefitMP": false,
                 "investment": true,
-                "operation": operation.value
+                "arsToUsd": true,
+                "operation": operation.value,
+                "creditAmount": purchasePrice.value * quantity.value,
+                "creditCurrency": "ARS"
             })
         }
 
@@ -190,11 +194,11 @@ function ModalNewInvestment({ path }) {
 
     return (
         <div>
-            <ModalButton target={'#modal-new-investment'}>
-                Ingresar nueva inversión
+            <ModalButton target={'#modal-new-investment-ars-to-usd'}>
+                Ingresar nueva inversión con pesos a dolares
             </ModalButton>
 
-            <ModalBody id={'modal-new-investment'}>
+            <ModalBody id={'modal-new-investment-ars-to-usd'}>
                 <div className="modal-header">
                     <h5 className="modal-title" id="exampleModalLabel">Modal title</h5>
                     <button type="button" className="close" data-dismiss="modal" aria-label="Close">
@@ -204,34 +208,35 @@ function ModalNewInvestment({ path }) {
                 <div className="modal-body">
                     <form>
                         <div className="form-group">
-                            <label htmlFor='modal-new-investment-asset-type'>Asset type</label>
-                            <select className="form-control" id='modal-new-investment-asset-type' onChange={handleChangeSelect}>
+                            <label htmlFor='modal-new-investment-ars-to-usd-asset-type'>Asset type</label>
+                            <select className="form-control" id='modal-new-investment-ars-to-usd-asset-type' onChange={handleChangeSelect}>
                                 {assetTypes.map((opt, index) => <option key={index}>{opt}</option>)}
                             </select>
                         </div>
                         <div className="form-group">
-                            <label htmlFor='modal-new-investment-ticket'>Ticket</label>
-                            <select className="form-control" id='modal-new-investment-ticket'>
+                            <label htmlFor='modal-new-investment-ars-to-usd-ticket'>Ticket</label>
+                            <select className="form-control" id='modal-new-investment-ars-to-usd-ticket'>
                                 {listOfAssets.map((opt, index) => <option key={index}>{opt}</option>)}
                             </select>
                         </div>
-                        <LabelInput text={'Purchase date'} id={'modal-new-investment-purchase-date'} type={'date'} />
-                        <LabelInput text={'Quantity'} id={'modal-new-investment-quantity'} type={'number'} />
-                        <LabelInput text={'Purchase price'} id={'modal-new-investment-purchase-price'} type={'number'} />
-                        <Select text={'Operation currency'} id={'modal-new-investment-operation-currency'} options={['USD', 'ARS']} />
-                        <LabelInput text={'Commissions'} id={'modal-new-investment-commission'} type={'number'} />
-                        <Select text={'Commission currency'} id={'modal-new-investment-commission-currency'} options={['USD', 'ARS']} />
-                        <Select text={'Operation'} id={'modal-new-investment-operation'} options={['Buy', 'Sell']} />
-                        <Select text={'Cuenta débito/crédito'} id={'modal-new-investment-account'} options={liquidAccounts} />
-                        <LabelTextArea text={'Comentarios'} id={'modal-new-investment-comments'} />
+                        <LabelInput text={'Purchase date'} id={'modal-new-investment-ars-to-usd-purchase-date'} type={'date'} />
+                        <LabelInput text={'Quantity'} id={'modal-new-investment-ars-to-usd-quantity'} type={'number'} />
+                        <LabelInput text={'Purchase price'} id={'modal-new-investment-ars-to-usd-purchase-price'} type={'number'} />
+                        <Select text={'Operation currency'} id={'modal-new-investment-ars-to-usd-operation-currency'} options={['USD', 'ARS']} />
+                        <LabelInput text={'Commissions'} id={'modal-new-investment-ars-to-usd-commission'} type={'number'} />
+                        <Select text={'Commission currency'} id={'modal-new-investment-ars-to-usd-commission-currency'} options={['USD', 'ARS']} />
+                        <LabelInput text={'TC MEP last day'} id={'modal-new-investment-mep-dollar'} type={'number'} />
+                        <Select text={'Operation'} id={'modal-new-investment-ars-to-usd-operation'} options={['Buy', 'Sell']} />
+                        <Select text={'Cuenta débito/crédito'} id={'modal-new-investment-ars-to-usd-account'} options={liquidAccounts} />
+                        <LabelTextArea text={'Comentarios'} id={'modal-new-investment-ars-to-usd-comments'} />
 
                     </form>
                 </div>
                 <div className="modal-footer">
-                    <button type="button" className="btn btn-secondary" data-dismiss="modal" id="modal-new-investment-btn-close">Close</button>
-                    <button type="button" className="btn btn-primary" onClick={saveInvestment} id="modal-new-investment-btn-save">Save changes</button>
+                    <button type="button" className="btn btn-secondary" data-dismiss="modal" id="modal-new-investment-ars-to-usd-btn-close">Close</button>
+                    <button type="button" className="btn btn-primary" onClick={saveInvestment} id="modal-new-investment-ars-to-usd-btn-save">Save changes</button>
                 </div>
-                <InfoMessage id={'modal-new-investment-msg'} type={'alert alert-info'}>
+                <InfoMessage id={'modal-new-investment-ars-to-usd-msg'} type={'alert alert-info'}>
                     Estamos guardando la inversión
                 </InfoMessage>
             </ModalBody>
@@ -239,4 +244,4 @@ function ModalNewInvestment({ path }) {
     )
 }
 
-export default ModalNewInvestment
+export default ModalNewInvestmentFromArsToUsd
