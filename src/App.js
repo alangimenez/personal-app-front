@@ -2,16 +2,17 @@ import './App.css';
 import { BrowserRouter, Routes, Route, Switch } from 'react-router-dom'
 import Demo from './Components/Demo';
 import EarningsMain from './Components/Earnings/EarningsMain';
-import Gastos from './Components/Gastos';
+import Gastos from './Components/Expenses/ExpensesMain';
 import Inversiones from './Components/Inversiones'
 import Cashflow from './Components/Cashflow';
-import Navbar from './Components/Navbar';
+import Navbar from './Components/Navbar/Navbar';
 import HistoricalInvestment from './Components/HistoricalInvestment'
 import Portfolio from './Components/Portfolio/Portfolio';
 import Balance from './Components/Balance';
 import { DataContextProvider } from './Components/Context/Context';
 import CreditCard from './Components/CreditCard/CreditCardMain';
 import RefundMain from './Components/Refund/RefundMain';
+import ExpensesTableForExcel from './Components/Expenses/Components/ExpensesTableForExcel/ExpensesTableForExcel';
 
 function App() {
 
@@ -34,6 +35,7 @@ function App() {
           <Route path="/portfolio" element={<Portfolio path={path} />} />
           <Route exact path="/creditcard" element={<CreditCard path={path} />} />
           <Route exact path="/refund" element={<RefundMain path={path} />} /> 
+          <Route exact path="/gastos/para-excel" element={<ExpensesTableForExcel path={path} />} />
         </Routes>
       </DataContextProvider>
     </>
