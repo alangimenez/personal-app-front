@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react"
+import Cookies from "universal-cookie";
+const cookies = new Cookies();
 
-function Balance ({path}) {
+function Balance({ path }) {
 
     const [balance, setBalance] = useState([])
 
@@ -9,7 +11,6 @@ function Balance ({path}) {
             .then(res => res.json())
             .then(data => {
                 setBalance(data)
-                console.log(data)
             })
     }
 
@@ -23,6 +24,11 @@ function Balance ({path}) {
 
     useEffect(() => { getLiquidAndFciBalance(); getBenefitMP() }, [])
 
+    const logout = () => {
+        cookies.remove('Token', { path: '/' })
+        window.location.href= '/login'
+    }
+
     return (
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
             <a className="navbar-brand" href="/"></a>
@@ -31,12 +37,13 @@ function Balance ({path}) {
             </button>
             <div className="collapse navbar-collapse" id="navbarNav">
                 <ul className="navbar-nav">
-                    {balance.map((it, index) => 
-                        <li className="nav-item" style={{marginLeft: 5, marginRight: 5}} key={index}>{it.name}: ${it.balance}</li>
+                    {balance.map((it, index) =>
+                        <li className="nav-item" style={{ marginLeft: 5, marginRight: 5 }} key={index}>{it.name}: ${it.balance}</li>
                     )}
-                    <li className="nav-item" style={{marginLeft: 5, marginRight: 5}}>Beneficio MP remanente: ${benefitMP}</li>
+                    <li className="nav-item" style={{ marginLeft: 5, marginRight: 5 }}>Beneficio MP remanente: ${benefitMP}</li>
                 </ul>
             </div>
+            <button className="btn btn-dark" onClick={logout}>Logout</button>
         </nav>
     )
 }
