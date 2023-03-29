@@ -6,30 +6,33 @@ import ModalUpdateQuoteManually from './Investments/ModalUpdateQuoteManually'
 import ModalNewTransfer from './Investments/ModalNewTransfer'
 import ModalClosePeriod from './Investments/ModalClosePeriod'
 import ModalNewInvestmentFromArsToUsd from './Investments/modalNewInvestmentFromArsToUsd'
+import Cookies from "universal-cookie";
+const cookies = new Cookies();
 
 function Inversiones({ path }) {
     // cargar cotizaciones
 
     const [mensajeInput, setMensajeInput] = useState("")
+    const token = cookies.get('Token')
 
     const handleChangeInput = (event) => {
         setMensajeInput(event.target.value)
     }
     const requestOptionsGet = {
         method: 'GET',
-        headers: { 'Content-Type': 'application/json', 'password-security': mensajeInput }
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` }
     }
 
     const guardarCotizaciones = async () => {
         const requestOptions = {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'password-security': mensajeInput },
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
             body: JSON.stringify({ quotes: mensaje })
         };
 
         const requestOptionsTir = {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'password-security': mensajeInput },
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
             body: JSON.stringify({ password: mensajeInput })
         }
 
@@ -87,7 +90,7 @@ function Inversiones({ path }) {
     const verCotizaciones = () => {
         const requestOptions = {
             method: 'GET',
-            headers: { 'Content-Type': 'application/json' }
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` }
         };
 
         fetch(`${path}/lastvalue/tir`, requestOptionsGet)

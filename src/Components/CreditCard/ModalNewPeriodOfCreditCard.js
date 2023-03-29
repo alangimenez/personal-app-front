@@ -4,12 +4,19 @@ import ModalBody from "../Utils/ModalBody"
 import ModalButton from "../Utils/ModalButton"
 import Select from "../Utils/Select"
 import InfoMessage from "../Utils/InfoMessage"
+import Cookies from "universal-cookie";
+const cookies = new Cookies();
 
 function ModalNewPeriodOfCreditCard({ path }) {
+    const token = cookies.get('Token')
 
     const [liquidAccounts, setLiquidAccounts] = useState([])
+    const requestOptionsGet = {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` }
+    }
     const getLiquidAccounts = () => {
-        fetch(`${path}/account/liquid-fci`)
+        fetch(`${path}/account/liquid-fci`, requestOptionsGet)
             .then(res => res.json())
             .then(data => {
                 const array = []
@@ -20,7 +27,7 @@ function ModalNewPeriodOfCreditCard({ path }) {
 
     const [creditCards, setCreditCards] = useState([])
     const getCreditCards = () => {
-        fetch(`${path}/creditcard`)
+        fetch(`${path}/creditcard`, requestOptionsGet)
             .then(res => res.json())
             .then(data => {
                 const array = []
@@ -36,7 +43,7 @@ function ModalNewPeriodOfCreditCard({ path }) {
 
         const requestOptionsExpenseCreditCard = {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
             body: JSON.stringify({
                 "name": document.getElementById("modal-new-period-credit-card").value,
                 "debtAccount": document.getElementById("modal-new-period-debt-account").value,

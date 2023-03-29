@@ -1,12 +1,18 @@
-import Select from "../Utils/Select"
 import { useEffect, useState } from "react"
+import Cookies from "universal-cookie";
+const cookies = new Cookies();
 
 function TableCreditCardExpenses({ path }) {
+    const token = cookies.get('Token')
 
     const [periodsOfCreditCards, setPeriodsOfCreditCards] = useState([])
     const [creditCardNames, setCreditCardNames] = useState([])
+    const requestOptionsGet = {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` }
+    }
     const getPeriodsOfCreditCard = () => {
-        fetch(`${path}/expensecreditcard/period/ALL`)
+        fetch(`${path}/expensecreditcard/period/ALL`, requestOptionsGet)
             .then(res => res.json())
             .then(data => {
                 setPeriodsOfCreditCards(data)
@@ -69,7 +75,7 @@ function TableCreditCardExpenses({ path }) {
         const year = document.getElementById('table-credit-card-expenses-year').value
         const month = document.getElementById('table-credit-card-expenses-month').value
 
-        fetch(`${path}/expensecreditcard/expenses?name=${name}&year=${year}&month=${month}`)
+        fetch(`${path}/expensecreditcard/expenses?name=${name}&year=${year}&month=${month}`, requestOptionsGet)
             .then(res => res.json())
             .then(data => {
                 setExpenses(data[0].expenses)

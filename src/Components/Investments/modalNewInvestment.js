@@ -5,6 +5,8 @@ import ModalBody from "../Utils/ModalBody"
 import { useState, useEffect } from 'react'
 import InfoMessage from "../Utils/InfoMessage"
 import LabelTextArea from "../Utils/LabelTextArea"
+import Cookies from "universal-cookie";
+const cookies = new Cookies();
 
 function ModalNewInvestment({ path }) {
     const btnClose = document.getElementById('modal-new-investment-btn-close')
@@ -22,6 +24,8 @@ function ModalNewInvestment({ path }) {
     const comments = document.getElementById("modal-new-investment-comments")
     const commissionCurrency = document.getElementById("modal-new-investment-commission-currency")
 
+    const token = cookies.get('Token')
+
     const saveInvestment = async () => {
 
         btnClose.disabled = true
@@ -31,7 +35,7 @@ function ModalNewInvestment({ path }) {
         // first fetch (save investment)
         const requestOptionsInvestment = {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
             body: JSON.stringify({
                 "ticket": ticket.value,
                 "operationDate": purchaseDate.value,
@@ -61,7 +65,7 @@ function ModalNewInvestment({ path }) {
         // second fetch (save last value)
         const requestOptionsLastValue = {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
             body: JSON.stringify({
                 "ticket": ticket.value,
                 "price": purchasePrice.value,
@@ -99,7 +103,7 @@ function ModalNewInvestment({ path }) {
 
         const requestOptionsRegister = {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
             body: JSON.stringify({
                 "date": purchaseDate.value,
                 "expenses": [accountsAmounts],
@@ -132,7 +136,7 @@ function ModalNewInvestment({ path }) {
 
         const requestOptionsCommission = {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
             body: JSON.stringify({
                 "date": purchaseDate.value,
                 "expenses": [commissionRegister],
@@ -198,8 +202,12 @@ function ModalNewInvestment({ path }) {
     }
 
     const [liquidAccounts, setLiquidAccounts] = useState([])
+    const requestOptionsGet = {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` }
+    }
     const getLiquidAccounts = () => {
-        fetch(`${path}/account/liquid`)
+        fetch(`${path}/account/liquid`, requestOptionsGet)
             .then(res => res.json())
             .then(data => setLiquidAccounts(data))
     }

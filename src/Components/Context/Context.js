@@ -22,9 +22,13 @@ export const DataContextProvider = ({children}) => {
 
     const [accountsOptions, setAccountsOptions] = useState([])
 
-    const getAccountOptions = () => {
+    const getAccountOptions = token => {
         let array = []
-        fetch(`${path}/account/expenses`)
+        const requestOptions = {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` }
+        };
+        fetch(`${path}/account/expenses`, requestOptions)
             .then((res) => res.json())
             .then((data) => {
                 data.map((account) => array.push(account.name))

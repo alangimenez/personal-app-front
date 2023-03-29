@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react"
+import Cookies from "universal-cookie";
+const cookies = new Cookies();
 
 function HistoricalInvestment({path}) {
 
     const [mensajeInput, setMensajeInput] = useState("")
+    const token = cookies.get('Token')
 
     const handleChangeInput = (event) => {
         setMensajeInput(event.target.value)
@@ -12,7 +15,7 @@ function HistoricalInvestment({path}) {
     const getHistoricalInvestment = () => {
         const requestOptions = {
             method: 'GET',
-            headers: { 'Content-Type': 'application/json' }
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` }
         }
 
         fetch(`${path}/investment`, requestOptions)

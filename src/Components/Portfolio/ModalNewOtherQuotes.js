@@ -4,8 +4,11 @@ import InfoMessage from '../Utils/InfoMessage'
 import Context from '../Context/Context'
 import { useContext } from 'react'
 import LabelInput from '../Utils/LabelInput'
+import Cookies from "universal-cookie";
+const cookies = new Cookies();
 
 function ModalNewOtherQuotes({path}) {
+    const token = cookies.get('Token')
 
     const { date } = useContext(Context)
     
@@ -16,7 +19,7 @@ function ModalNewOtherQuotes({path}) {
 
         const requestOptions = {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
             body: JSON.stringify({
                 "date": document.getElementById('new-other-quotes-date').value,
                 "quotes": {

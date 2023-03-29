@@ -1,13 +1,16 @@
 import { useState, useEffect } from 'react'
+import Cookies from "universal-cookie";
+const cookies = new Cookies();
 
 function Cashflow({ path }) {
 
     const [cashflow, setCashflow] = useState([])
+    const token = cookies.get('Token')
 
     const getCashFlows = async () => {
         const requestOptions = {
             method: 'GET',
-            headers: { 'Content-Type': 'application/json', 'password-security': 'g4t0n3gr0' }
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` }
         };
 
         await fetch(`${path}/cashflow/flow`, requestOptions)

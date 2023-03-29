@@ -7,8 +7,11 @@ import Select from "../Utils/Select"
 import ModalBody from "../Utils/ModalBody"
 import { useState, useEffect, useContext } from "react"
 import NewInputs from "./NewInputs"
+import Cookies from "universal-cookie";
+const cookies = new Cookies();
 
 function ModalNewExpense({ path }) {
+    const token = cookies.get('Token')
 
     const { items, resetItems, getAccountOptions, accountsOptions } = useContext(DataContext)
 
@@ -36,7 +39,7 @@ function ModalNewExpense({ path }) {
 
         const requestOptions = {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
             body: JSON.stringify({
                 "date": document.getElementById("date").value,
                 "expenses": accountsAmounts,
@@ -95,8 +98,12 @@ function ModalNewExpense({ path }) {
     }
 
     const [accounts, setAccounts] = useState([])
+    const requestOptionsGet = {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` }
+    }
     const getAccounts = () => {
-        fetch(`${path}/account/liquid`)
+        fetch(`${path}/account/liquid`, requestOptionsGet)
             .then((res) => res.json())
             .then((data) => {
                 setAccounts(data)
@@ -106,7 +113,7 @@ function ModalNewExpense({ path }) {
     useEffect(() => { 
         getAccounts(); 
         if(accountsOptions.length == 0) {
-            getAccountOptions()
+            getAccountOptions(token)
         }
     }, [])
 

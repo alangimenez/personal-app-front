@@ -25,9 +25,6 @@ function Login({ path }) {
         const res = await fetch(`${path}/user/login`, requestOptions)
         const data = await res.json()
 
-        console.log(res)
-        console.log(data)
-
         if (res.status === 200) {
             message.innerHTML = 'Usted se ha logueado con éxito'
             cookies.set("Token", data.token, { path: '/'})

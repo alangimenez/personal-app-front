@@ -1,5 +1,5 @@
 import './App.css';
-import { BrowserRouter, Routes, Route, Switch } from 'react-router-dom'
+import { Routes, Route } from 'react-router-dom'
 import Demo from './Components/Demo';
 import EarningsMain from './Components/Earnings/EarningsMain';
 import Gastos from './Components/Gastos';
@@ -12,9 +12,7 @@ import Balance from './Components/Balance';
 import { DataContextProvider } from './Components/Context/Context';
 import CreditCard from './Components/CreditCard/CreditCardMain';
 import RefundMain from './Components/Refund/RefundMain';
-import Register from './Components/Login/Register';
 import Login from './Components/Login/Login';
-import ProtectedRoutes from './Components/ProtectedRoute';
 import Cookies from "universal-cookie";
 const cookies = new Cookies();
 
@@ -26,7 +24,32 @@ function App() {
   return (
     <>
       <DataContextProvider>
-        <div className='container'>
+        {
+          token ?
+            <>
+              <div className='container'>
+                <Navbar />
+                <Balance path={path} />
+              </div>
+              <Routes>
+                <Route path="/" element={<Demo path={path} />}></Route>
+                <Route path="/ingresos" element={<EarningsMain path={path} />}></Route>
+                <Route exact path="/gastos" element={<Gastos path={path} />}></Route>
+                <Route path="/inversiones" element={<Inversiones path={path} />} />
+                <Route path="/cashflow" element={<Cashflow path={path} />}></Route>
+                <Route path="/inversiones/historico" element={<HistoricalInvestment path={path} />} />
+                <Route path="/portfolio" element={<Portfolio path={path} />} />
+                <Route exact path="/creditcard" element={<CreditCard path={path} />} />
+                <Route exact path="/refund" element={<RefundMain path={path} />} />
+                <Route exact path="/login" element={<Login path={path} />} />
+              </Routes>
+            </>
+            :
+            <Routes>
+              <Route exact path="/login" element={<Login path={path} />} />
+            </Routes>
+        }
+        {/* <div className='container'>
           <Navbar />
           <Balance path={path} />
         </div>
@@ -42,13 +65,11 @@ function App() {
               <Route path="/portfolio" element={<Portfolio path={path} />} />
               <Route exact path="/creditcard" element={<CreditCard path={path} />} />
               <Route exact path="/refund" element={<RefundMain path={path} />} />
-              <Route exact path="/register" element={<Register path={path} />} />
               <Route exact path="/login" element={<Login path={path} />} />
             </>
-
             :
             <Route exact path="/login" element={<Login path={path} />} />
-          }
+          } */}
           {/* <Route path="/" element={<Demo path={path} />}></Route>
           <Route path="/ingresos" element={<EarningsMain path={path} />}></Route>
           <Route exact path="/gastos" element={<Gastos path={path} />}></Route>
@@ -60,7 +81,7 @@ function App() {
           <Route exact path="/refund" element={<RefundMain path={path} />} /> 
           <Route exact path="/register" element={<Register path={path} />} /> 
           <Route exact path="/login" element={<Login path={path} />} />  */}
-        </Routes>
+        {/* </Routes> */}
       </DataContextProvider>
     </>
   )

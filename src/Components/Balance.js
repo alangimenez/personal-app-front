@@ -5,18 +5,30 @@ const cookies = new Cookies();
 function Balance({ path }) {
 
     const [balance, setBalance] = useState([])
+    const token = cookies.get('Token')
 
+    const requestOptionsLiquidFci = {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` }
+    };
     const getLiquidAndFciBalance = () => {
-        fetch(`${path}/account/liquid-fci`)
+        fetch(`${path}/account/liquid-fci`, requestOptionsLiquidFci)
             .then(res => res.json())
             .then(data => {
                 setBalance(data)
             })
+            .catch(e => {
+                console.log(e)
+            })
     }
 
     const [benefitMP, setBenefitMP] = useState(0)
+    const requestOptionsMercadoPagoLast = {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` }
+    };
     const getBenefitMP = () => {
-        fetch(`${path}/mercadopago/last`)
+        fetch(`${path}/mercadopago/last`, requestOptionsMercadoPagoLast)
             .then(res => res.json())
             .then(data => setBenefitMP(data[0].discountTotal - data[0].discountConsumed)
             )
@@ -31,7 +43,7 @@ function Balance({ path }) {
 
     return (
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
-            <a className="navbar-brand" href="/"></a>
+            <a className="navbar-brand" href="/">a</a>
             <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span className="navbar-toggler-icon"></span>
             </button>

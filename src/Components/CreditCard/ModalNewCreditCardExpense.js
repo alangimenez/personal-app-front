@@ -7,8 +7,11 @@ import Select from "../Utils/Select"
 import ModalBody from "../Utils/ModalBody"
 import { useState, useEffect, useContext } from "react"
 import NewInputs from "../Expenses/NewInputs"
+import Cookies from "universal-cookie";
+const cookies = new Cookies();
 
 function ModalNewCreditCardExpense({ path }) {
+    const token = cookies.get('Token')
 
     const { items, resetItems, getAccountOptions, accountsOptions } = useContext(DataContext)
 
@@ -37,7 +40,7 @@ function ModalNewCreditCardExpense({ path }) {
 
         const requestOptions = {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
             body: JSON.stringify({
                 "name": document.getElementById("new-expense-credit-card-name").value,
                 "date": document.getElementById("new-expense-credit-card-date").value,
@@ -101,8 +104,12 @@ function ModalNewCreditCardExpense({ path }) {
     const [year, setYear] = useState([])
     const [month, setMonth] = useState([])
 
+    const requestOptionsGet = {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` }
+    }
     const getOpenPeriodByCreditCard = () => {
-        fetch(`${path}/expensecreditcard/period/OPEN`)
+        fetch(`${path}/expensecreditcard/period/OPEN`, requestOptionsGet)
             .then(res => res.json())
             .then(data => {
                 setPeriodsOfCreditCards(data)
@@ -116,7 +123,7 @@ function ModalNewCreditCardExpense({ path }) {
     useEffect(() => { 
         getOpenPeriodByCreditCard()
         if(accountsOptions.length == 0) {
-            getAccountOptions()
+            getAccountOptions(token)
         }
      }, [])
 
