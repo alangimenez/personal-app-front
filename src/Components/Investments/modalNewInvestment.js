@@ -189,8 +189,12 @@ function ModalNewInvestment({ path }) {
     const [assetTypeInfo, setAssetTypeInfo] = useState([])
     const [assetTypes, setAssetTypes] = useState([])
     const [listOfAssets, setListOfAssets] = useState([])
+    const requestOptionsGet = {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` }
+    }
     const getAssetsTypes = () => {
-        fetch(`${path}/assettype`)
+        fetch(`${path}/assettype`, requestOptionsGet)
             .then(res => res.json())
             .then(data => {
                 setAssetTypeInfo(data)
@@ -202,10 +206,7 @@ function ModalNewInvestment({ path }) {
     }
 
     const [liquidAccounts, setLiquidAccounts] = useState([])
-    const requestOptionsGet = {
-        method: 'GET',
-        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` }
-    }
+
     const getLiquidAccounts = () => {
         fetch(`${path}/account/liquid`, requestOptionsGet)
             .then(res => res.json())
