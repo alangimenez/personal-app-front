@@ -10,28 +10,18 @@ function Navbar() {
             </button>
             <div className="collapse navbar-collapse" id="navbarNav">
                 <ul className="navbar-nav">
-                    {/* <li className="nav-item">
-                        <a className="nav-link" href="/">Home</a>
-                    </li> */}
                     <li className="nav-item">
-                        {/* <a className="nav-link" href="/ingresos">Ingresos</a> */}
                         <Link className="nav-link" to="/ingresos">Ingresos</Link>
                     </li>
-                    {/* <li className="nav-item">
-                        <a className="nav-link" href="/gastos">Gastos</a>
-                    </li> */}
                     <li className="nav-item dropdown">
                         <a className="nav-link dropdown-toggle" href="/gastos" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Egresos
                         </a>
-                        {/* <Link to="/gastos" className="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >Egresos</Link> */}
                         <div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            {/* <a className="dropdown-item" href="/gastos">Gastos</a>
-                            <a className="dropdown-item" href="/creditcard">Tarjeta de crédito</a>
-                            <a className="dropdown-item" href="/refund">Devoluciones de gastos</a> */}
                             <Link className="dropdown-item" to="/gastos">Gastos</Link>
                             <Link className="dropdown-item" to="/creditcard">Tarjeta de crédito</Link>
                             <Link className="dropdown-item" to="/refund">Devoluciones de gastos</Link>
+                            <Link className="dropdown-item" to="/gastos/para-excel">Listado para excel</Link>
                         </div>
                     </li>
                     <li className="nav-item dropdown">
@@ -39,10 +29,6 @@ function Navbar() {
                             Inversiones
                         </a>
                         <div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            {/* <a className="dropdown-item" href="/inversiones">Resumen</a>
-                            <a className="dropdown-item" href="/cashflow">Cashflow</a>
-                            <a className="dropdown-item" href="/inversiones/historico">Inversiones historicas</a>
-                            <a className="dropdown-item" href="/portfolio">Portfolio</a> */}
                             <Link className="dropdown-item" to="/inversiones">Resumen</Link>
                             <Link className="dropdown-item" to="/cashflow">Cashflow</Link>
                             <Link className="dropdown-item" to="/inversiones/historico">Inversiones historicas</Link>

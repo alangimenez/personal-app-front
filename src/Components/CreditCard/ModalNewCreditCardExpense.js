@@ -6,7 +6,7 @@ import ModalButton from "../Utils/ModalButton"
 import Select from "../Utils/Select"
 import ModalBody from "../Utils/ModalBody"
 import { useState, useEffect, useContext } from "react"
-import NewInputs from "../Expenses/NewInputs"
+import NewInputs from "../Expenses/Components/NewInputs"
 
 function ModalNewCreditCardExpense({ path }) {
 
