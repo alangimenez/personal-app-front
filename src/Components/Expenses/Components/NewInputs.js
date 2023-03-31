@@ -1,6 +1,6 @@
-import DataContext from "../Context/Context"
-import Select from "../Utils/Select"
-import LabelInput from "../Utils/LabelInput"
+import DataContext from "../../Context/Context"
+import Select from "../../Utils/Select"
+import LabelInput from "../../Utils/LabelInput"
 import { useEffect, useState, useContext } from 'react'
 
 function NewInputs({ path }) {

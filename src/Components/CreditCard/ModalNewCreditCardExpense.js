@@ -6,7 +6,7 @@ import ModalButton from "../Utils/ModalButton"
 import Select from "../Utils/Select"
 import ModalBody from "../Utils/ModalBody"
 import { useState, useEffect, useContext } from "react"
-import NewInputs from "../Expenses/NewInputs"
+import NewInputs from "../Expenses/Components/NewInputs"
 import Cookies from "universal-cookie";
 const cookies = new Cookies();
 
@@ -50,6 +50,7 @@ function ModalNewCreditCardExpense({ path }) {
                 "year": document.getElementById("new-expense-credit-card-year").value,
                 "month": document.getElementById("new-expense-credit-card-month").value,
                 "benefitMP": mp,
+                "numberOfPayments": document.getElementById('new-expense-credit-card-payments').value,
                 "credit": periodsOfCreditCards[creditKey].credit
             })
         }
@@ -176,6 +177,7 @@ function ModalNewCreditCardExpense({ path }) {
                             </select>
                         </div>
                         <Select text={'Mes'} id={'new-expense-credit-card-month'} options={month} />
+                        <LabelInput text={'Cuotas'} id={'new-expense-credit-card-payments'} type={'number'} />
                         <LabelTextArea text={'Comentarios'} id={'new-expense-credit-card-comments'} />
                         <NewInputs path={path} />
 
