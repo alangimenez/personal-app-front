@@ -3,6 +3,8 @@ import ModalButton from "../Utils/ModalButton"
 import Select from "../Utils/Select"
 import InfoMessage from "../Utils/InfoMessage"
 import { useState, useEffect } from "react"
+import Cookies from "universal-cookie";
+const cookies = new Cookies();
 
 function ModalClosePeriodCreditCard({ path }) {
 
@@ -10,8 +12,14 @@ function ModalClosePeriodCreditCard({ path }) {
     const [creditCardNames, setCreditCardNames] = useState([])
     const [disabled, setDisabled] = useState(true)
 
+    const token = cookies.get('Token')
+
+    const requestOptions = {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` }
+    };
     const getOpenPeriodByCreditCard = () => {
-        fetch(`${path}/expensecreditcard/period/OPEN`)
+        fetch(`${path}/expensecreditcard/period/OPEN`, requestOptions)
             .then(res => res.json())
             .then(data => {
                 setPeriodsOfCreditCards(data)
@@ -60,7 +68,7 @@ function ModalClosePeriodCreditCard({ path }) {
         const year = document.getElementById('close-period-credit-card-year').value
         const month = document.getElementById('close-period-credit-card-month').value
 
-        fetch(`${path}/expensecreditcard/expenses?name=${name}&year=${year}&month=${month}`)
+        fetch(`${path}/expensecreditcard/expenses?name=${name}&year=${year}&month=${month}`, requestOptions)
             .then(res => res.json())
             .then(data => {
                 setExpensesDetail(data[0].expenses)
@@ -83,7 +91,7 @@ function ModalClosePeriodCreditCard({ path }) {
 
         const requestOptions = {
             method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
             body: JSON.stringify({
                 "name": document.getElementById("close-period-credit-card-name").value,
                 "year": document.getElementById("close-period-credit-card-year").value,

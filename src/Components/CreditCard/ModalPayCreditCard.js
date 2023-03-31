@@ -3,16 +3,23 @@ import ModalButton from "../Utils/ModalButton"
 import Select from "../Utils/Select"
 import { useState, useEffect } from "react"
 import InfoMessage from "../Utils/InfoMessage"
+import Cookies from "universal-cookie";
+const cookies = new Cookies();
 
 function ModalPayCreditCard({ path }) {
+    const token = cookies.get('Token')
 
     const [periodsOfCreditCards, setPeriodsOfCreditCards] = useState([])
     const [creditCardNames, setCreditCardNames] = useState([])
     const [period, setPeriod] = useState([])
     const [disabled, setDisabled] = useState(true)
 
+    const requestOptionsGet = {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` }
+    }
     const getClosedPeriodByCreditCard = () => {
-        fetch(`${path}/expensecreditcard/period/CLOSED`)
+        fetch(`${path}/expensecreditcard/period/CLOSED`, requestOptionsGet)
             .then(res => res.json())
             .then(data => {
                 setPeriodsOfCreditCards(data)
@@ -61,7 +68,7 @@ function ModalPayCreditCard({ path }) {
         const year = document.getElementById('pay-credit-card-year').value
         const month = document.getElementById('pay-credit-card-month').value
         
-        fetch(`${path}/expensecreditcard/expenses?name=${name}&year=${year}&month=${month}`)
+        fetch(`${path}/expensecreditcard/expenses?name=${name}&year=${year}&month=${month}`, requestOptionsGet)
             .then(res => res.json())
             .then(data => {
                 setExpensesDetail(data[0].expenses)
@@ -84,7 +91,7 @@ function ModalPayCreditCard({ path }) {
 
         const requestOptions = {
             method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
             body: JSON.stringify({
                 "name": document.getElementById("pay-credit-card-name").value,
                 "year": document.getElementById("pay-credit-card-year").value,

@@ -2,8 +2,11 @@ import ModalBody from "../Utils/ModalBody"
 import ModalButton from "../Utils/ModalButton"
 import LabelInput from "../Utils/LabelInput"
 import InfoMessage from "../Utils/InfoMessage"
+import Cookies from "universal-cookie";
+const cookies = new Cookies();
 
 function ModalNewAssetType({path}) {
+    const token = cookies.get('Token')
 
     const saveAssetType = () => {
         document.getElementById('new-asset-type-close').disabled = true
@@ -12,7 +15,7 @@ function ModalNewAssetType({path}) {
 
         const requestOptions = {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
             body: JSON.stringify({
                 "assetType": document.getElementById('new-asset-type').value
             })

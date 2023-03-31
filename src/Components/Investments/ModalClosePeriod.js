@@ -2,8 +2,11 @@ import ModalBody from "../Utils/ModalBody"
 import ModalButton from "../Utils/ModalButton"
 import LabelInput from "../Utils/LabelInput"
 import InfoMessage from "../Utils/InfoMessage"
+import Cookies from "universal-cookie";
+const cookies = new Cookies();
 
 function ModalClosePeriod({ path }) {
+    const token = cookies.get('Token')
 
     const closePeriod = () => {
         document.getElementById('modal-close-period-close').disabled = true
@@ -12,7 +15,7 @@ function ModalClosePeriod({ path }) {
 
         const requestOptions = {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
             body: JSON.stringify({
                 "total": document.getElementById('modal-close-amount').value
             })

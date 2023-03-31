@@ -4,8 +4,11 @@ import LabelInput from "../../Utils/LabelInput"
 import ModalBody from "../../Utils/ModalBody"
 import ModalButton from "../../Utils/ModalButton"
 import Select from "../../Utils/Select"
+import Cookies from "universal-cookie";
+const cookies = new Cookies();
 
 function ModalNewAccount({ path }) {
+    const token = cookies.get('Token')
 
     const saveAccount = async () => {
         document.getElementById('new-account-close').disabled = true
@@ -14,7 +17,7 @@ function ModalNewAccount({ path }) {
 
         const requestOptionsAccount = {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}`  },
             body: JSON.stringify({
                 "name": document.getElementById("name-account").value,
                 "type": document.getElementById('type-account').value,
@@ -34,7 +37,7 @@ function ModalNewAccount({ path }) {
 
         const requestOptionsAssetType = {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
             body: JSON.stringify({
                 "ticket": document.getElementById("asset-ticket").value,
                 "assetType": document.getElementById('asset-type').value
@@ -65,8 +68,12 @@ function ModalNewAccount({ path }) {
     }
 
     const [assetType, setAssetType] = useState([])
+    const requestOptionsGet = {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` }
+    }
     const getAssetTypes = () => {
-        fetch(`${path}/assettype`)
+        fetch(`${path}/assettype`, requestOptionsGet)
             .then(res => res.json())
             .then(data => {
                 let array = []

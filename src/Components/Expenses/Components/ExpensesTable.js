@@ -1,13 +1,16 @@
 import { useState, useEffect } from 'react'
+import Cookies from "universal-cookie";
+const cookies = new Cookies();
 
-function ExpensesTables({ path }) {
+function ExpensesTables({ path }) {    
+    const token = cookies.get('Token')
 
     const [lastExpenses, setLastExpenses] = useState([])
 
     const getLastTenExpenses = () => {
         const requiredOptions = {
             method: 'GET',
-            headers: { 'Content-Type': 'application/json' }
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` }
         }
 
         fetch(`${path}/registers`, requiredOptions)
@@ -26,7 +29,7 @@ function ExpensesTables({ path }) {
     const changeStatusOfExpense = (id) => {
         const requiredOptions = {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
             body: JSON.stringify({
                 id: id
             })

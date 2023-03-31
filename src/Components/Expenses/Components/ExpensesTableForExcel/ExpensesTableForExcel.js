@@ -1,13 +1,16 @@
 import { useEffect, useState } from "react"
+import Cookies from "universal-cookie";
+const cookies = new Cookies();
 
 function ExpensesTableForExcel({ path }) {
+    const token = cookies.get('Token')
 
     const [lastExpenses, setLastExpenses] = useState([])
 
     const getLastTenExpenses = () => {
         const requiredOptions = {
             method: 'GET',
-            headers: { 'Content-Type': 'application/json' }
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` }
         }
 
         fetch(`${path}/registers`, requiredOptions)

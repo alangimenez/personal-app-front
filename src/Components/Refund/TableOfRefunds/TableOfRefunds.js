@@ -1,23 +1,29 @@
 import { useEffect, useState } from "react"
 import ModalBody from "../../Utils/ModalBody"
-import ModalButton from "../../Utils/ModalButton"
 import LabelInput from "../../Utils/LabelInput"
 import InfoMessage from "../../Utils/InfoMessage"
 import Select from "../../Utils/Select"
+import Cookies from "universal-cookie";
+const cookies = new Cookies();
 
 function TableOfRefunds({ path }) {
+    const token = cookies.get('Token')
 
     const [refunds, setRefunds] = useState([])
+    const requestOptionsGet = {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` }
+    }
 
     const getAllRefunds = () => {
-        fetch(`${path}/refund`)
+        fetch(`${path}/refund`, requestOptionsGet)
             .then(res => res.json())
             .then(data => setRefunds(data))
     }
 
     const [accounts, setAccounts] = useState([])
     const getAccounts = () => {
-        fetch(`${path}/account/liquid`)
+        fetch(`${path}/account/liquid`, requestOptionsGet)
             .then((res) => res.json())
             .then((data) => {
                 setAccounts(data)
@@ -38,7 +44,7 @@ function TableOfRefunds({ path }) {
 
         const requestOptions = {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
             body: JSON.stringify({
                 "date": document.getElementById("table-of-refunds-date").value,
                 "id": id,
@@ -85,7 +91,7 @@ function TableOfRefunds({ path }) {
                             <td>{e.status}</td>
                             <td>
                                 {
-                                    e.status == "OPEN" ?
+                                    e.status === "OPEN" ?
                                         <button type="button" className="btn btn-primary" data-toggle="modal" data-target='#table-of-refunds' id={e._id} onClick={handlerId}>
                                             Devolución
                                         </button> :

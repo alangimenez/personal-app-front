@@ -3,13 +3,20 @@ import ModalBody from "../Utils/ModalBody"
 import ModalButton from "../Utils/ModalButton"
 import LabelInput from "../Utils/LabelInput"
 import InfoMessage from "../Utils/InfoMessage"
+import Cookies from "universal-cookie";
+const cookies = new Cookies();
 
 function ModalUpdateQuoteManually({ path }) {
+    const token = cookies.get('Token')
 
     const [tickets, setTickets] = useState([])
 
+    const requestOptionsGet = {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` }
+    }
     const getTickets = () => {
-        fetch(`${path}/account`)
+        fetch(`${path}/account`, requestOptionsGet)
             .then(res => res.json())
             .then(data => {
                 const array = []
@@ -31,7 +38,7 @@ function ModalUpdateQuoteManually({ path }) {
 
         const requestOptions = {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
             body: JSON.stringify({
                 "ticket": document.getElementById('quote-manual-ticket').value,
                 "price": document.getElementById('quote-manual-price').value,

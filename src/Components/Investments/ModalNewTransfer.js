@@ -5,8 +5,11 @@ import InfoMessage from "../Utils/InfoMessage"
 import { useState, useEffect } from "react"
 import Select from "../Utils/Select"
 import LabelTextArea from "../Utils/LabelTextArea"
+import Cookies from "universal-cookie";
+const cookies = new Cookies();
 
 function ModalNewTransfer({ path }) {
+    const token = cookies.get('Token')
 
     const saveTransfer = () => {
         document.getElementById('modal-new-transfer-close').disabled = true
@@ -15,7 +18,7 @@ function ModalNewTransfer({ path }) {
 
         const requestOptions = {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
             body: JSON.stringify({
                 "date": document.getElementById('modal-new-transfer-date').value,
                 "currency": document.getElementById('modal-new-transfer-currency').value,
@@ -51,8 +54,12 @@ function ModalNewTransfer({ path }) {
     }
 
     const [accounts, setAccounts] = useState([])
+    const requestOptionsGet = {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` }
+    }
     const getAccounts = () => {
-        fetch(`${path}/account/liquid`)
+        fetch(`${path}/account/liquid`, requestOptionsGet)
             .then((res) => res.json())
             .then((data) => setAccounts(data))
     }

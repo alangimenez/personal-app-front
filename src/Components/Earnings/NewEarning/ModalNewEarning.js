@@ -5,8 +5,11 @@ import ModalButton from "../../Utils/ModalButton"
 import ModalBody from "../../Utils/ModalBody"
 import LabelTextArea from "../../Utils/LabelTextArea"
 import InfoMessage from "../../Utils/InfoMessage"
+import Cookies from "universal-cookie";
+const cookies = new Cookies();
 
 function ModalNewEarning({ path }) {
+    const token = cookies.get('Token')
 
     const saveEarning = () => {
         document.getElementById('modal-new-earning-close').disabled = true
@@ -15,7 +18,7 @@ function ModalNewEarning({ path }) {
 
         const requestOptions = {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
             body: JSON.stringify({
                 "date": document.getElementById('modal-new-earning-date').value,
                 "debitCurrency": document.getElementById('modal-new-earning-currency').value,
@@ -50,15 +53,19 @@ function ModalNewEarning({ path }) {
     }
 
     const [accounts, setAccounts] = useState([])
+    const requestOptionsGet = {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` }
+    }
     const getAccounts = () => {
-        fetch(`${path}/account/liquid`)
+        fetch(`${path}/account/liquid`, requestOptionsGet)
             .then((res) => res.json())
             .then((data) => setAccounts(data))
     }
 
     const [earningAccounts, setEarningAccounts] = useState([])
     const getEarningAccounts = () => {
-        fetch(`${path}/account/type/R+`)
+        fetch(`${path}/account/type/R+`, requestOptionsGet)
             .then((res) => res.json())
             .then((data) => setEarningAccounts(data))
     }
