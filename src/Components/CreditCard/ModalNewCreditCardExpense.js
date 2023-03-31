@@ -47,6 +47,7 @@ function ModalNewCreditCardExpense({ path }) {
                 "year": document.getElementById("new-expense-credit-card-year").value,
                 "month": document.getElementById("new-expense-credit-card-month").value,
                 "benefitMP": mp,
+                "numberOfPayments": document.getElementById('new-expense-credit-card-payments').value,
                 "credit": periodsOfCreditCards[creditKey].credit
             })
         }
@@ -169,6 +170,7 @@ function ModalNewCreditCardExpense({ path }) {
                             </select>
                         </div>
                         <Select text={'Mes'} id={'new-expense-credit-card-month'} options={month} />
+                        <LabelInput text={'Cuotas'} id={'new-expense-credit-card-payments'} type={'number'} />
                         <LabelTextArea text={'Comentarios'} id={'new-expense-credit-card-comments'} />
                         <NewInputs path={path} />
 
