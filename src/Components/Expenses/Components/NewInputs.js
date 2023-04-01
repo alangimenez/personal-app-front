@@ -1,13 +1,10 @@
 import DataContext from "../../Context/Context"
-import Select from "../../Utils/Select"
-import LabelInput from "../../Utils/LabelInput"
-import { useEffect, useState, useContext } from 'react'
+import { useState, useContext } from 'react'
 
-function NewInputs({ path }) {
+function NewInputs() {
     const { addItems, items, accountsOptions } = useContext(DataContext)
 
     const addOtherInput = () => {
-        console.log(items)
         const div = document.createElement('div')
         div.setAttribute('class', 'row')
         const divLeft = document.createElement('div')
@@ -19,8 +16,6 @@ function NewInputs({ path }) {
 
         const selectAccount = document.createElement('select');
         selectAccount.setAttribute('class', 'form-control')
-        console.log(items)
-        console.log(`account${items}`)
         selectAccount.setAttribute('id', `account${items}`)
         accountsOptions.map(account => {
             const option = document.createElement('option');
@@ -33,12 +28,14 @@ function NewInputs({ path }) {
         inputAmount.setAttribute('id', `amount${items}`)
         inputAmount.setAttribute('placeholder', 'Importe')
         inputAmount.setAttribute(`class`, 'form-control')
+        inputAmount.setAttribute('type', 'number')
         divMiddle.appendChild(inputAmount)
 
         const discountAmount = document.createElement('input');
         discountAmount.setAttribute('id', `discount${items}`)
         discountAmount.setAttribute('placeholder', 'Descuento')
         discountAmount.setAttribute(`class`, 'form-control')
+        discountAmount.setAttribute('type', 'number')
         divRight.appendChild(discountAmount)
 
         const br = document.createElement('br')
@@ -54,18 +51,30 @@ function NewInputs({ path }) {
         addItems()
     }
 
-
-    /* useEffect(async () =>  getAccountOptions(), []) */
+    const [subtotal, setSubtotal] = useState(0)
+    const sumTotal = () => {
+        console.log(items)
+        let total = 0
+        for (let i = 0; i < items; i++) {
+            const amount = document.getElementById(`amount${i}`).value
+            const discount = document.getElementById(`discount${i}`).value
+            total = total + Number(amount) - Number(discount)
+        }
+        setSubtotal(total)
+    }
 
     return (
         <div>
             <div id='newInputsRoot'></div>
             <br></br>
-            <button type="button" className="btn btn-dark" onClick={addOtherInput}>+</button>
+            <button type="button" className="btn btn-dark" onClick={addOtherInput}>Nuevo item</button>
+            <button type="button" className="btn btn-dark" onClick={sumTotal}>Calcular total</button>
             <br></br>
             <br></br>
+            <div className='alert alert-dark' role="alert" id='something' style={{ textAlign: "end" }}>
+                <strong>Subtotal: {subtotal.toFixed(2)}</strong>
+            </div>
         </div>
-
     )
 }
 

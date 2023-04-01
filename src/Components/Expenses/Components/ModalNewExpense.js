@@ -131,7 +131,7 @@ function ModalNewExpense({ path }) {
                         <Select text={'Moneda'} id={'debtCurrency'} options={['ARS', 'USD']} />
 
                         <LabelTextArea text={'Comentarios'} id={'comments'} />
-                        <NewInputs path={path} />
+                        <NewInputs />
 
                         <div className="form-check">
                             <input className="form-check-input" type="checkbox" value="" id="modal-new-expense-mp"></input>
