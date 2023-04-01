@@ -53,7 +53,6 @@ function NewInputs() {
 
     const [subtotal, setSubtotal] = useState(0)
     const sumTotal = () => {
-        console.log(items)
         let total = 0
         for (let i = 0; i < items; i++) {
             const amount = document.getElementById(`amount${i}`).value
