@@ -35,6 +35,16 @@ function Navbar() {
                             <Link className="dropdown-item" to="/portfolio">Portfolio</Link>
                         </div>
                     </li>
+                    <li className="nav-item dropdown">
+                        <a className="nav-link dropdown-toggle" href="/" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Cuentas
+                        </a>
+                        <div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <Link className="dropdown-item" to="/account/asset">Nueva cuenta de activo</Link>
+                            <Link className="dropdown-item" to="/account/investment">Nueva cuenta de inversiones</Link>
+                            <Link className="dropdown-item" to="/account/expense">Nueva cuenta de gasto</Link>
+                        </div>
+                    </li>
                 </ul>
             </div>
         </nav>

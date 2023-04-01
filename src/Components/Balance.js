@@ -13,15 +13,9 @@ function Balance({ path }) {
     };
     const getLiquidAndFciBalance = () => {
         fetch(`${path}/account/liquid-fci`, requestOptionsLiquidFci)
-            .then(res => {
-                if (res.status === 401) {
-                    cookies.remove('Token', { path: '/' })
-                    window.location.href = '/login'
-                } else {
-                    res.json()
-                }
-            })
+            .then(res => res.json())
             .then(data => {
+                console.log(data)
                 setBalance(data)
             })
             .catch(e => {
