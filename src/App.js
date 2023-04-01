@@ -14,6 +14,9 @@ import CreditCard from './Components/CreditCard/CreditCardMain';
 import RefundMain from './Components/Refund/RefundMain';
 import ExpensesTableForExcel from './Components/Expenses/Components/ExpensesTableForExcel/ExpensesTableForExcel';
 import Login from './Components/Login/Login';
+import ExpenseAccount from './Components/Accounts/ExpenseAccount/ExpenseAccount'
+import NewInvestmentAccount from './Components/Accounts/InvestmentAccount/InvestmentAccount';
+import NewAssetAccount from './Components/Accounts/AssetAccount/AssetAccount';
 import Cookies from "universal-cookie";
 const cookies = new Cookies();
 
@@ -44,6 +47,9 @@ function App() {
                 <Route exact path="/refund" element={<RefundMain path={path} />} />
                 <Route exact path="/login" element={<Login path={path} />} />
                 <Route exact path="/gastos/para-excel" element={<ExpensesTableForExcel path={path} />} />
+                <Route exact path='/account/expense' element={<ExpenseAccount path={path} />} />
+                <Route exact path='/account/investment' element={<NewInvestmentAccount path={path} />} />
+                <Route exact path='/account/asset' element={<NewAssetAccount path={path} />} />
               </Routes>
             </>
             :
