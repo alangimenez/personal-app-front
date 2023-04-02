@@ -11,16 +11,13 @@ function Balance({ path }) {
         method: 'GET',
         headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` }
     };
-    const getLiquidAndFciBalance = () => {
-        fetch(`${path}/account/liquid-fci`, requestOptionsLiquidFci)
-            .then(res => res.json())
-            .then(data => {
-                console.log(data)
-                setBalance(data)
-            })
-            .catch(e => {
-                console.log(e)
-            })
+    const getLiquidAndFciBalance = async () => {
+        const res = await fetch(`${path}/account/liquid-fci`, requestOptionsLiquidFci)
+        if (res.status === 401) {
+            logout()
+        }
+        const data = await res.json()
+        setBalance(data)
     }
 
     const [benefitMP, setBenefitMP] = useState(0)
