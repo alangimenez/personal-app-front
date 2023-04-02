@@ -15,6 +15,15 @@ export const DataContextProvider = ({children}) => {
         setItems(0)
     }
 
+    const [itemsInvestment, setItemsInvestment] = useState(0)
+    const addItemsInvestment = () => {
+        setItemsInvestment(itemsInvestment + 1)
+    }
+
+    const resetItemsInvestment = () => {
+        setItemsInvestment(0)
+    }
+
     const [date, setDate] = useState("")
     const newDate = (date) => {
         setDate(date)
@@ -38,7 +47,7 @@ export const DataContextProvider = ({children}) => {
     }
 
     return (
-        <Context.Provider value={{addItems, items, resetItems, date, newDate, getAccountOptions, accountsOptions}}>
+        <Context.Provider value={{addItems, items, resetItems, date, newDate, getAccountOptions, accountsOptions, itemsInvestment, addItemsInvestment, resetItemsInvestment}}>
             {children}
         </Context.Provider> 
     )
