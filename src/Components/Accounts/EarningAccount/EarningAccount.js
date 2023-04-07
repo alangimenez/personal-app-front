@@ -5,16 +5,15 @@ import AccountsMain from "../AccountsMain";
 import Cookies from "universal-cookie";
 const cookies = new Cookies();
 
-function NewExpenseAccount({ path }) {
+function NewEarningAccount({ path }) {
     const token = cookies.get('Token')
 
-
-    const saveExpenseAccount = async () => {
-        const name = document.getElementById('new-expense-account-name')
-        const currency = document.getElementById('new-expense-account')
-        const btnClose = document.getElementById('new-expense-account-close')
-        const btnCreate = document.getElementById('new-expense-account-create')
-        const msg = document.getElementById('new-expense-account-message')
+    const saveEarningAccount = async () => {
+        const name = document.getElementById('new-earning-account-name')
+        const currency = document.getElementById('new-earning-account')
+        const btnClose = document.getElementById('new-earning-account-close')
+        const btnCreate = document.getElementById('new-earning-account-create')
+        const msg = document.getElementById('new-earning-account-message')
 
         btnClose.disabled = true
         btnCreate.disabled = true
@@ -25,7 +24,7 @@ function NewExpenseAccount({ path }) {
             headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
             body: JSON.stringify({
                 "name": name.value,
-                "type": "R-",
+                "type": "R+",
                 "assetType": "",
                 "ticket": "",
                 "balance": 0,
@@ -34,6 +33,7 @@ function NewExpenseAccount({ path }) {
         }
 
         const res = await fetch(`${path}/account`, requestOptionsAccount)
+        /* const data = await res.json() */
         msg.className = "alert alert-success"
         msg.innerHTML = "La cuenta fue creada con éxito"
 
@@ -52,20 +52,20 @@ function NewExpenseAccount({ path }) {
     return (
         <div>
             <AccountsMain />
-            <h1>Nueva cuenta de gasto</h1>
+            <h1>Nueva cuenta de ingreso</h1>
             <form>
-                <LabelInput text={'Nombre de cuenta'} id={'new-expense-account-name'} type={'string'} />
-                <Select text={'Moneda'} id={'new-expense-account'} options={['ARS', 'USD']} />
+                <LabelInput text={'Nombre de cuenta'} id={'new-earning-account-name'} type={'string'} />
+                <Select text={'Moneda'} id={'new-earning-account'} options={['ARS', 'USD']} />
             </form>
             <div className="modal-footer">
-                <button type="button" className="btn btn-secondary" data-dismiss="modal" id="new-expense-account-close">Cerrar</button>
-                <button type="button" className="btn btn-primary" onClick={saveExpenseAccount} id="new-expense-account-create">Crear cuenta</button>
+                <button type="button" className="btn btn-secondary" data-dismiss="modal" id="new-earning-account-close">Cerrar</button>
+                <button type="button" className="btn btn-primary" onClick={saveEarningAccount} id="new-earning-account-create">Crear cuenta</button>
             </div>
-            <InfoMessage id={'new-expense-account-message'} type='alert alert-info'>
+            <InfoMessage id={'new-earning-account-message'} type='alert alert-info'>
                 Estamos creando la cuenta
             </InfoMessage>
         </div>
     )
 }
 
-export default NewExpenseAccount
+export default NewEarningAccount

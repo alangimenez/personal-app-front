@@ -5,6 +5,7 @@ function AccountsMain() {
         <div>
             <button className="btn btn-dark"><Link className="nav-link" to="/account/asset">Nueva cuenta de activo</Link></button>
             <button className="btn btn-dark"><Link className="nav-link" to="/account/expense">Nueva cuenta de gastos</Link></button>
+            <button className="btn btn-dark"><Link className="nav-link" to="/account/earning">Nueva cuenta de ingresos</Link></button>
             <button className="btn btn-dark"><Link className="nav-link" to="/account/investment">Nueva cuenta de inversiones</Link></button>
         </div>
     )

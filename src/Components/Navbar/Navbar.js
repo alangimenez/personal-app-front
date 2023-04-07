@@ -43,6 +43,7 @@ function Navbar() {
                             <Link className="dropdown-item" to="/account/asset">Nueva cuenta de activo</Link>
                             <Link className="dropdown-item" to="/account/investment">Nueva cuenta de inversiones</Link>
                             <Link className="dropdown-item" to="/account/expense">Nueva cuenta de gasto</Link>
+                            <Link className="dropdown-item" to="/account/earning">Nueva cuenta de ingreso</Link>
                         </div>
                     </li>
                 </ul>
