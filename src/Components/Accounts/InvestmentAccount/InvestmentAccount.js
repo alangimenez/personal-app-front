@@ -33,7 +33,7 @@ function NewInvestmentAccount({ path }) {
             headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
             body: JSON.stringify({
                 "name": name.value,
-                "type": "R-",
+                "type": "A",
                 "assetType": assetType.value,
                 "ticket": ticket.value,
                 "balance": 0,
@@ -124,6 +124,7 @@ function NewInvestmentAccount({ path }) {
     return (
         <div>
             <AccountsMain />
+            <h1>Nueva cuenta de inversión</h1>
             <form>
                 <LabelInput text={'Nombre de cuenta'} id={'new-investment-account-name'} type={'string'} />
                 <Select text={'Moneda'} id={'new-investment-account'} options={['ARS', 'USD']} />

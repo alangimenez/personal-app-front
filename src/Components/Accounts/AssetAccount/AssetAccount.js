@@ -49,7 +49,6 @@ function NewAssetAccount({ path }) {
         }
 
         const resTwo = await fetch(`${path}/assettype/associate`, requestOptionsAssetType)
-        const dataTwo = await resTwo.json()
         msg.className = "alert alert-success"
         msg.innerHTML = "La cuenta fue creada con éxito"
 
@@ -58,6 +57,7 @@ function NewAssetAccount({ path }) {
             btnClose.disabled = false
             btnCreate.disabled = false
             msg.style.display = "none"
+            msg.className = "alert alert-info"
             msg.innerHTML = "Estamos creando la cuenta"
 
             name.value = ""
@@ -87,6 +87,7 @@ function NewAssetAccount({ path }) {
     return (
         <div>
             <AccountsMain />
+            <h1>Nueva cuenta de activo</h1>
             <form>
                 <LabelInput text={'Nombre de cuenta'} id={'new-asset-account-name'} type={'string'} />
                 <Select text={'Moneda'} id={'new-asset-account'} options={['ARS', 'USD']} />
