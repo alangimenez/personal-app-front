@@ -30,15 +30,17 @@ function Cashflow({ path }) {
                     <tr>
                         <th scope='col'>Bono</th>
                         <th scope='col'>Fecha de pago</th>
-                        <th scope='col'>Monto de pago</th>
+                        <th scope='col'>Capital</th>
+                        <th scope='col'>Intereses</th>
                         <th scope='col'>Dias restantes para cobro</th>
                     </tr>
                 </thead>
                 <tbody>
                     {
                         cashflow.map((e, index) => <tr key={index}>
-                            <td>{e.bondName}</td>
+                            <td>{e.ticket}</td>
                             <td>{e.dateInterest}</td>
+                            <td>{e.amortizationInterest}</td>
                             <td>{e.amountInterest}</td>
                             <td>{e.remainingsDays}</td>
                         </tr>)

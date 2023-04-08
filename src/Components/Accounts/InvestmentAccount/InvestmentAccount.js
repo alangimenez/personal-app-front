@@ -33,7 +33,7 @@ function NewInvestmentAccount({ path }) {
             headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
             body: JSON.stringify({
                 "name": name.value,
-                "type": "R-",
+                "type": "A",
                 "assetType": assetType.value,
                 "ticket": ticket.value,
                 "balance": 0,
