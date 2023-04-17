@@ -41,7 +41,6 @@ export const DataContextProvider = ({children}) => {
             .then((res) => res.json())
             .then((data) => {
                 data.map((account) => array.push(account.name))
-                console.log('array' + array)
                 setAccountsOptions(array)
             })
     }
