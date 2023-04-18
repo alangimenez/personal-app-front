@@ -17,8 +17,8 @@ function Portfolio({ path }) {
     }
     const getPortfolio = () => {
         fetch(`${path}/investment/portfolio`, requestOptionsGet)
-            .then((res) => res.json())
-            .then((data) => {
+            .then(res => res.json())
+            .then(data => {
                 setDetail(data.detail)
                 setPortfolio(data);
             })
@@ -42,7 +42,7 @@ function Portfolio({ path }) {
                     <div key={index}>
                         <h3>Subtotal de {atd.value}</h3>
                         <TableSubDetail
-                            columns={['Ticket', 'Moneda', 'BNA ARS', 'BNA USD', 'MEP ARS', 'MEP USD', '% sobre total']}
+                            columns={['Ticket', 'Moneda', 'Cantidad', 'BNA ARS', 'BNA USD', 'MEP ARS', 'MEP USD', '% sobre total']}
                             rows={atd.subdetail}
                         />
                     </div>

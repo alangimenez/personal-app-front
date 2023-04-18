@@ -29,6 +29,7 @@ function TableSubDetail({ columns = [], rows = [] }) {
                     rows.map((e, index) => <tr key={index}>
                         <td>{e.ticket}</td>
                         <td>{e.currency}</td>
+                        <td>{e.quantity}</td>
                         <td>{e.priceArsBna.toLocaleString('es')}</td>
                         <td>{e.priceUsdBna.toLocaleString('es')}</td>
                         <td>{e.priceArsMep.toLocaleString('es')}</td>
