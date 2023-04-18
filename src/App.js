@@ -18,6 +18,7 @@ import ExpenseAccount from './Components/Accounts/ExpenseAccount/ExpenseAccount'
 import NewInvestmentAccount from './Components/Accounts/InvestmentAccount/InvestmentAccount';
 import NewAssetAccount from './Components/Accounts/AssetAccount/AssetAccount';
 import NewEarningAccount from './Components/Accounts/EarningAccount/EarningAccount';
+import AllAccounts from './Components/Accounts/AllAccounts/AllAccounts';
 import Cookies from "universal-cookie";
 const cookies = new Cookies();
 
@@ -52,6 +53,7 @@ function App() {
                 <Route exact path='/account/earning' element={<NewEarningAccount path={path} />} />
                 <Route exact path='/account/investment' element={<NewInvestmentAccount path={path} />} />
                 <Route exact path='/account/asset' element={<NewAssetAccount path={path} />} />
+                <Route exact path='/account/list-of-assets' element={<AllAccounts path={path} />} />
               </Routes>
             </>
             :
