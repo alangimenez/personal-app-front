@@ -159,6 +159,7 @@ function ModalNewInvestment({ path }) {
         setTimeout(() => {
             infoMessage.style.display = "none"
             infoMessage.innerHTML = 'Estamos guardando la inversión'
+            infoMessage.className = 'alert alert-info'
             btnClose.disabled = false
             btnSave.disabled = false
             ticket.value = ""

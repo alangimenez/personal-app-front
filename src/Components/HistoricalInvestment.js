@@ -36,7 +36,6 @@ function HistoricalInvestment({path}) {
             <table className='table table-striped'>
                 <thead>
                     <tr>
-                        <th scope='col'>Name</th>
                         <th scope='col'>Ticket</th>
                         <th scope='col'>Purchase date</th>
                         <th scope='col'>Quantity</th>
@@ -49,7 +48,6 @@ function HistoricalInvestment({path}) {
                 <tbody>
                     {
                         historicalInvestment.map((e, index) => <tr key={index}>
-                            <td>{e.name}</td>
                             <td>{e.ticket}</td>
                             <td>{e.operationDate}</td>
                             <td>{e.operationQuantity}</td>
