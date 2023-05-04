@@ -29,6 +29,7 @@ function ModalClosePeriod({ path }) {
 
                 setTimeout(() => {
                     document.getElementById('modal-close-period-msg').innerHTML = 'Estamos cerrando el periodo'
+                    document.getElementById('modal-close-period-msg').className = 'alert alert-info'
                     document.getElementById('modal-close-period-msg').style.display = "none"
                     document.getElementById('modal-close-period-close').disabled = false
                     document.getElementById('modal-close-period-save').disabled = false

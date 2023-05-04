@@ -29,7 +29,7 @@ function NewAssetAccount({ path }) {
                 "name": name.value,
                 "type": "R-",
                 "assetType": assetType.value,
-                "ticket": "",
+                "ticket": name.value,
                 "balance": 0,
                 "currency": currency.value
             })

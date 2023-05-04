@@ -1,5 +1,6 @@
 import InfoMessage from "../Utils/InfoMessage"
 import Cookies from "universal-cookie";
+import { useEffect } from 'react';
 const cookies = new Cookies();
 
 function Login({ path }) {
@@ -27,7 +28,8 @@ function Login({ path }) {
 
         if (res.status === 200) {
             message.innerHTML = 'Usted se ha logueado con éxito'
-            cookies.set("Token", data.token, { path: '/'})
+            message.className = 'alert alert-success'
+            cookies.set("Token", data.token, { path: '/' })
 
             setTimeout(() => {
                 window.location.href = "/"
@@ -38,13 +40,20 @@ function Login({ path }) {
             setTimeout(() => {
                 message.style.display = 'none'
                 message.innerHTML = 'Estamos logueando su usuario'
+                message.className = 'alert alert-info'
                 submitBtn.disabled = false
             }, 2000)
         }
     }
 
+    useEffect(() => {
+        if(window.outerWidth > 412) {
+            document.getElementById('login-main').className = 'container'
+        }
+    })
+
     return (
-        <>
+        <div id="login-main">
             <form>
                 <div className="form-group">
                     <label htmlFor="login-email">Email address</label>
@@ -62,9 +71,7 @@ function Login({ path }) {
             <InfoMessage id='login-msg' type='alert alert-info'>
                 Estamos logueando su usuario
             </InfoMessage>
-
-
-        </>
+        </div>
     )
 }
 
