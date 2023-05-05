@@ -3,6 +3,7 @@ import Select from "../../Utils/Select"
 import InfoMessage from "../../Utils/InfoMessage"
 import AccountsMain from "../AccountsMain";
 import { useState, useEffect } from "react";
+import { createAccount, associateAccountWithAssetType } from "../AccountsFetchs/AccountFetchs"
 import Cookies from "universal-cookie";
 const cookies = new Cookies();
 
@@ -22,37 +23,33 @@ function NewAssetAccount({ path }) {
         btnCreate.disabled = true
         msg.style.display = "unset"
 
-        const requestOptionsAccount = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-            body: JSON.stringify({
-                "name": name.value,
-                "type": "R-",
-                "assetType": assetType.value,
-                "ticket": name.value,
-                "balance": 0,
-                "currency": currency.value
-            })
+        // 1st fetch
+        const dataFetchNewAccount = await createAccount(name.value, "", "A", "", currency.value, token, path)
+
+        if (dataFetchNewAccount.error) {
+            msg.className = "alert alert-danger"
+            msg.innerHTML = dataFetchNewAccount.message
+            resetMessages(btnClose, btnCreate, msg, name, currency, ticket, assetType)
+            return
         }
 
-        const resOne = await fetch(`${path}/account`, requestOptionsAccount)
-        const dataOne = await resOne.json()
+        // 2nd fetch
         msg.innerHTML = "Estamos asociando la cuenta al tipo de activo"
 
-        const requestOptionsAssetType = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-            body: JSON.stringify({
-                "ticket": ticket.value,
-                "assetType": assetType.value
-            })
+        const dataFetchAssociateAccount = await associateAccountWithAssetType(ticket.value, assetType.value, token, path)
+
+        if (dataFetchAssociateAccount.error) {
+            msg.className = "alert alert-danger"
+            msg.innerHTML = dataFetchAssociateAccount.message
+        } else {
+            msg.className = "alert alert-success"
+            msg.innerHTML = "La cuenta fue creada con éxito"
         }
 
-        const resTwo = await fetch(`${path}/assettype/associate`, requestOptionsAssetType)
-        msg.className = "alert alert-success"
-        msg.innerHTML = "La cuenta fue creada con éxito"
+        resetMessages(btnClose, btnCreate, msg, name, currency, ticket, assetType)
+    }
 
-
+    const resetMessages = (btnClose, btnCreate, msg, name, currency, ticket, assetType) => {
         setTimeout(() => {
             btnClose.disabled = false
             btnCreate.disabled = false

@@ -3,6 +3,7 @@ import Select from "../../Utils/Select"
 import InfoMessage from "../../Utils/InfoMessage"
 import AccountsMain from "../AccountsMain";
 import Cookies from "universal-cookie";
+import { createAccount } from "../AccountsFetchs/AccountFetchs"
 const cookies = new Cookies();
 
 function NewExpenseAccount({ path }) {
@@ -20,22 +21,14 @@ function NewExpenseAccount({ path }) {
         btnCreate.disabled = true
         msg.style.display = "unset"
 
-        const requestOptionsAccount = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-            body: JSON.stringify({
-                "name": name.value,
-                "type": "R-",
-                "assetType": "",
-                "ticket": "",
-                "balance": 0,
-                "currency": currency.value
-            })
-        }
+        const dataFetchNewAccount = await createAccount(name.value, "", "R-", "", currency.value, token, path)
 
-        const res = await fetch(`${path}/account`, requestOptionsAccount)
-        msg.className = "alert alert-success"
-        msg.innerHTML = "La cuenta fue creada con éxito"
+        if (dataFetchNewAccount.error) {
+            msg.className = "alert alert-danger"
+        } else {
+            msg.className = "alert alert-success"
+        }
+        msg.innerHTML = dataFetchNewAccount.message
 
         setTimeout(() => {
             btnClose.disabled = false

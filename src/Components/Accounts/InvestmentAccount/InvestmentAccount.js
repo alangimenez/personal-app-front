@@ -4,6 +4,8 @@ import Select from "../../Utils/Select"
 import InfoMessage from "../../Utils/InfoMessage"
 import AccountsMain from "../AccountsMain";
 import { useState, useEffect, useContext } from "react";
+import { createAccount, associateAccountWithAssetType } from "../AccountsFetchs/AccountFetchs"
+import { createCashflowOfBond } from "../../Investments/InvestmentsFetchs/InvestmentsFetchs"
 import Cookies from "universal-cookie";
 import NewPeriodOfPayments from "./NewPeriodOfPayment";
 const cookies = new Cookies();
@@ -28,32 +30,37 @@ function NewInvestmentAccount({ path }) {
         btnCreate.disabled = true
         msg.style.display = "unset"
 
-        const requestOptionsAccount = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-            body: JSON.stringify({
-                "name": name.value,
-                "type": "A",
-                "assetType": assetType.value,
-                "ticket": ticket.value,
-                "balance": 0,
-                "currency": currency.value
-            })
+        // 1st fetch
+        const dataFetchNewAccount = await createAccount(
+            name.value, 
+            assetType.value, 
+            "A", 
+            ticket.value, 
+            currency.value, 
+            token, 
+            path
+            )
+
+        if (dataFetchNewAccount.error) {
+            msg.className = "alert alert-danger"
+            msg.innerHTML = dataFetchNewAccount.message
+            resetMessages(btnClose, btnCreate, msg, name, currency, ticket, assetType, startDate, finishDate, rate)
+            return
         }
 
-        const resOne = await fetch(`${path}/account`, requestOptionsAccount)
+        // 2nd fetch
         msg.innerHTML = "Estamos asociando la cuenta al tipo de activo"
 
-        const requestOptionsAssetType = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-            body: JSON.stringify({
-                "ticket": ticket.value,
-                "assetType": assetType.value
-            })
-        }
+        const dataFetchAssociateAccount = await associateAccountWithAssetType(ticket.value, assetType.value, token, path)
 
-        const resTwo = await fetch(`${path}/assettype/associate`, requestOptionsAssetType)
+        if (dataFetchAssociateAccount.error) {
+            msg.className = "alert alert-danger"
+            msg.innerHTML = dataFetchAssociateAccount.message
+            resetMessages(btnClose, btnCreate, msg, name, currency, ticket, assetType, startDate, finishDate, rate)
+            return
+        } 
+
+        // 3rd fetch
         msg.innerHTML = "Estamos guardando el cashflow del bono"
 
         const interestAmount = []
@@ -64,23 +71,32 @@ function NewInvestmentAccount({ path }) {
             amortizationAmount.push(document.getElementById(`amortization${i}`).value)
             dateOfPayment.push(document.getElementById(`date${i}`).value)
         }
-        const requestOptionsCashflow = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-            body: JSON.stringify({
+        const dataFetchCreateCashflow = await createCashflowOfBond(
+            {
                 ticket: ticket.value,
                 start: startDate.value,
                 finish: finishDate.value,
                 rate: rate.value,
                 dateOfPayment: dateOfPayment,
                 amountInterest: interestAmount,
-                amountAmortization: amortizationAmount 
-            })
+                amountAmortization: amortizationAmount
+            },
+            path, 
+            token
+        )
+        
+        if (dataFetchCreateCashflow.error) {
+            msg.className = "alert alert-danger"
+            msg.innerHTML = dataFetchCreateCashflow.message
+        } else {
+            msg.className = "alert alert-success"
+            msg.innerHTML = "La cuenta fue creada con éxito"
         }
-        const resThree = await fetch(`${path}/cashflow`, requestOptionsCashflow)
-        msg.className = "alert alert-success"
-        msg.innerHTML = "La cuenta fue creada con éxito"
 
+        resetMessages(btnClose, btnCreate, msg, name, currency, ticket, assetType, startDate, finishDate, rate)
+    }
+
+    function resetMessages (btnClose, btnCreate, msg, name, currency, ticket, assetType, startDate, finishDate, rate) {
         setTimeout(() => {
             btnClose.disabled = false
             btnCreate.disabled = false
@@ -103,6 +119,7 @@ function NewInvestmentAccount({ path }) {
             resetItemsInvestment()
         }, 2000)
     }
+
 
     const [assetType, setAssetType] = useState([])
     const requestOptionsGet = {
