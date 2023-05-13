@@ -23,6 +23,7 @@ function ModalNewInvestment({ path }) {
     const account = document.getElementById("modal-new-investment-account")
     const comments = document.getElementById("modal-new-investment-comments")
     const commissionCurrency = document.getElementById("modal-new-investment-commission-currency")
+    const comissionAccount = document.getElementById('modal-new-investment-commission-account')
 
     const token = cookies.get('Token')
 
@@ -55,14 +56,6 @@ function ModalNewInvestment({ path }) {
         console.log("first investment")
         infoMessage.innerHTML = 'Estamos guardando la cotización de compra'
 
-        /* fetch(`${path}/investment`, requestOptionsInvestment)
-            .then((res) => res.json())
-            .then(() => {
-                console.log("first investment")
-                infoMessage.innerHTML = 'Estamos guardando la cotización de compra'
-            }) */
-
-        // second fetch (save last value)
         const requestOptionsLastValue = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
@@ -77,14 +70,7 @@ function ModalNewInvestment({ path }) {
         const dataTwo = await resTwo.json()
         console.log("second investment")
         infoMessage.innerHTML = 'Estamos creando el registro de inversión'
-        /* fetch(`${path}/lastvalue/manualquote`, requestOptionsLastValue)
-            .then(res => res.json())
-            .then(() => {
-                console.log("second investment")
-                infoMessage.innerHTML = 'Estamos creando el registro de inversión'
-            }) */
 
-        // third fetch (save register)
         let creditAccount
         let debitAccount
         if (operation.value === "Buy") {
@@ -122,12 +108,6 @@ function ModalNewInvestment({ path }) {
         console.log("third investment")
         infoMessage.innerHTML = 'Estamos creando el registro de las comisiones'
 
-        /* fetch(`${path}/registers/batch`, requestOptionsRegister)
-            .then((res) => res.json())
-            .then(() => {
-                
-            }) */
-
         // fourth fetch (save commission)
         const commissionRegister = {
             "debtAccount": "Comisiones",
@@ -141,7 +121,7 @@ function ModalNewInvestment({ path }) {
             body: JSON.stringify({
                 "date": purchaseDate.value,
                 "expenses": [commissionRegister],
-                "credit": account.value,
+                "credit": comissionAccount.value,
                 "currency": commissionCurrency.value,
                 "comments": comments.value,
                 "benefitMP": false,
@@ -172,14 +152,6 @@ function ModalNewInvestment({ path }) {
             commission.value = ""
             comments.value = ""
         }, 2000)
-
-        /* fetch(`${path}/registers/batch`, requestOptionsCommission)
-            .then((res) => res.json())
-            .then(() => {
-                console.log("fourth investment")
-                infoMessage.className = 'alert alert-success'
-                infoMessage.innerHTML = 'La inversión fue guardada con éxito'
-            }) */
     }
 
     // handlers
@@ -250,6 +222,7 @@ function ModalNewInvestment({ path }) {
                         <LabelInput text={'Purchase price'} id={'modal-new-investment-purchase-price'} type={'number'} />
                         <Select text={'Operation currency'} id={'modal-new-investment-operation-currency'} options={['USD', 'ARS']} />
                         <LabelInput text={'Commissions'} id={'modal-new-investment-commission'} type={'number'} />
+                        <Select text={'Commission account'} id={'modal-new-investment-commission-account'} options={liquidAccounts} />
                         <Select text={'Commission currency'} id={'modal-new-investment-commission-currency'} options={['USD', 'ARS']} />
                         <Select text={'Operation'} id={'modal-new-investment-operation'} options={['Buy', 'Sell']} />
                         <Select text={'Cuenta débito/crédito'} id={'modal-new-investment-account'} options={liquidAccounts} />
