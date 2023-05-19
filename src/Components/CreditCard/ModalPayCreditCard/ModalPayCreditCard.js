@@ -1,46 +1,40 @@
-import ModalBody from "../Utils/ModalBody"
-import ModalButton from "../Utils/ModalButton"
-import Select from "../Utils/Select"
+import ModalBody from "../../Utils/ModalBody"
+import ModalButton from "../../Utils/ModalButton"
+import Select from "../../Utils/Select"
 import { useState, useEffect } from "react"
-import InfoMessage from "../Utils/InfoMessage"
+import InfoMessage from "../../Utils/InfoMessage"
+import { getClosedPeriodByCreditCard, getExpensesDetailByNameMonthAndYear, payPeriodOfCC } from "../CreditCardFetchs/CreditCardFetchs"
 import Cookies from "universal-cookie";
 const cookies = new Cookies();
 
 function ModalPayCreditCard({ path }) {
     const token = cookies.get('Token')
+    const nameValue = document.getElementById('pay-credit-card-name')
+    const yearValue = document.getElementById('pay-credit-card-year')
+    const monthValue = document.getElementById('pay-credit-card-month')
+    const buttonClose = document.getElementById('pay-credit-card-close')
+    const buttonSelect = document.getElementById('pay-credit-card-select')
+    const infoMessage = document.getElementById('pay-credit-card-msg')
 
     const [periodsOfCreditCards, setPeriodsOfCreditCards] = useState([])
     const [creditCardNames, setCreditCardNames] = useState([])
-    const [period, setPeriod] = useState([])
     const [disabled, setDisabled] = useState(true)
 
-    const requestOptionsGet = {
-        method: 'GET',
-        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` }
-    }
-    const getClosedPeriodByCreditCard = () => {
-        fetch(`${path}/expensecreditcard/period/CLOSED`, requestOptionsGet)
-            .then(res => res.json())
-            .then(data => {
-                setPeriodsOfCreditCards(data)
-                const array = []
-                data.map(it => array.push(it.name))
-                array.unshift("")
-                setCreditCardNames(array)
-            })
-    }
-
-    useEffect(() => { getClosedPeriodByCreditCard() }, [])
+    useEffect(async () => {
+        const closedPeriod = await getClosedPeriodByCreditCard(token, path)
+        setPeriodsOfCreditCards(closedPeriod.periodsCC)
+        setCreditCardNames(closedPeriod.ccNames)
+    }, [])
 
     const [year, setYear] = useState([])
     const [month, setMonth] = useState([])
     const [keyOfCreditCard, setKeyOfCreditCard] = useState(0)
-    const handleChangeSelectCreditCard = (event) => {
+    const handleChangeSelectCreditCard = event => {
         const { key, year } = changeArrayOfYears(event.target.value)
         changeArrayOfMonths(year, key)
     }
 
-    const handleChangeSelectYear = (event) => changeArrayOfMonths(event.target.value, keyOfCreditCard)
+    const handleChangeSelectYear = event => changeArrayOfMonths(event.target.value, keyOfCreditCard)
 
     const changeArrayOfYears = name => {
         const key = periodsOfCreditCards.findIndex(ccp => ccp.name == name)
@@ -63,67 +57,39 @@ function ModalPayCreditCard({ path }) {
 
     const [expensesDetail, setExpensesDetail] = useState([])
     const [totalAmount, setTotalAmount] = useState(0)
-    const showDetailOfPeriodOfCreditCard = () => {
-        const name = document.getElementById('pay-credit-card-name').value
-        const year = document.getElementById('pay-credit-card-year').value
-        const month = document.getElementById('pay-credit-card-month').value
-        
-        fetch(`${path}/expensecreditcard/expenses?name=${name}&year=${year}&month=${month}`, requestOptionsGet)
-            .then(res => res.json())
-            .then(data => {
-                setExpensesDetail(data[0].expenses)
-
-                let total = 0
-                data[0].expenses.map(e => {
-                    total = total + e.amount
-                })
-                setTotalAmount(total)
-            })
-
+    const showDetailOfPeriodOfCreditCard = async () => {
+        const expenses = await getExpensesDetailByNameMonthAndYear(nameValue.value, yearValue.value, monthValue.value, token, path)
+        setExpensesDetail(expenses.expenseDetail)
+        setTotalAmount(expenses.totalAmount)
         setDisabled(false)
     }
 
     const payPeriod = () => {
-        document.getElementById('pay-credit-card-close').disabled = true
-        document.getElementById('pay-credit-card-select').disabled = true
+        buttonClose.disabled = true
+        buttonSelect.disabled = true
         setDisabled(true)
-        document.getElementById('pay-credit-card-msg').style.display = "unset"
+        infoMessage.style.display = "unset"
 
-        const requestOptions = {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-            body: JSON.stringify({
-                "name": document.getElementById("pay-credit-card-name").value,
-                "year": document.getElementById("pay-credit-card-year").value,
-                "month": document.getElementById("pay-credit-card-month").value,
-                "status": 'PAID'
-            })
-        }
+        payPeriodOfCC(nameValue.value, yearValue.value, monthValue.value, token, path)
+        setExpensesDetail([])
+        setTotalAmount(0)
+        infoMessage.innerHTML = 'El pago del periodo fue registrado con éxito'
+        infoMessage.className = 'alert alert-success'
 
-        fetch(`${path}/expensecreditcard/period/status`, requestOptions)
-            .then(res => res.json())
-            .then(() => {
-                setExpensesDetail([])
-                setTotalAmount(0)
-            })
-            .then(data => {
-                document.getElementById('pay-credit-card-msg').innerHTML = 'El pago del periodo fue registrado con éxito'
-                document.getElementById('pay-credit-card-msg').className = 'alert alert-success'
+        setTimeout(() => {
+            infoMessage.innerHTML = 'Se está registrando el pago de la tarjeta'
+            infoMessage.style.display = "none"
+            document.getElementById('pay-credit-card-close').disabled = false
+            document.getElementById('pay-credit-card-select').disabled = false
+            document.getElementById('pay-credit-card-save').disabled = false
 
-                setTimeout(() => {
-                    document.getElementById('pay-credit-card-msg').innerHTML = 'Se está registrando el pago de la tarjeta'
-                    document.getElementById('pay-credit-card-msg').style.display = "none"
-                    document.getElementById('pay-credit-card-close').disabled = false
-                    document.getElementById('pay-credit-card-select').disabled = false
-                    document.getElementById('pay-credit-card-save').disabled = false
+            nameValue.value = ""
+            yearValue.value = ""
+            monthValue.value = ""
 
-                    document.getElementById("pay-credit-card-name").value = ""
-                    document.getElementById("pay-credit-card-year").value = ""
-                    document.getElementById("pay-credit-card-month").value = ""
+            setExpensesDetail([])
+        }, 2000)
 
-                    setExpensesDetail([])
-                }, 2000)
-            })
     }
 
 
