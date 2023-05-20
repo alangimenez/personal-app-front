@@ -2,7 +2,7 @@ import DataContext from "../../Context/Context"
 import { useState, useContext } from 'react'
 
 function NewInputs() {
-    const { addItems, items, accountsOptions } = useContext(DataContext)
+    const { addItems, items, accountsOptions, subtotalOfExpense, setSubtotalOfExpense } = useContext(DataContext)
 
     const addOtherInput = () => {
         const div = document.createElement('div')
@@ -51,7 +51,6 @@ function NewInputs() {
         addItems()
     }
 
-    const [subtotal, setSubtotal] = useState(0)
     const sumTotal = () => {
         let total = 0
         for (let i = 0; i < items; i++) {
@@ -59,7 +58,7 @@ function NewInputs() {
             const discount = document.getElementById(`discount${i}`).value
             total = total + Number(amount) - Number(discount)
         }
-        setSubtotal(total)
+        setSubtotalOfExpense(total)
     }
 
     return (
@@ -71,7 +70,7 @@ function NewInputs() {
             <br></br>
             <br></br>
             <div className='alert alert-dark' role="alert" id='something' style={{ textAlign: "end" }}>
-                <strong>Subtotal: {subtotal.toFixed(2)}</strong>
+                <strong>Subtotal: {subtotalOfExpense.toFixed(2)}</strong>
             </div>
         </div>
     )

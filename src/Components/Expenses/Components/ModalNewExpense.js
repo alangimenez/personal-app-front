@@ -13,7 +13,7 @@ const cookies = new Cookies();
 function ModalNewExpense({ path }) {
     const token = cookies.get('Token')
 
-    const { items, resetItems, getAccountOptions, accountsOptions } = useContext(DataContext)
+    const { items, resetItems, getAccountOptions, accountsOptions, setSubtotalOfExpense } = useContext(DataContext)
 
     const saveExpense = () => {
         let mp = document.getElementById('modal-new-expense-mp').checked
@@ -89,6 +89,7 @@ function ModalNewExpense({ path }) {
                     document.getElementById("date").value = ""
                     document.getElementById("creditAccount").value = ""
                     mp = false
+                    setSubtotalOfExpense(0)
                     const parent = document.getElementById('newInputsRoot')
                     while (parent.firstChild) {
                         parent.firstChild.remove()

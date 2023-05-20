@@ -13,7 +13,7 @@ const cookies = new Cookies();
 function ModalNewCreditCardExpense({ path }) {
     const token = cookies.get('Token')
 
-    const { items, resetItems, getAccountOptions, accountsOptions } = useContext(DataContext)
+    const { items, resetItems, getAccountOptions, accountsOptions, setSubtotalOfExpense } = useContext(DataContext)
 
     const saveExpenseInCreditCard = () => {
         let mp = document.getElementById('new-expense-credit-card-mp').checked
@@ -91,6 +91,7 @@ function ModalNewCreditCardExpense({ path }) {
                     document.getElementById("new-expense-credit-card-year").value = ""
                     document.getElementById("new-expense-credit-card-month").value = ""
                     mp = false
+                    setSubtotalOfExpense(0)
                     const parent = document.getElementById('newInputsRoot')
                     while (parent.firstChild) {
                         parent.firstChild.remove()
@@ -179,7 +180,7 @@ function ModalNewCreditCardExpense({ path }) {
                         <Select text={'Mes'} id={'new-expense-credit-card-month'} options={month} />
                         <LabelInput text={'Cuotas'} id={'new-expense-credit-card-payments'} type={'number'} />
                         <LabelTextArea text={'Comentarios'} id={'new-expense-credit-card-comments'} />
-                        <NewInputs path={path} />
+                        <NewInputs />
 
                         <div className="form-check">
                             <input className="form-check-input" type="checkbox" value="" id="new-expense-credit-card-mp"></input>
