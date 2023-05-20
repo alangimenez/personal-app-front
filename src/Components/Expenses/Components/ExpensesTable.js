@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import Cookies from "universal-cookie";
+import { getRegistersByType, changeStatus } from '../../../fetchs/registers/registersFetchs'
 const cookies = new Cookies();
 
 function ExpensesTables({ path }) {
@@ -7,24 +8,10 @@ function ExpensesTables({ path }) {
 
     const [lastExpenses, setLastExpenses] = useState([])
 
-    const getLastTenExpenses = async () => {
-        const requiredOptions = {
-            method: 'GET',
-            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` }
-        }
-
-        const res = await fetch(`${path}/registers`, requiredOptions)
-        const data = await res.json()
-        setLastExpenses(data)
-        /* fetch(`${path}/registers`, requiredOptions)
-            .then((res) => res.json())
-            .then((data) => setLastExpenses(data)) */
-    }
+    const getLastTenExpenses = async () => setLastExpenses(await getRegistersByType(token, path))
 
     useEffect(() => {
-        console.log("antes")
         getLastTenExpenses()
-        console.log("despues")
         console.log(window.outerWidth)
         if (window.outerWidth < 413) {
             import ("./ExpensesTable.css")
@@ -37,19 +24,9 @@ function ExpensesTables({ path }) {
         setStatus(event.target.checked)
     }
 
-    const changeStatusOfExpense = (id) => {
-        const requiredOptions = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-            body: JSON.stringify({
-                id: id
-            })
-        }
-
+    const changeStatusOfExpense = async (id) => {
         if (status == true) {
-            fetch(`${path}/registers/status`, requiredOptions)
-                .then((res) => res.json())
-                .then(() => { })
+            await changeStatus(id, token, path)
         }
     }
 
