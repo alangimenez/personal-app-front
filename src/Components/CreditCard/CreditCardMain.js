@@ -2,7 +2,7 @@ import ModalClosePeriodCreditCard from "./ModalClosePeriodCreditCard"
 import ModalNewCreditCard from "./ModalNewCreditCard"
 import ModalNewCreditCardExpense from "./ModalNewCreditCardExpense"
 import ModalNewPeriodOfCreditCard from "./ModalNewPeriodOfCreditCard"
-import ModalPayCreditCard from "./ModalPayCreditCard"
+import ModalPayCreditCard from "./ModalPayCreditCard/ModalPayCreditCard"
 import TableCreditCardExpenses from "./TableCreditCardExpenses"
 
 function CreditCardMain({ path }) {
