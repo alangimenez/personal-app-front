@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { getListOfExpenseAccounts } from '../../fetchs/accounts/accountsFetchs'
 
 const Context = React.createContext()
 
@@ -31,18 +32,9 @@ export const DataContextProvider = ({children}) => {
 
     const [accountsOptions, setAccountsOptions] = useState([])
 
-    const getAccountOptions = token => {
-        let array = []
-        const requestOptions = {
-            method: 'GET',
-            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` }
-        };
-        fetch(`${path}/account/expenses`, requestOptions)
-            .then((res) => res.json())
-            .then((data) => {
-                data.map((account) => array.push(account.name))
-                setAccountsOptions(array)
-            })
+    const getAccountOptions = async (token) => {
+        const listOfExpenseAccounts = await getListOfExpenseAccounts(token, path)
+        setAccountsOptions(listOfExpenseAccounts)
     }
 
     return (
