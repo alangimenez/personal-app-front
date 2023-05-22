@@ -19,6 +19,7 @@ import NewInvestmentAccount from './Components/Accounts/InvestmentAccount/Invest
 import NewAssetAccount from './Components/Accounts/AssetAccount/AssetAccount';
 import NewEarningAccount from './Components/Accounts/EarningAccount/EarningAccount';
 import AllAccounts from './Components/Accounts/AllAccounts/AllAccounts';
+import MonthRegister from './Components/MonthRegister/MonthRegisterMain'
 import Cookies from "universal-cookie";
 const cookies = new Cookies();
 
@@ -54,6 +55,7 @@ function App() {
                 <Route exact path='/account/investment' element={<NewInvestmentAccount path={path} />} />
                 <Route exact path='/account/asset' element={<NewAssetAccount path={path} />} />
                 <Route exact path='/account/list-of-assets' element={<AllAccounts path={path} />} />
+                <Route exact path='/month-register' element={<MonthRegister path={path} />} />
               </Routes>
             </>
             :
