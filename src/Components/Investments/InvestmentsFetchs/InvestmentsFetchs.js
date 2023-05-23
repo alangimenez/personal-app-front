@@ -8,8 +8,8 @@ const createCashflowOfBond = async (cashflow, path, token) => {
             finish: cashflow.finishDate,
             rate: cashflow.rate,
             dateOfPayment: cashflow.dateOfPayment,
-            amountInterest: cashflow.interestAmount,
-            amountAmortization: cashflow.amortizationAmount
+            amountInterest: cashflow.amountInterest,
+            amountAmortization: cashflow.amountAmortization
         })
     }
     const response = await fetch(`${path}/cashflow`, requestOptionsCashflow)
