@@ -3,7 +3,7 @@ import { getListOfExpenseAccounts } from '../../fetchs/accounts/accountsFetchs'
 
 const Context = React.createContext()
 
-export const DataContextProvider = ({children}) => {
+export const DataContextProvider = ({ children }) => {
 
     const path = process.env.REACT_APP_BASEPATH
 
@@ -37,10 +37,25 @@ export const DataContextProvider = ({children}) => {
         setAccountsOptions(listOfExpenseAccounts)
     }
 
+    const [subtotalOfExpense, setSubtotalOfExpense] = useState(0)
+
     return (
-        <Context.Provider value={{addItems, items, resetItems, date, newDate, getAccountOptions, accountsOptions, itemsInvestment, addItemsInvestment, resetItemsInvestment}}>
+        <Context.Provider value={{
+            addItems,
+            items,
+            resetItems,
+            date,
+            newDate,
+            getAccountOptions,
+            accountsOptions,
+            itemsInvestment,
+            addItemsInvestment,
+            resetItemsInvestment,
+            subtotalOfExpense, 
+            setSubtotalOfExpense
+        }}>
             {children}
-        </Context.Provider> 
+        </Context.Provider>
     )
 }
 
