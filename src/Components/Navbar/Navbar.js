@@ -47,6 +47,9 @@ function Navbar() {
                             <Link className="dropdown-item" to="/account/list-of-assets">Ver todas las cuentas</Link>
                         </div>
                     </li>
+                    <li className="nav-item">
+                        <Link className="nav-link" to="/month-register">Resumen</Link>
+                    </li>
                 </ul>
             </div>
         </nav>
