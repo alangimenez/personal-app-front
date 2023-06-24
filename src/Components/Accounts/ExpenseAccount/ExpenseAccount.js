@@ -25,10 +25,11 @@ function NewExpenseAccount({ path }) {
 
         if (dataFetchNewAccount.error) {
             msg.className = "alert alert-danger"
+            msg.innerHTML = "Ha ocurrido un error creando la cuenta"
         } else {
             msg.className = "alert alert-success"
+            msg.innerHTML = "La cuenta fue creada con éxito"
         }
-        msg.innerHTML = dataFetchNewAccount.message
 
         setTimeout(() => {
             btnClose.disabled = false
