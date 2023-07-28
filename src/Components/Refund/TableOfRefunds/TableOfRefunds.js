@@ -30,7 +30,13 @@ function TableOfRefunds({ path }) {
             })
     }
 
-    useEffect(() => { getAllRefunds(); getAccounts() }, [])
+    useEffect(() => { 
+        getAllRefunds(); 
+        getAccounts() ;
+        if (window.outerWidth < 413) {
+            import ("./TableOfRefundsMobile.css")
+        }
+    }, [])
 
     const [id, setId] = useState("")
     const handlerId = (event) => {
@@ -75,7 +81,7 @@ function TableOfRefunds({ path }) {
 
     return (
         <>
-            <div style={{overflow: "scroll"}}>
+            <div id="tableRefund">
                 <table className='table table-striped'>
                     <thead>
                         <tr>
