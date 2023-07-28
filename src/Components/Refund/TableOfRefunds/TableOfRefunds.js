@@ -75,33 +75,36 @@ function TableOfRefunds({ path }) {
 
     return (
         <>
-            <table className='table table-striped'>
-                <thead>
-                    <tr>
-                        <td><strong>Fecha</strong></td>
-                        <td><strong>Monto</strong></td>
-                        <td><strong>Estado</strong></td>
-                    </tr>
-                </thead>
-                <tbody>
-                    {
-                        refunds.map((e, index) => <tr key={index}>
-                            <td>{e.date}</td>
-                            <td>{e.total.toLocaleString('es')}</td>
-                            <td>{e.status}</td>
-                            <td>
-                                {
-                                    e.status === "OPEN" ?
-                                        <button type="button" className="btn btn-primary" data-toggle="modal" data-target='#table-of-refunds' id={e._id} onClick={handlerId}>
-                                            Devolución
-                                        </button> :
-                                        <p></p>
-                                }
-                            </td>
-                        </tr>)
-                    }
-                </tbody>
-            </table>
+            <div style={{overflow: "scroll"}}>
+                <table className='table table-striped'>
+                    <thead>
+                        <tr>
+                            <td><strong>Fecha</strong></td>
+                            <td><strong>Monto</strong></td>
+                            <td><strong>Estado</strong></td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {
+                            refunds.map((e, index) => <tr key={index}>
+                                <td>{e.date}</td>
+                                <td>{e.total.toLocaleString('es')}</td>
+                                <td>{e.status}</td>
+                                <td>
+                                    {
+                                        e.status === "OPEN" ?
+                                            <button type="button" className="btn btn-primary" data-toggle="modal" data-target='#table-of-refunds' id={e._id} onClick={handlerId}>
+                                                Devolución
+                                            </button> :
+                                            <p></p>
+                                    }
+                                </td>
+                            </tr>)
+                        }
+                    </tbody>
+                </table>
+            </div>
+
 
             <ModalBody id="table-of-refunds">
                 <div className="modal-header">
