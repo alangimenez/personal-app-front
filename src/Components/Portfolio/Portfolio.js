@@ -26,29 +26,33 @@ function Portfolio({ path }) {
 
     useEffect(() => {
         getPortfolio()
+        if (window.outerWidth < 413) {
+            import("./Portfolio.css")
+        }
     }, [])
 
     return (
         <div className="container">
-            <OtherQuotes path={path }/>
-            <h2>Total por tipo de activo</h2>
-            <TableDetail
-                columns={['Tipo de activo', 'BNA ARS', 'BNA USD', 'MEP ARS', 'MEP USD', '% sobre total']}
-                rows={portfolio.totalDetail}
-                path={path}
-            />
-            {
-                detail.map((atd, index) =>
-                    <div key={index}>
-                        <h3>Subtotal de {atd.value}</h3>
-                        <TableSubDetail
-                            columns={['Ticket', 'Moneda', 'Cantidad', 'BNA ARS', 'BNA USD', 'MEP ARS', 'MEP USD', '% sobre total']}
-                            rows={atd.subdetail}
-                        />
-                    </div>
-                )
-            }
-
+            <OtherQuotes path={path} />
+            <div id="portfolio-table">
+                <h2>Total por tipo de activo</h2>
+                <TableDetail
+                    columns={['Tipo de activo', 'BNA ARS', 'BNA USD', 'MEP ARS', 'MEP USD', '% sobre total']}
+                    rows={portfolio.totalDetail}
+                    path={path}
+                />
+                {
+                    detail.map((atd, index) =>
+                        <div key={index}>
+                            <h3>Subtotal de {atd.value}</h3>
+                            <TableSubDetail
+                                columns={['Ticket', 'Moneda', 'Cantidad', 'BNA ARS', 'BNA USD', 'MEP ARS', 'MEP USD', '% sobre total']}
+                                rows={atd.subdetail}
+                            />
+                        </div>
+                    )
+                }
+            </div>
         </div>
     )
 }

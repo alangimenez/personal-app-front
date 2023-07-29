@@ -4,11 +4,10 @@ import Demo from './Components/Demo';
 import EarningsMain from './Components/Earnings/EarningsMain';
 import Gastos from './Components/Expenses/ExpensesMain';
 import Inversiones from './Components/Inversiones'
-import Cashflow from './Components/Cashflow';
+import Cashflow from './Components/Cashflow/Cashflow';
 import Navbar from './Components/Navbar/Navbar';
 import HistoricalInvestment from './Components/HistoricalInvestment/HistoricalInvestment'
 import Portfolio from './Components/Portfolio/Portfolio';
-import Balance from './Components/Balance';
 import { DataContextProvider } from './Components/Context/Context';
 import CreditCard from './Components/CreditCard/CreditCardMain';
 import RefundMain from './Components/Refund/RefundMain';
