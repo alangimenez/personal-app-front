@@ -23,7 +23,7 @@ function TableEarnings({ path }) {
                         <tr>
                             <th scope='col'>Fecha</th>
                             <th scope='col'>Cuenta</th>
-                            <th scope='col'>Mon</th>
+                            <th scope='col'>Moneda</th>
                             <th scope='col'>Monto</th>
                         </tr>
                     </thead>
