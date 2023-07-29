@@ -27,7 +27,8 @@ function ModalNewEarning({ path }) {
                 "comments": document.getElementById('modal-new-earning-comments').value,
                 "creditAmount": document.getElementById('modal-new-earning-amount').value,
                 "debit": document.getElementById('modal-new-earning-account-to').value,
-                "debitAmount": document.getElementById('modal-new-earning-amount').value
+                "debitAmount": document.getElementById('modal-new-earning-amount').value,
+                "type": ["earning"]
             })
         };
 
