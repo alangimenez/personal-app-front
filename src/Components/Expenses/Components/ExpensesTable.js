@@ -49,7 +49,7 @@ function ExpensesTables({ path }) {
                         <td>{e.date}</td>
                         <td>{e.debit}</td>
                         <td className='display'>{e.debitCurrency}</td>
-                        <td>{e.debitAmount}</td>
+                        <td>{e.debitAmount.toLocaleString('es')}</td>
                         <td className='display'>{e.credit}</td>
                         <td className='display'>
                             <div className="form-check">

@@ -28,11 +28,13 @@ function HistoricalInvestment({path}) {
 
     useEffect(() => {
         getHistoricalInvestment()
+        if (window.outerWidth < 413) {
+            import ("./HistoricalInvestment.css")
+        }
     }, [])
 
     return (
-        <div className="container">
-
+        <div id="historical-investment-table" className="container">
             <table className='table table-striped'>
                 <thead>
                     <tr>

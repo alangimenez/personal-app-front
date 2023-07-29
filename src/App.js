@@ -6,7 +6,7 @@ import Gastos from './Components/Expenses/ExpensesMain';
 import Inversiones from './Components/Inversiones'
 import Cashflow from './Components/Cashflow';
 import Navbar from './Components/Navbar/Navbar';
-import HistoricalInvestment from './Components/HistoricalInvestment'
+import HistoricalInvestment from './Components/HistoricalInvestment/HistoricalInvestment'
 import Portfolio from './Components/Portfolio/Portfolio';
 import Balance from './Components/Balance';
 import { DataContextProvider } from './Components/Context/Context';
