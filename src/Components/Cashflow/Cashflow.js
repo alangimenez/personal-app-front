@@ -21,10 +21,15 @@ function Cashflow({ path }) {
             })
     }
 
-    useEffect(() => { getCashFlows() }, [])
+    useEffect(() => { 
+        getCashFlows() 
+        if (window.outerWidth < 413) {
+            import ("./Cashflow.css")
+        }
+    }, [])
 
     return (
-        <div className='container'>
+        <div id='cashflow-table' className='container'>
             <table className='table table-striped'>
                 <thead>
                     <tr>
