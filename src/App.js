@@ -35,8 +35,8 @@ function App() {
           token ?
             <>
               <div className='container'>
-                <Navbar />
-                <Balance path={path} />
+                <Navbar path={path} />
+                {/* <Balance path={path} /> */}
               </div>
               <Routes>
                 <Route path="/" element={<Demo path={path} />}></Route>
@@ -84,7 +84,7 @@ function App() {
             :
             <Route exact path="/login" element={<Login path={path} />} />
           } */}
-          {/* <Route path="/" element={<Demo path={path} />}></Route>
+        {/* <Route path="/" element={<Demo path={path} />}></Route>
           <Route path="/ingresos" element={<EarningsMain path={path} />}></Route>
           <Route exact path="/gastos" element={<Gastos path={path} />}></Route>
           <Route path="/inversiones" element={<Inversiones path={path} />} />

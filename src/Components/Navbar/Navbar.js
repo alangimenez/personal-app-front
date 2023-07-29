@@ -1,6 +1,16 @@
 import { Link } from "react-router-dom"
+import ModalBody from "../Utils/ModalBody"
+import ModalButton from "../Utils/ModalButton"
+import Balance from "../Balance"
+import Cookies from "universal-cookie";
+const cookies = new Cookies();
 
-function Navbar() {
+function Navbar({ path }) {
+    const logout = () => {
+        cookies.remove('Token', { path: '/' })
+        window.location.href = '/login'
+    }
+
     return (
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
             {/* <a className="navbar-brand" href="/">Home</a> */}
@@ -50,8 +60,25 @@ function Navbar() {
                     <li className="nav-item">
                         <Link className="nav-link" to="/month-register">Resumen</Link>
                     </li>
+                    <li>
+                        <ModalButton target={'#navbar-balance'}>
+                            Saldos
+                        </ModalButton>
+                    </li>
+                    <li>
+                        <button className="btn btn-dark" onClick={logout}>Logout</button>
+                    </li>
                 </ul>
             </div>
+
+            <ModalBody id={'navbar-balance'}>
+                <div className="modal-header">
+                    <h1 className="modal-title fs-5" id="exampleModalLabel">Saldos</h1>
+                </div>
+                <div className="modal-body">
+                    <Balance path={path} />
+                </div>
+            </ModalBody>
         </nav>
     )
 }
