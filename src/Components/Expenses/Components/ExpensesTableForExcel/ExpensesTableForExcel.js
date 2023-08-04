@@ -10,6 +10,9 @@ function ExpensesTableForExcel({ path }) {
 
     useEffect(() => {
         setLastExpensesInUseEffect()
+        if (window.outerWidth < 413) {
+            import("./ExpensesTableForExcel.css")
+        }
     }, [])
 
     const setLastExpensesInUseEffect = async () => {
@@ -30,43 +33,45 @@ function ExpensesTableForExcel({ path }) {
 
     return (
         <>
-            <table className='table table-striped'>
-                <thead>
-                    <tr>
-                        <th scope='col'>Dia</th>
-                        <th scope='col'>Debe</th>
-                        <th scope='col'>Importe</th>
-                        <th scope='col'>Moneda</th>
-                        <th scope='col'>Descripción</th>
-                        <th scope='col'>Haber</th>
-                        <th scope='col'>Importe</th>
-                        <th scope='col'>Moneda</th>
-                        <th scope='col'>Descripción</th>
-                        <th scope='col'>Comentario</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {
-                        lastExpenses.map((e, index) => <tr key={index}>
-                            <td>{e.date}</td>
-                            <td></td>
-                            <td>{e.debitAmount}</td>
-                            <td>{e.debitCurrency}</td>
-                            <td>{e.debit}</td>
-                            <td></td>
-                            <td>{e.debitAmount}</td>
-                            <td>{e.debitCurrency}</td>
-                            <td>{e.credit}</td>
-                            <td>{e.comments}</td>
-                            <td className='display'>
-                                <div className="form-check">
-                                    <input className="form-check-input" type="checkbox" id="flexCheckChecked" onChange={(a) => { handleChangeInput(a); changeStatusOfRegister(e._id) }} checked={e.load}></input>
-                                </div>
-                            </td>
-                        </tr>)
-                    }
-                </tbody>
-            </table>
+            <div id="expense-table-for-excel">
+                <table className='table table-striped'>
+                    <thead>
+                        <tr>
+                            <th scope='col'>Dia</th>
+                            <th scope='col'>Debe</th>
+                            <th scope='col'>Importe</th>
+                            <th scope='col'>Moneda</th>
+                            <th scope='col'>Descripción</th>
+                            <th scope='col'>Haber</th>
+                            <th scope='col'>Importe</th>
+                            <th scope='col'>Moneda</th>
+                            <th scope='col'>Descripción</th>
+                            <th scope='col'>Comentario</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {
+                            lastExpenses.map((e, index) => <tr key={index}>
+                                <td>{e.date}</td>
+                                <td></td>
+                                <td>{e.debitAmount}</td>
+                                <td>{e.debitCurrency}</td>
+                                <td>{e.debit}</td>
+                                <td></td>
+                                <td>{e.debitAmount}</td>
+                                <td>{e.debitCurrency}</td>
+                                <td>{e.credit}</td>
+                                <td>{e.comments}</td>
+                                <td className='display'>
+                                    <div className="form-check">
+                                        <input className="form-check-input" type="checkbox" id="flexCheckChecked" onChange={(a) => { handleChangeInput(a); changeStatusOfRegister(e._id) }} checked={e.load}></input>
+                                    </div>
+                                </td>
+                            </tr>)
+                        }
+                    </tbody>
+                </table>
+            </div>
         </>
     )
 }
