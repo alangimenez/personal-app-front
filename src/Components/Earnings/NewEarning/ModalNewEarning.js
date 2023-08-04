@@ -28,7 +28,8 @@ function ModalNewEarning({ path }) {
                 "creditAmount": document.getElementById('modal-new-earning-amount').value,
                 "debit": document.getElementById('modal-new-earning-account-to').value,
                 "debitAmount": document.getElementById('modal-new-earning-amount').value,
-                "type": ["earning"]
+                "type": ["earning"],
+                "load": false
             })
         };
 

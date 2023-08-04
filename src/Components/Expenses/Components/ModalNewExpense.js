@@ -47,7 +47,8 @@ function ModalNewExpense({ path }) {
                 "currency": document.getElementById("debtCurrency").value,
                 "comments": document.getElementById("comments").value,
                 "benefitMP": mp,
-                "type": ["expense", "daily"]
+                "type": ["expense", "daily"],
+                "load": false
             })
         }
 

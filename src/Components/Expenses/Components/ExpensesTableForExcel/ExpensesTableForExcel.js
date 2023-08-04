@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import Cookies from "universal-cookie";
+import { getRegistersForExcel, changeStatus } from '../../../../fetchs/registers/registersFetchs'
 const cookies = new Cookies();
 
 function ExpensesTableForExcel({ path }) {
@@ -7,18 +8,21 @@ function ExpensesTableForExcel({ path }) {
 
     const [lastExpenses, setLastExpenses] = useState([])
 
-    const getLastTenExpenses = () => {
-        const requiredOptions = {
-            method: 'GET',
-            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` }
-        }
+    useEffect(async () => {
+        setLastExpenses(await getRegistersForExcel(token, path))
+    }, [])
 
-        fetch(`${path}/registers`, requiredOptions)
-            .then((res) => res.json())
-            .then((data) => setLastExpenses(data))
+    const [status, setStatus] = useState(true)
+
+    const handleChangeInput = (event) => {
+        setStatus(event.target.checked)
     }
 
-    useEffect(() => getLastTenExpenses(), [])
+    const changeStatusOfRegister = async (id) => {
+        if (status == true) {
+            await changeStatus(id, token, path)
+        }
+    }
 
     return (
         <>
@@ -50,6 +54,11 @@ function ExpensesTableForExcel({ path }) {
                             <td>{e.debitCurrency}</td>
                             <td>{e.credit}</td>
                             <td>{e.comments}</td>
+                            <td className='display'>
+                                <div className="form-check">
+                                    <input className="form-check-input" type="checkbox" id="flexCheckChecked" onChange={(a) => { handleChangeInput(a); changeStatusOfRegister(e._id) }} checked={e.load}></input>
+                                </div>
+                            </td>
                         </tr>)
                     }
                 </tbody>
