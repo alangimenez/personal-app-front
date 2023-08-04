@@ -12,7 +12,6 @@ function ExpensesTables({ path }) {
 
     useEffect(() => {
         getLastTenExpenses()
-        console.log(window.outerWidth)
         if (window.outerWidth < 413) {
             import ("./ExpensesTable.css")
         }

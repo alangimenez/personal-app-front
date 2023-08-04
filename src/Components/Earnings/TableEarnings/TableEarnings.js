@@ -8,12 +8,16 @@ function TableEarnings({ path }) {
 
     const [earningList, setEarningList] = useState([])
 
-    useEffect(async () => {
-        setEarningList(await getEarningRegisters(path, token))
+    useEffect(() => {
+        setEarningListInUseEffect()
         if (window.outerWidth < 413) {
-            import ("./TableEarning.css")
+            import("./TableEarning.css")
         }
     }, [])
+
+    const setEarningListInUseEffect = async () => {
+        setEarningList(await getEarningRegisters(path, token))
+    }
 
     return (
         <>

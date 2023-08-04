@@ -30,7 +30,6 @@ const getRegistersForExcel = async (token, path) => {
 
     const res = await fetch(`${path}/registers/excel`, requiredOptions)
     const data = await res.json()
-    console.log(data)
 
     return data
 }

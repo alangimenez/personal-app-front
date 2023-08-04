@@ -8,9 +8,13 @@ function ExpensesTableForExcel({ path }) {
 
     const [lastExpenses, setLastExpenses] = useState([])
 
-    useEffect(async () => {
-        setLastExpenses(await getRegistersForExcel(token, path))
+    useEffect(() => {
+        setLastExpensesInUseEffect()
     }, [])
+
+    const setLastExpensesInUseEffect = async () => {
+        setLastExpenses(await getRegistersForExcel(token, path))
+    }
 
     const [status, setStatus] = useState(true)
 
