@@ -22,7 +22,20 @@ const changeStatus = async (id, token, path) => {
     await fetch(`${path}/registers/status`, requiredOptions)
 }
 
+const getRegistersForExcel = async (token, path) => {
+    const requiredOptions = {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` }
+    }
+
+    const res = await fetch(`${path}/registers/excel`, requiredOptions)
+    const data = await res.json()
+
+    return data
+}
+
 export {
     getRegistersByType,
-    changeStatus
+    changeStatus,
+    getRegistersForExcel
 }

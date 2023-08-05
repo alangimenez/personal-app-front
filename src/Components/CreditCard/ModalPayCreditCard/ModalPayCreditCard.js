@@ -20,11 +20,15 @@ function ModalPayCreditCard({ path }) {
     const [creditCardNames, setCreditCardNames] = useState([])
     const [disabled, setDisabled] = useState(true)
 
-    useEffect(async () => {
+    useEffect(() => {
+        loadData()
+    }, [])
+
+    const loadData = async () => {
         const closedPeriod = await getClosedPeriodByCreditCard(token, path)
         setPeriodsOfCreditCards(closedPeriod.periodsCC)
         setCreditCardNames(closedPeriod.ccNames)
-    }, [])
+    }
 
     const [year, setYear] = useState([])
     const [month, setMonth] = useState([])

@@ -108,7 +108,8 @@ function ModalNewInvestmentFromArsToUsd({ path }) {
                 "operation": operation.value,
                 "creditAmount": purchasePrice.value * quantity.value,
                 "creditCurrency": "ARS",
-                "type": ["expense", "investment"]
+                "type": ["expense", "investment"],
+                "load": false
             })
         }
 
@@ -154,7 +155,8 @@ function ModalNewInvestmentFromArsToUsd({ path }) {
                 "comments": comments.value,
                 "benefitMP": false,
                 "operation": operation.value,
-                "type": ["expense", "commission"]
+                "type": ["expense", "commission"],
+                "load": false
             })
         }
 

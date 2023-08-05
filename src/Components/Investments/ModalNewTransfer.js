@@ -29,7 +29,8 @@ function ModalNewTransfer({ path }) {
                     "debtAmount": document.getElementById('modal-new-transfer-amount').value,
                     "discountAmount": 0
                 }],
-                "type": ["transfer"]
+                "type": ["transfer"],
+                "load": false
             })
         };
 

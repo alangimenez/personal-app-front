@@ -12,11 +12,20 @@ function ExpensesTables({ path }) {
 
     useEffect(() => {
         getLastTenExpenses()
-        console.log(window.outerWidth)
         if (window.outerWidth < 413) {
             import ("./ExpensesTable.css")
         }
     }, [])
+
+    useEffect(() => {
+        addChecked()
+    }, [lastExpenses])
+
+    const addChecked = () => {
+        lastExpenses.forEach((it, index) => {
+            document.getElementById(`flexCheckChecked${index}`).checked = it.load
+        })
+    }
 
     const [status, setStatus] = useState(true)
 
@@ -24,10 +33,12 @@ function ExpensesTables({ path }) {
         setStatus(event.target.checked)
     }
 
-    const changeStatusOfExpense = async (id) => {
-        if (status == true) {
+    const changeStatusOfExpense = async (id, key) => {
+        let check = document.getElementById(`flexCheckChecked${key}`)
+        check.checked == true ? check.checked = false : check.checked = true
+        /* if (status == true) {
             await changeStatus(id, token, path)
-        }
+        } */
     }
 
     return (
@@ -53,7 +64,7 @@ function ExpensesTables({ path }) {
                         <td className='display'>{e.credit}</td>
                         <td className='display'>
                             <div className="form-check">
-                                <input className="form-check-input" type="checkbox" id="flexCheckChecked" onChange={(a) => { handleChangeInput(a); changeStatusOfExpense(e._id) }} checked={e.load}></input>
+                                <input className="form-check-input" type="checkbox" id={`flexCheckChecked${index}`} onChange={(a) => { handleChangeInput(a); changeStatusOfExpense(e._id, index) }}></input>
                             </div>
                         </td>
                         <td className='display'>

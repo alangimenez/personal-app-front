@@ -99,7 +99,8 @@ function ModalNewInvestment({ path }) {
                 "benefitMP": false,
                 "investment": true,
                 "operation": operation.value,
-                "type": ["investment", "expense"]
+                "type": ["investment", "expense"],
+                "load": false
             })
         }
 
@@ -126,7 +127,8 @@ function ModalNewInvestment({ path }) {
                 "comments": comments.value,
                 "benefitMP": false,
                 "operation": operation.value,
-                "type": ["expense", "commission"]
+                "type": ["expense", "commission"],
+                "load": false
             })
         }
 
