@@ -24,7 +24,7 @@ function NewAssetAccount({ path }) {
         msg.style.display = "unset"
 
         // 1st fetch
-        const dataFetchNewAccount = await createAccount(name.value, assetType.value, "A", "", currency.value, token, path)
+        const dataFetchNewAccount = await createAccount(name.value, assetType.value, "A", name.value, currency.value, token, path)
 
         if (dataFetchNewAccount.error) {
             msg.className = "alert alert-danger"
