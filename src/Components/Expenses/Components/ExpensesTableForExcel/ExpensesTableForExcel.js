@@ -58,8 +58,8 @@ function ExpensesTableForExcel({ path }) {
                                 <td>{e.debitCurrency}</td>
                                 <td>{e.debit}</td>
                                 <td></td>
-                                <td>{e.debitAmount}</td>
-                                <td>{e.debitCurrency}</td>
+                                <td>{e.creditAmount}</td>
+                                <td>{e.creditCurrency}</td>
                                 <td>{e.credit}</td>
                                 <td>{e.comments}</td>
                                 <td className='display'>
