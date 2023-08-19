@@ -30,7 +30,7 @@ function ModalNewExpense({ path }) {
         const accountsAmounts = []
         for (let i = 0; i < items; i++) {
             const eachExpense = {
-                "debtAccount": document.getElementById(`account${i}`).value,
+                "debtAccount": getAccountName(document.getElementById(`account${i}`).value),
                 "debtAmount": document.getElementById(`amount${i}`).value,
                 "discountAmount": document.getElementById(`discount${i}`).value
             }
@@ -74,8 +74,7 @@ function ModalNewExpense({ path }) {
 
         fetch(`${path}/registers/batch`, requestOptions)
             .then((res) => res.json())
-            .then((data) => {
-                console.log(data)
+            .then(() => {
                 document.getElementById('msg-processing').className = 'alert alert-success'
                 document.getElementById('msg-processing').innerHTML = "El gasto fue guardado con éxito"
                 setTimeout(() => {
@@ -98,6 +97,14 @@ function ModalNewExpense({ path }) {
                     resetItems()
                 }, 2000)
             })
+    }
+
+    const getAccountName = account => {
+        if(account.includes("-")) {
+            return account.split(" - ")[0]
+        } else {
+            return account
+        }
     }
 
     const [accounts, setAccounts] = useState([])
@@ -152,14 +159,14 @@ function ModalNewExpense({ path }) {
 
                     </form>
 
+                    <InfoMessage id={'msg-processing'} type='alert alert-info'>
+                        Estamos guardando el gasto
+                    </InfoMessage>
+
                     <div className="modal-footer">
                         <button type="button" className="btn btn-secondary" data-dismiss="modal" id="button-close">Close</button>
                         <button type="button" className="btn btn-primary" onClick={saveExpense} id="button-save">Save changes</button>
                     </div>
-
-                    <InfoMessage id={'msg-processing'} type='alert alert-info'>
-                        Estamos guardando el gasto
-                    </InfoMessage>
                 </>
             </ModalBody>
         </div>
