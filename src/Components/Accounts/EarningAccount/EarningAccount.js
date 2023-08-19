@@ -26,8 +26,8 @@ function NewEarningAccount({ path }) {
             msg.className = "alert alert-danger"
         } else {
             msg.className = "alert alert-success"
+            msg.innerHTML = "La cuenta ha sido creada correctamente"
         }
-        msg.innerHTML = dataFetchNewAccount.message
 
         setTimeout(() => {
             btnClose.disabled = false
