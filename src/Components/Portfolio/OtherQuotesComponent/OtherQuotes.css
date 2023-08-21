@@ -1,0 +1,9 @@
+#other-quotes-div {
+    display: block;
+    text-align: center;
+}
+
+.other-quotes-span {
+    margin-left: 1rem;
+    margin-right: 1rem
+}

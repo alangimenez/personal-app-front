@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import TableDetail from "./Tables/TableDetail"
 import TableSubDetail from "./Tables/TableSubDetail"
-import OtherQuotes from "./OtherQuotes"
+import OtherQuotes from "./OtherQuotesComponent/OtherQuotes"
 import Cookies from "universal-cookie";
 const cookies = new Cookies();
 
