@@ -58,24 +58,6 @@ function ModalNewInvestmentFromArsToUsd({ path }) {
                 infoMessage.innerHTML = 'Estamos guardando la cotización de compra'
             })
 
-        // second fetch (save last value)
-        const requestOptionsLastValue = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-            body: JSON.stringify({
-                "ticket": ticket.value,
-                "price": purchasePrice.value,
-                "volume": 0
-            })
-        };
-
-        fetch(`${path}/lastvalue/manualquote`, requestOptionsLastValue)
-            .then(res => res.json())
-            .then(() => {
-                console.log("second investment")
-                infoMessage.innerHTML = 'Estamos creando el registro de inversión'
-            })
-
         // third fetch (save register)
         let creditAccount
         let debitAccount

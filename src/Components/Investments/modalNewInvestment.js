@@ -54,21 +54,7 @@ function ModalNewInvestment({ path }) {
         const resOne = await fetch(`${path}/investment`, requestOptionsInvestment)
         const dataOne = await resOne.json()
         console.log("first investment")
-        infoMessage.innerHTML = 'Estamos guardando la cotización de compra'
-
-        const requestOptionsLastValue = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-            body: JSON.stringify({
-                "ticket": ticket.value,
-                "price": purchasePrice.value,
-                "volume": 0
-            })
-        };
-
-        const resTwo = await fetch(`${path}/lastvalue/manualquote`, requestOptionsLastValue)
-        const dataTwo = await resTwo.json()
-        console.log("second investment")
+        
         infoMessage.innerHTML = 'Estamos creando el registro de inversión'
 
         let creditAccount
